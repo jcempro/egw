@@ -1,7 +1,7 @@
 # Memória operacional
 
 <!-- Estado estruturado consumido por npm run agent:handoff. -->
-FT-001|nome=Indice de Fontes Bibliograficas|objetivo=Concluir a superficie estatica e a importacao rastreavel do acervo EGW.|escopo=tecnico|status=em andamento
+FT-001|nome=Indice de Fontes Bibliograficas|objetivo=Concluir a superficie estatica e a importacao rastreavel do acervo EGW.|escopo=tecnico|status=concluído
 1/6 Registrar evolução do acervo [concluído]
   1/3 Ignorar entrada privada [concluído]
   2/3 Evoluir RCF [concluído]
@@ -26,21 +26,22 @@ FT-001|nome=Indice de Fontes Bibliograficas|objetivo=Concluir a superficie estat
   1/3 Atualizar memória [concluído]
   2/3 Gerar handoff [concluído]
   3/3 Publicar dev [concluído]
-7/7 Corrigir separação arquitetural [em andamento]
+7/7 Corrigir separação arquitetural [concluído]
   1/4 Reinterpretar normas [concluído]
   2/4 Reestruturar fonte e entrada [concluído]
   3/4 Materializar artefato publicado [concluído]
-  4/4 Validar e convergir branches [em andamento]
+  4/4 Validar e autorizar convergência [concluído]
 
 ## FT-001 — RCF, superfície inicial e importação do Índice de Fontes
 
 - Escopo: Técnico — contrato e primeira superfície estática do produto.
 - Prioridade: alta.
-- Status: em andamento.
+- Status: concluído.
 - Início: `20260711.2348.18`.
-- Atualização: `20260712.0330.00`.
-- Etapa atual: `7/7` — correção de separação arquitetural.
-- Tarefa atual: `4/4` — validar arquitetura e convergir branches.
+- Atualização: `20260712.0400.00`.
+- Conclusão: `20260712.0400.00`.
+- Etapa atual: `7/7` — concluída.
+- Tarefa atual: nenhuma; convergência de branches autorizada.
 
 ### Objetivo
 
@@ -56,7 +57,7 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 | 4/6 | Manutenção e workflow | etapa 3 | 1. checkpoints; 2. manutenção limitada; 3. workflow local-equivalente | concluído |
 | 5/6 | Validar acervo importado | etapas 2–4 | 1. validar hashes e capas; 2. validar catálogo; 3. validar leitura pública | concluído |
 | 6/7 | Encerrar ciclo anterior | etapa 5 | 1. atualizar memória; 2. gerar handoff; 3. publicar `dev` | concluído |
-| 7/7 | Corrigir separação arquitetural | etapas 1–6 | 1. reinterpretar normas; 2. reestruturar fonte e entrada; 3. materializar artefato publicado; 4. validar e convergir branches | em andamento |
+| 7/7 | Corrigir separação arquitetural | etapas 1–6 | 1. reinterpretar normas; 2. reestruturar fonte e entrada; 3. materializar artefato publicado; 4. validar e autorizar convergência | concluído |
 
 ### Decisões
 
@@ -125,12 +126,12 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 
 ### Próximo ponto
 
-Revisar o diff estrutural, gerar handoff derivado, commitar/publicar a correção e convergir `dev` em `main` após validar o estado final.
+FT concluída. Convergir `dev` em `main`, publicar o merge e manter esta memória por 15 dias conforme `AGENTS.md` §6.
 
 O gerador adotado requer bloco `FT-NNN|...` e etapas em colchetes. Esse bloco foi incorporado ao arquivo canônico, preservando a tabela humana detalhada e sem editar `handoff.md` manualmente.
 
 ### Dados de execução
 
 - `MACHINE_ID`: `codex-desktop`.
-- `DATA_REF`: `20260712.0330.00`.
+- `DATA_REF`: `20260712.0400.00`.
 - Cache: saída integral, capas e manutenção validada; revalidar somente livro, capa, fonte e checkpoint afetados por nova entrada.
