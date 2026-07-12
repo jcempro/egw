@@ -10,6 +10,7 @@ node_modules/
 *.zip
 *.7z
 tmp/
+/egw/
 
 0. Autoriza .md em ./.agents/
 /.agents/*
