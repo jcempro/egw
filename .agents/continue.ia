@@ -1,26 +1,26 @@
 # Memória operacional
 
-## FT-001 — RCF inicial do Índice de Fontes
+## FT-001 — RCF e superfície inicial do Índice de Fontes
 
-- Escopo: Técnico — documentação contratual do produto.
+- Escopo: Técnico — contrato e primeira superfície estática do produto.
 - Prioridade: alta.
 - Status: pendente de encerramento operacional.
 - Início: `20260711.2348.18`.
-- Atualização: `20260711.2354.29`.
+- Atualização: `20260712.0011.22`.
 - Etapa atual: `4/4` — encerramento operacional.
-- Tarefa atual: `1/3` — registrar validação concluída.
+- Tarefa atual: `1/3` — registrar implementação e validações.
 
 ### Objetivo
 
-Produzir `RCF.md` completo, determinístico e evolutivo para a aplicação estática de rastreamento público de fontes bibliográficas, preservando integralmente o enunciado fornecido e a referência visual `template.png`.
+Produzir `RCF.md` completo, determinístico e evolutivo e implementar a primeira superfície estática de rastreamento público de fontes bibliográficas, preservando a referência visual `template.png`.
 
 ### Plano
 
 | Etapa | Objetivo | Dependência | Tarefas | Estado |
 | --- | --- | --- | --- | --- |
-| 1/4 | Preparar estado | nenhuma | 1. registrar FT; 2. versionar memória | concluído |
-| 2/4 | Especificar produto | etapa 1 | 1. consolidar contratos; 2. redigir RCF | concluído |
-| 3/4 | Validar documento | etapa 2 | 1. revisar requisitos; 2. verificar modalidade e referências | concluído |
+| 1/4 | Retomar contrato | nenhuma | 1. registrar retorno; 2. evoluir documento único | concluído |
+| 2/4 | Implementar superfície | etapa 1 | 1. criar `404.html`; 2. integrar página, FC e noscript | concluído |
+| 3/4 | Validar superfície | etapa 2 | 1. testar HTML e rotas; 2. validar visual | concluído |
 | 4/4 | Encerrar ciclo | etapa 3 | 1. atualizar memória; 2. gerar handoff; 3. convergir branches | em andamento |
 
 ### Decisões
@@ -30,6 +30,9 @@ Produzir `RCF.md` completo, determinístico e evolutivo para a aplicação está
 - A referência visual define composição, densidade, hierarquia e sobriedade da interface; o RCF não incorpora imagem nem tecnologia de implementação evitável.
 - O RCF definirá rotas lógicas independentes da estrutura física, dados JSON por livro, hashes globais e de fontes, validação progressiva no cliente, 404 como front controller e operações de Issue idempotentes.
 - `RCF.md` consolidou 144 requisitos identificáveis em 269 linhas: núcleo, arquitetura, rotas, dados, hashes, front controller, UX, build, segurança, workflows, Issues, Git, documentação e aceitação.
+- A solicitação humana explícita definiu que página principal, 404 e `<noscript>` constituem um único documento. `RCF-IF-BUILD-001` passou a permitir CSS e ECMAScript inline exclusivamente nessa superfície inicial, sem alterar dados, rotas ou garantias de publicação estática.
+- `404.html` concentra cabeçalho, página principal, consulta por `book_id`, carregamento isolado de metadado, tabela de fontes, cópia de hashes, validação concorrente cancelável, estado persistido local, 404 e `<noscript>` trilíngue.
+- O documento não introduz dados de obra ou hash fictício: a rota de livro somente renderiza após `metadata.json` canônico válido; a página inicial mantém a interface pública útil sem simular referência bibliográfica.
 
 ### Evidências e comandos
 
@@ -39,6 +42,10 @@ Produzir `RCF.md` completo, determinístico e evolutivo para a aplicação está
 - Validação estática: `requirements=144`, `duplicates=0`; busca por modalidades proibidas sem resultado; `git diff --check` sem erro.
 - Integridade do RCF: `SHA-256 d480038dbfbb2775832c76341524760d55ae585d21c831607867cf0954508461`.
 - Commits desta FT: `a52d181 Registra FT inicial`; `bbbad7b Define RCF do índice`.
+- Validação de comportamento: JSDOM confirmou `HTML_404_NOSCRIPT_OK` para rota ausente e `HTML_FRONT_CONTROLLER_OK` para rota de livro com metadado canônico simulado.
+- Validação visual: navegador local confirmou composição em largura padrão e `390px`, com página inicial visível, `<noscript>` presente e `overflow=false` no viewport estreito.
+- `git diff --check -- RCF.md .agents/continue.ia 404.html` não reportou erro de conteúdo.
+- Alterações externas detectadas e preservadas: `package.json` modificado e `package-lock.json` não rastreado, ambos com `jsdom` adicionado fora desta atuação.
 
 ### Falhas, hipóteses descartadas e antirrepetição
 
@@ -47,7 +54,7 @@ Produzir `RCF.md` completo, determinístico e evolutivo para a aplicação está
 
 ### Próximo ponto
 
-`RCF.md` está concluído e validado. O encerramento da FT permanece bloqueado pela ausência pré-existente de `scripts/.agents/repo-tools.js` e `scripts/.agents/to-ia.js`, que impede gerar `handoff.md` pelo único meio autorizado e, por consequência, convergir `dev` em `main` sob `AGENTS.md` §§9 e 15.
+`404.html` e a evolução correspondente do RCF estão concluídos e validados. O encerramento da FT continua bloqueado pela ausência pré-existente de `scripts/.agents/repo-tools.js` e `scripts/.agents/to-ia.js`, que impede gerar `handoff.md` pelo único meio autorizado e, por consequência, convergir `dev` em `main` sob `AGENTS.md` §§9 e 15.
 
 ### Dados de execução
 
