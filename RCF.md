@@ -172,7 +172,7 @@
 
 ### 6.1 Build
 
-- `RCF-IF-BUILD-001` Código de interface DEVE usar TypeScript e estilos DEVEM usar Sass; o resultado publicado DEVE conter somente JavaScript, CSS, HTML, fontes e assets necessários ao runtime.
+- `RCF-IF-BUILD-001` Código de interface DEVE usar TypeScript e estilos DEVEM usar Sass quando existir pipeline de compilação; enquanto a superfície inicial estiver limitada ao documento único `404.html`, CSS e ECMAScript PODEM integrar esse documento para preservar publicação estática autônoma. O resultado publicado DEVE conter somente JavaScript, CSS, HTML, fontes e assets necessários ao runtime.
 - `RCF-IF-BUILD-002` Build DEVE validar schema, referências internas, unicidade de identificadores, integridade sintática, URLs lógicas e links públicos antes de publicar.
 - `RCF-IF-BUILD-003` Build DEVE minificar, remover código morto, aplicar tree shaking quando aplicável e excluir dependência, ícone, fonte, dado de desenvolvimento e asset não usados.
 - `RCF-IF-BUILD-004` Entradas idênticas DEVEM produzir saídas idênticas, exceto campo explicitamente dependente do instante de publicação; esse campo DEVE ser único, documentado e derivado de fonte controlada.
