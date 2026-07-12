@@ -82,11 +82,11 @@ Objetivo: Concluir a superficie estatica e a importacao rastreavel do acervo EGW
 </tr>
 <tr>
 <td>Gerar handoff</td>
-<td><span style="color:#ca8a04">&#9679;</span> em andamento</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Convergir branches</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#ca8a04">&#9679;</span> em andamento</td>
 </tr>
 </tbody>
 </table>
