@@ -11,10 +11,11 @@ import { generateCovers } from "./lib/egw-covers.mjs";
 import { runMaintenance } from "./lib/egw-maintenance.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const INPUT_ROOT = path.join(ROOT, "egw");
-const ASSET_ROOT = path.join(ROOT, "assets", "books");
-const BOOK_ROOT = path.join(ROOT, "data", "books");
-const CATALOG_PATH = path.join(ROOT, "data", "catalog.json");
+const APP_ROOT = path.join(ROOT, "src");
+const INPUT_ROOT = path.join(APP_ROOT, "egw");
+const ASSET_ROOT = path.join(APP_ROOT, "assets", "books");
+const BOOK_ROOT = path.join(APP_ROOT, "data", "books");
+const CATALOG_PATH = path.join(APP_ROOT, "data", "catalog.json");
 const REPORT_PATH = path.join(ROOT, "build", "egw-import-report.json");
 const CHECK_ONLY = process.argv.includes("--check");
 const AUDIT_TEXT = process.argv.includes("--audit-text");
@@ -243,7 +244,7 @@ async function copyAsset(source, target, expectedSha512) {
 }
 
 async function buildGroups() {
-  if (!(await exists(INPUT_ROOT))) fail("Diretório de entrada ausente: egw/");
+  if (!(await exists(INPUT_ROOT))) fail("Diretório de entrada ausente: src/egw/");
   const files = await listFiles(INPUT_ROOT);
   const manifests = files.filter((target) => target.endsWith(".source.json"));
   const artifacts = files.filter((target) => [".pdf", ".epub"].includes(path.extname(target).toLowerCase()));
@@ -325,7 +326,7 @@ async function main() {
     let action = "checked";
     if (CHECK_ONLY) {
       for (const source of sources) {
-        const asset = path.join(ROOT, ...source.url.split("/"));
+        const asset = path.join(APP_ROOT, ...source.url.split("/"));
         if (!(await exists(asset)) || (await hashFile(asset)).sha512 !== source.hash.value) fail(`Asset ausente ou divergente: ${source.url}`);
       }
       if (!(await exists(metadataPath)) || (await readFile(metadataPath, "utf8")) !== json(metadata)) fail(`Metadado ausente ou divergente: ${bookId}`);
@@ -335,7 +336,7 @@ async function main() {
     } else {
       for (const source of sources) {
         const sourcePath = group.local.get(`.${source.id}`);
-        const target = path.join(ROOT, ...source.url.split("/"));
+        const target = path.join(APP_ROOT, ...source.url.split("/"));
         const result = await copyAsset(sourcePath, target, source.hash.value);
         report.summary[result] += 1;
       }
@@ -355,8 +356,8 @@ async function main() {
   const catalogContent = json({ schema_version: 1, books: catalog });
   if (CHECK_ONLY) {
     if (!(await exists(CATALOG_PATH)) || (await readFile(CATALOG_PATH, "utf8")) !== catalogContent) fail("Catálogo ausente ou divergente");
-  } else { await writeAtomic(CATALOG_PATH, catalogContent); report.summary.covers = (await generateCovers({ root: ROOT })).total; }
-  if (DISCOVER) await runMaintenance({ root: ROOT, bookIds: catalog.map((book) => book.book_id) });
+  } else { await writeAtomic(CATALOG_PATH, catalogContent); report.summary.covers = (await generateCovers({ root: APP_ROOT, stateRoot: ROOT, reportRoot: ROOT })).total; }
+  if (DISCOVER) await runMaintenance({ root: APP_ROOT, stateRoot: ROOT, reportRoot: ROOT, bookIds: catalog.map((book) => book.book_id) });
   await writeAtomic(REPORT_PATH, json(report));
   process.stdout.write(`${CHECK_ONLY ? "VALIDADO" : "IMPORTADO"}: livros=${report.summary.books} assets=${report.summary.assets} capas=${report.summary.covers} copiados=${report.summary.copied} reutilizados=${report.summary.reused} pdf_sem_epub=${report.summary.pdf_only} epub_sem_pdf=${report.summary.epub_only}\n`);
 }

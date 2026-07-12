@@ -22,10 +22,15 @@ FT-001|nome=Indice de Fontes Bibliograficas|objetivo=Concluir a superficie estat
   1/3 Validar hashes e capas [concluído]
   2/3 Validar catálogo [concluído]
   3/3 Validar leitura pública [concluído]
-6/6 Encerrar ciclo [em andamento]
+6/7 Encerrar ciclo anterior [concluído]
   1/3 Atualizar memória [concluído]
   2/3 Gerar handoff [concluído]
-  3/3 Convergir branches [em andamento]
+  3/3 Publicar dev [concluído]
+7/7 Corrigir separação arquitetural [em andamento]
+  1/4 Reinterpretar normas [concluído]
+  2/4 Reestruturar fonte e entrada [concluído]
+  3/4 Materializar artefato publicado [concluído]
+  4/4 Validar e convergir branches [em andamento]
 
 ## FT-001 — RCF, superfície inicial e importação do Índice de Fontes
 
@@ -33,9 +38,9 @@ FT-001|nome=Indice de Fontes Bibliograficas|objetivo=Concluir a superficie estat
 - Prioridade: alta.
 - Status: em andamento.
 - Início: `20260711.2348.18`.
-- Atualização: `20260712.0144.00`.
-- Etapa atual: `6/6` — encerramento operacional.
-- Tarefa atual: `3/3` — publicar `dev` e convergir branches.
+- Atualização: `20260712.0330.00`.
+- Etapa atual: `7/7` — correção de separação arquitetural.
+- Tarefa atual: `4/4` — validar arquitetura e convergir branches.
 
 ### Objetivo
 
@@ -50,7 +55,8 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 | 3/6 | Módulos, capas e descoberta | etapa 2 | 1. fatorar lógica; 2. gerar capas; 3. localizar equivalentes confiáveis | concluído |
 | 4/6 | Manutenção e workflow | etapa 3 | 1. checkpoints; 2. manutenção limitada; 3. workflow local-equivalente | concluído |
 | 5/6 | Validar acervo importado | etapas 2–4 | 1. validar hashes e capas; 2. validar catálogo; 3. validar leitura pública | concluído |
-| 6/6 | Encerrar ciclo | etapa 5 | 1. atualizar memória; 2. gerar handoff; 3. convergir branches | em andamento |
+| 6/7 | Encerrar ciclo anterior | etapa 5 | 1. atualizar memória; 2. gerar handoff; 3. publicar `dev` | concluído |
+| 7/7 | Corrigir separação arquitetural | etapas 1–6 | 1. reinterpretar normas; 2. reestruturar fonte e entrada; 3. materializar artefato publicado; 4. validar e convergir branches | em andamento |
 
 ### Decisões
 
@@ -76,6 +82,8 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 - `scripts/lib/egw-common.mjs`, `egw-cover.mjs`, `egw-covers.mjs`, `egw-providers.mjs` e `egw-maintenance.mjs` concentram escrita atômica, checkpoints, capa, descoberta e manutenção. Importação, atualização, sincronização, manutenção e geração de capas usam esses módulos.
 - Toda obra agora possui `assets/books/<book_id>/source.pdf` e/ou `source.epub`, mais `cover.png`; nomes curtos eliminam o limite de caminho Windows. Capa EPUB tem precedência; ausência recorre à primeira página PDF; PNG é limitado a 800 px e otimizado por `sharp`.
 - `scripts/maintain-egw.mjs` é a manutenção periódica local; `.github/workflows/egw-maintenance.yml` o invoca com `--timeout-ms=840000`, cota e checkpoint. Localmente o timeout só existe quando o parâmetro é informado e persiste estado antes de devolver erro seguro.
+- `CONTRADIÇÃO DETECTADA: layout público no root do repositório vs AGENTS.md e cenário Web Page Like — Aplicando a regra de maior precedência.` A arquitetura passa a separar `src/` como fonte espelhada, `dist/` como única raiz publicada e root do repositório como governança/toolchain.
+- Migração concluída: `404.html`, `assets/`, `data/`, `config/`, `template.png` e o acervo ignorado foram aninhados sob `src/`; `scripts/build-site.mjs` materializa somente `dist/404.html`, `dist/index.html`, `dist/assets/`, `dist/data/` e `.nojekyll`. O workflow Pages valida e envia exclusivamente `dist/`.
 
 ### Evidências e comandos
 
@@ -103,6 +111,7 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 - Manutenção real: sete verificações dentro de cota (seis White Estate e uma EGW Writings) não encontraram SHA-512 equivalente; `schema3=0`, logo nenhuma URL divergente ou não comprovada foi publicada. Checkpoint conservou `cursor=3` e usos do dia.
 - Validação atual: `npm run egw:validate` aprovou `livros=527`, `assets=1051`, `capas=527`, exceções de formato esperadas e todos os hashes/metadados/capas. `npm run egw:covers` reaproveitou 527 capas sem falha; `npm run egw:maintain` executou localmente; `--timeout-ms=1` comprovou checkpoint fail-safe.
 - Renderização: JSDOM confirmou `HTML_SCHEMA2_COVER_OK`, `COVER_REGENERATION_OK` e schema 3 com fonte equivalente; navegador integrado bloqueou loopback nesta sessão, sem invalidar os testes renderizados do DOM.
+- Revalidação arquitetural: `npm run egw:validate`, `npm run build` e `npm run egw:covers` concluíram após a migração; `npm run egw:maintain -- --timeout-ms=1` retornou checkpoint seguro. SHA-256 de `src/404.html`, `dist/index.html` e `dist/404.html` é idêntico; `dist/` não contém prefixo `src/`; `src/egw/` permanece ignorado.
 
 ### Falhas, hipóteses descartadas e antirrepetição
 
@@ -110,18 +119,18 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 - Não usar um JSON central com metadados completos de todos os livros: o requisito do produto exige um `metadata.json` por livro.
 - Não manter nome original de asset no destino: um título excedeu o limite de nome Windows durante `git add`; o importador agora usa somente `source.pdf` e `source.epub` e remove arquivo de destino obsoleto após cópia validada.
 - Não compartilhar sufixo temporário de checkpoint entre workers: o primeiro teste paralelo teve colisão `EPERM`; `writeAtomic` recebeu sequência única e a retomada comprovou `527` reutilizações sem falha.
-- `agent:doctor` ainda informa `index.json` ausente e `agent:verify` falha por exigir `src/`, layout incompatível com o site estático; `agent:agents -- --check` detectou atualização canônica `release:v0.0.1`, que deve ser aplicada somente após commit isolado e worktree limpo.
+- A inferência de que `agent:verify` exigia uma árvore artificial foi descartada: a ausência de `src/` era não conformidade arquitetural, não incompatibilidade aceitável. A verificação será restabelecida após reestruturação, sem criar conteúdo fictício.
 - Handoff: `npm run agent:handoff` passou a gerar tabela HTML da FT após inclusão do bloco estruturado canônico; o README foi vinculado ao artefato derivado.
-- Publicação: `git push origin dev` falhou com `SEC_E_NO_CREDENTIALS`; `agent:agents` permanece bloqueado por commits locais pendentes, pois seu fluxo canônico exige publicação exclusiva antes de atualizar governança.
+- Publicação e atualização normativa foram retomadas: `gh auth status` confirmou autenticação, `git push origin dev` confirmou sincronização e `agent:agents -- --force` aplicou a release canônica sem alteração líquida adicional.
 
 ### Próximo ponto
 
-O handoff está íntegro e `dev` está pronto para publicação. A autenticação GitHub local deve ser restaurada para publicar os commits, aplicar a atualização canônica de governança e só então convergir `dev` em `main` sob `AGENTS.md` §§9 e 15.
+Revisar o diff estrutural, gerar handoff derivado, commitar/publicar a correção e convergir `dev` em `main` após validar o estado final.
 
 O gerador adotado requer bloco `FT-NNN|...` e etapas em colchetes. Esse bloco foi incorporado ao arquivo canônico, preservando a tabela humana detalhada e sem editar `handoff.md` manualmente.
 
 ### Dados de execução
 
 - `MACHINE_ID`: `codex-desktop`.
-- `DATA_REF`: `20260712.0144.00`.
+- `DATA_REF`: `20260712.0330.00`.
 - Cache: saída integral, capas e manutenção validada; revalidar somente livro, capa, fonte e checkpoint afetados por nova entrada.

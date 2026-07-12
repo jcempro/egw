@@ -12,7 +12,8 @@ node_modules/
 tmp/
 /build/
 /.egw-state/
-/egw/
+/src/egw/
+/dist/
 
 0. Autoriza .md em ./.agents/
 /.agents/*

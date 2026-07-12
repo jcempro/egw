@@ -76,7 +76,7 @@ Objetivo: Concluir a superficie estatica e a importacao rastreavel do acervo EGW
 <td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
-<td rowspan="3">Encerrar ciclo</td>
+<td rowspan="3">Encerrar ciclo anterior</td>
 <td>Atualizar memória</td>
 <td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
@@ -85,7 +85,24 @@ Objetivo: Concluir a superficie estatica e a importacao rastreavel do acervo EGW
 <td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
-<td>Convergir branches</td>
+<td>Publicar dev</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
+</tr>
+<tr>
+<td rowspan="4">Corrigir separação arquitetural</td>
+<td>Reinterpretar normas</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
+</tr>
+<tr>
+<td>Reestruturar fonte e entrada</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
+</tr>
+<tr>
+<td>Materializar artefato publicado</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
+</tr>
+<tr>
+<td>Validar e convergir branches</td>
 <td><span style="color:#ca8a04">&#9679;</span> em andamento</td>
 </tr>
 </tbody>

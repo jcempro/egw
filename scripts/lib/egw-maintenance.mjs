@@ -3,8 +3,8 @@ import { mkdir, readFile } from "node:fs/promises";
 import { json, writeAtomic } from "./egw-common.mjs";
 import { findEquivalentCandidates, loadProviders } from "./egw-providers.mjs";
 
-export async function runMaintenance({ root, timeoutMs = null, bookIds = null } = {}) {
-  const statePath = path.join(root, ".egw-state", "maintenance.json"); const reportPath = path.join(root, "build", "egw-maintenance-report.json"); const started = Date.now();
+export async function runMaintenance({ root, stateRoot = root, reportRoot = stateRoot, timeoutMs = null, bookIds = null } = {}) {
+  const statePath = path.join(stateRoot, ".egw-state", "maintenance.json"); const reportPath = path.join(reportRoot, "build", "egw-maintenance-report.json"); const started = Date.now();
   let state; try { state = JSON.parse(await readFile(statePath, "utf8")); } catch { state = { schema_version: 1, day: "", cursor: 0, uses: {} }; }
   const providers = await loadProviders(root); const day = new Date().toISOString().slice(0, 10); if (state.day !== day) { state.day = day; state.uses = {}; }
   const catalog = JSON.parse(await readFile(path.join(root, "data", "catalog.json"), "utf8")).books.filter((book) => !bookIds || bookIds.includes(book.book_id)); const report = { schema_version: 1, started_at: new Date().toISOString(), checked: 0, added: 0, divergent_or_unavailable: 0, timeout: false };

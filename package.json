@@ -6,9 +6,9 @@
   "description": "Governanca operacional portavel para agentes IA.",
   "main": "src/agents.md",
   "scripts": {
-    "build": "npm run agent:build",
+    "build": "node scripts/build-site.mjs",
     "clean": "npm run agent:clean",
-    "check": "npm run agent:verify",
+    "check": "npm run egw:validate",
     "lint": "npm run agent:lint",
     "prepare": "npm run agent:setup",
     "release": "npm run agent:release",

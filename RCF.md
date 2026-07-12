@@ -5,7 +5,7 @@
 ### 1.1 Autoridade
 
 - `RCF-IF-001` DEVE reger produto, dados públicos, arquitetura observável, interface, build, publicação, automações e validação do Índice de Fontes Bibliográficas.
-- `AGENTS.md` e seus cenários DEVEM reger somente a operação de agentes e desenvolvedores; requisitos de produto NÃO DEVEM residir nesses arquivos.
+- `AGENTS.md` e seus cenários DEVEM reger a operação de agentes, desenvolvedores e a organização arquitetural do processo; este RCF NÃO DEVE contrariar sua precedência, inclusive quanto à separação entre root de repositório, fonte da aplicação e artefato publicado.
 - `RCF-IF-001` DEVE prevalecer sobre documentação descritiva do projeto em requisito de produto; alteração com risco de regressão DEVE preservar o comportamento anterior até confirmação humana explícita.
 - Requisito identificado por `RCF-IF-<domínio>-<número>` DEVE possuir a modalidade literal registrada; obrigação, exceção, prioridade e autoridade NÃO DEVEM ser inferidas.
 
@@ -31,6 +31,9 @@
 | URL lógica | Caminho público de consulta; NÃO DEVE revelar nem depender da localização física dos dados. |
 | Acervo de entrada | Diretório privado ignorado pelo Git, usado exclusivamente pelo build editorial e nunca servido diretamente. |
 | Asset preservado | Cópia publicada, identificada por hash, de artefato aceito no Acervo de entrada; preserva sua origem remota no metadado. |
+| Root do repositório | Diretório de governança, automação transversal, documentação e configuração do projeto; NÃO É root da aplicação nem do artefato publicado. |
+| Root da aplicação | Raiz conceitual percebida no domínio `/`; no fonte, é espelhada por `src/`; no resultado, é materializada por `dist/`. |
+| Root do artefato publicado | Diretório `dist/`, único conteúdo elegível à publicação estática; sua estrutura interna DEVE corresponder ao domínio `/`. |
 
 ## 2. Arquitetura pública e publicação
 
@@ -48,6 +51,10 @@
 - `RCF-IF-ARC-007` A estrutura física de dados PODE evoluir sem alterar URL lógica, formato semântico do `metadata.json` ou links públicos já publicados.
 - `RCF-IF-ARC-008` Toda mudança incompatível de schema DEVE incrementar `schema_version`, manter leitor compatível com a última versão publicada ou publicar migração integral na mesma entrega.
 - `RCF-IF-ARC-009` Dados canônicos e artefatos publicados DEVEM ser imutáveis por revisão publicada; correção DEVE gerar nova revisão rastreável.
+- `RCF-IF-ARC-010` O root do repositório, o root da aplicação e o root do artefato publicado DEVEM permanecer distintos: implementação e recursos específicos da aplicação DEVEM residir sob `src/`; `dist/` DEVE conter exclusivamente a cópia estática publicável dessa árvore; caminhos públicos DEVEM ser avaliados contra `dist/`, nunca contra o root do repositório.
+- `RCF-IF-ARC-011` Root do repositório PODE conter somente governança, documentação, manifesto, lockfile, scripts globais, automações reutilizáveis e infraestrutura transversal; código, HTML, dados, assets, configuração específica e acervo de entrada da aplicação NÃO DEVEM permanecer nele sem exigência técnica superior documentada.
+- `RCF-IF-ARC-012` A construção DEVE espelhar a raiz pública: `src/404.html`, `src/assets/` e `src/data/` DEVEM resultar respectivamente em `dist/404.html`, `dist/assets/` e `dist/data/`, preservando URLs públicas e sem expor `src/` no artefato publicado.
+- `RCF-IF-ARC-013` `dist/index.html` DEVE ser derivado exclusivamente de `src/404.html`, sem segunda implementação da interface, para disponibilizar a página inicial em `/` e o mesmo Front Controller em `404.html`.
 
 ### 2.3 Rotas lógicas
 
@@ -84,7 +91,7 @@
 - `RCF-IF-DATA-018` `type` DEVE identificar a natureza editorial ou técnica da fonte, sem inferir autoridade, disponibilidade ou integridade.
 - `RCF-IF-DATA-019` `hash` de fonte DEVE ser `null` ou objeto com `algorithm` e `value`; valor não nulo DEVE representar exatamente o arquivo obtido naquela fonte.
 - `RCF-IF-DATA-020` Campo adicional no objeto raiz, livro, hash ou fonte NÃO DEVE ser aceito sem versão de schema que o defina.
-- `RCF-IF-DATA-021` O Acervo de entrada DEVE residir em `egw/`, permanecer ignorado pelo Git e conter artefatos `.pdf` e/ou `.epub`. Artefato com origem remota conhecida DEVE possuir registro correspondente no manifesto lateral `<título>.source.json`, com URL de origem e SHA-256 esperado; o manifesto PODE cobrir somente parte dos formatos preservados no grupo.
+- `RCF-IF-DATA-021` O Acervo de entrada DEVE residir em `src/egw/`, permanecer ignorado pelo Git e conter artefatos `.pdf` e/ou `.epub`. Artefato com origem remota conhecida DEVE possuir registro correspondente no manifesto lateral `<título>.source.json`, com URL de origem e SHA-256 esperado; o manifesto PODE cobrir somente parte dos formatos preservados no grupo.
 - `RCF-IF-DATA-022` PDF e EPUB associados ao mesmo manifesto lateral DEVEM constituir um único Livro e um único `metadata.json`; cada formato DEVE permanecer uma Fonte e um Hash Global distintos. Artefato sem manifesto lateral DEVE constituir somente um Livro de formato único, com proveniência local explícita no relatório. Agrupamento entre grupos distintos sem manifesto comum e identidade textual comprovada DEVE falhar, sem criar livro duplicado.
 - `RCF-IF-DATA-023` Todo Asset preservado DEVE conter `url` lógico do asset e Hash da Fonte calculado sobre os bytes copiados. `origin_url` DEVE ser absoluto quando a origem remota for conhecida; em artefato de proveniência local sem manifesto ou sem registro próprio no manifesto, DEVE ser `null` e o relatório de build DEVE registrá-lo. O build DEVE comparar previamente o SHA-256 de entrada registrado no manifesto quando ele existir.
 - `RCF-IF-DATA-024` `book.cover` DEVE apontar para `assets/books/<book_id>/cover.png` quando houver PDF ou EPUB importado. A imagem DEVE representar capa extraída do EPUB ou, sem capa utilizável, a primeira página adequada do PDF; ausência de ambos DEVE falhar a geração do grupo.
@@ -181,7 +188,7 @@
 ### 6.1 Build
 
 - `RCF-IF-BUILD-001` Código de interface DEVE usar TypeScript e estilos DEVEM usar Sass quando existir pipeline de compilação; enquanto a superfície inicial estiver limitada ao documento único `404.html`, CSS e ECMAScript PODEM integrar esse documento para preservar publicação estática autônoma. O resultado publicado DEVE conter somente JavaScript, CSS, HTML, fontes e assets necessários ao runtime.
-- `RCF-IF-BUILD-002` Build DEVE validar schema, referências internas, unicidade de identificadores, integridade sintática, URLs lógicas e links públicos antes de publicar.
+- `RCF-IF-BUILD-002` Build DEVE validar schema, referências internas, unicidade de identificadores, integridade sintática, URLs lógicas e links públicos antes de publicar; após validação, DEVE materializar `dist/` exclusivamente a partir de `src/`.
 - `RCF-IF-BUILD-006` O importador do Acervo de entrada DEVE descobrir grupos de forma determinística, validar manifestos e hashes de entrada quando existirem, copiar cada artefato para `assets/books/<book_id>/` com nome de destino determinístico, portátil e limitado, gerar `data/books/<book_id>/metadata.json` e gerar índice reduzido em `data/catalog.json`; falha em um grupo NÃO DEVE publicar saída parcial desse grupo.
 - `RCF-IF-BUILD-007` Manifesto lateral comum DEVE ser a evidência determinística de associação entre PDF e EPUB. O importador DEVE calcular impressão normalizada da ordem de leitura antes de qualquer associação entre grupos distintos; para grupo já associado pelo mesmo manifesto, essa impressão DEVE permanecer auditoria opcional e não bloqueante. Falha técnica de extração DEVE ser registrada no relatório e NÃO DEVE induzir agrupamento entre grupos distintos. Grupo sem EPUB DEVE ser registrado como exceção explícita no relatório, nunca duplicado por formato.
 - `RCF-IF-BUILD-008` Extração e atualização de capa DEVEM usar módulo compartilhado: capa declarada do EPUB tem precedência; sem ela, a primeira página do PDF DEVE ser rasterizada. A saída DEVE ser PNG, com maior dimensão limitada a 800 px, compressão otimizada para web e sem metadados desnecessários; atualização DEVE regenerá-la quando ausente ou divergente.
@@ -236,6 +243,7 @@
 - `RCF-IF-WF-001` Cada workflow DEVE possuir responsabilidade única, entrada declarada, saída rastreável, chave idempotente, checkpoint, limite de retentativa e fallback seguro.
 - `RCF-IF-WF-002` O workflow de validação editorial DEVE validar dados, rotas, schema, hashes, links internos e build antes de permitir publicação.
 - `RCF-IF-WF-003` O workflow de publicação DEVE publicar somente artefato validado, registrar revisão e validar rota inicial, rota de livro e 404 após disponibilidade.
+- `RCF-IF-WF-010` O workflow de publicação DEVE executar `npm run egw:validate` e `npm run build`, enviar exclusivamente `dist/` como artefato do GitHub Pages e nunca publicar `src/`, `src/egw/`, configuração de build, estado ou relatório local.
 - `RCF-IF-WF-004` O workflow de índice DEVE gerar somente artefatos derivados permitidos e DEVE falhar quando ele divergir do conjunto de `metadata.json` válidos.
 - `RCF-IF-WF-007` A importação do Acervo de entrada DEVE ser reiniciável: artefato de destino com hash idêntico PODE ser reutilizado; saída diferente DEVE ser substituída somente após validação completa do grupo; relatório derivado DEVE registrar grupos processados, agrupamentos, exceções de formato e falhas.
 - `RCF-IF-WF-008` Todo script invocado por workflow DEVE ser executável localmente pelo mesmo comando Node e aceitar configuração, checkpoint e relatório equivalentes; o workflow DEVE apenas fornecer agenda, limite global e credenciais estritamente necessárias.
@@ -281,7 +289,8 @@
 - `RCF-IF-ACC-001` Entrega publicável DEVE validar ao menos página inicial, livro válido, URL lógica desconhecida, `404.html`, metadado inválido, fonte disponível, fonte indisponível, hash verificado, hash divergente, sem hash e sem JavaScript.
 - `RCF-IF-ACC-002` Validação visual DEVE comprovar cabeçalho, identidade do livro, indicadores, fontes, verificações, cartões informativos, rodapé, foco, contraste, viewport estreito e viewport amplo.
 - `RCF-IF-ACC-003` Validação de dados DEVE comprovar que cada livro possui somente um `metadata.json` canônico, que não há JSON central duplicando livros e que IDs, hashes e rotas são únicos e válidos.
-- `RCF-IF-ACC-007` Validação de importação DEVE comprovar que `egw/` permanece ignorado, todo artefato aceito possui origem e hash de entrada válidos ou proveniência local explicitamente registrada, PDF e EPUB de manifesto comum resultam em um único Livro, cada asset publicado existe e tem Hash da Fonte e Hash Global correspondentes, e o catálogo reduzido cobre exatamente os metadados gerados.
+- `RCF-IF-ACC-007` Validação de importação DEVE comprovar que `src/egw/` permanece ignorado, todo artefato aceito possui origem e hash de entrada válidos ou proveniência local explicitamente registrada, PDF e EPUB de manifesto comum resultam em um único Livro, cada asset publicado existe e tem Hash da Fonte e Hash Global correspondentes, e o catálogo reduzido cobre exatamente os metadados gerados.
+- `RCF-IF-ACC-010` Validação arquitetural DEVE comprovar que a aplicação reside em `src/`, que `dist/` espelha somente a raiz pública, que o root do repositório não contém recursos específicos da aplicação e que nenhuma URL, asset ou dado publicado contém o prefixo `src/`.
 - `RCF-IF-ACC-008` Validação de manutenção DEVE comprovar domínio confiável, limite diário, timeout de workflow, checkpoint local recuperável, rejeição de hash divergente, incorporação apenas de hash idêntico e execução local do mesmo script do workflow.
 - `RCF-IF-ACC-009` Validação de capa DEVE comprovar `cover.png` para todo livro importado, precedência da capa EPUB, fallback PDF, dimensão máxima de 800 px, PNG legível e regeneração quando removida.
 - `RCF-IF-ACC-004` Validação de build DEVE comprovar determinismo, minificação, ausência de código morto detectável, assets seletivos, independência de serviço privado e integridade do artefato estático.
