@@ -1,0 +1,52 @@
+# Memória operacional
+
+## FT-001 — RCF inicial do Índice de Fontes
+
+- Escopo: Técnico — documentação contratual do produto.
+- Prioridade: alta.
+- Status: em andamento.
+- Início: `20260711.2348.18`.
+- Atualização: `20260711.2348.18`.
+- Etapa atual: `1/4` — estado e enquadramento.
+- Tarefa atual: `1/2` — registrar FT e tornar a memória versionável.
+
+### Objetivo
+
+Produzir `RCF.md` completo, determinístico e evolutivo para a aplicação estática de rastreamento público de fontes bibliográficas, preservando integralmente o enunciado fornecido e a referência visual `template.png`.
+
+### Plano
+
+| Etapa | Objetivo | Dependência | Tarefas | Estado |
+| --- | --- | --- | --- | --- |
+| 1/4 | Preparar estado | nenhuma | 1. registrar FT; 2. versionar memória | em andamento |
+| 2/4 | Especificar produto | etapa 1 | 1. consolidar contratos; 2. redigir RCF | pendente |
+| 3/4 | Validar documento | etapa 2 | 1. revisar requisitos; 2. verificar modalidade e referências | pendente |
+| 4/4 | Encerrar ciclo | etapa 3 | 1. atualizar memória; 2. commitar; 3. convergir branches | pendente |
+
+### Decisões
+
+- Cenários aplicados: `webPageLike.md` §§1–2, por se tratar de aplicação estática hospedada e consumida em navegador.
+- Cenários dispensados: `release.md` e `publish.md`; a solicitação não cria release, tag, asset, nem publica artefato editorial.
+- A referência visual define composição, densidade, hierarquia e sobriedade da interface; o RCF não incorpora imagem nem tecnologia de implementação evitável.
+- O RCF definirá rotas lógicas independentes da estrutura física, dados JSON por livro, hashes globais e de fontes, validação progressiva no cliente, 404 como front controller e operações de Issue idempotentes.
+
+### Evidências e comandos
+
+- Leitura integral: enunciado anexado, `AGENTS.md`, `.agents/microconceitos.md`, `.agents/webPageLike.md`, `.agents/.autoupdate.md`, `package.json`, `LICENSE`, `.gitignore`, `scripts/lib/archive.js` e `template.png`.
+- Estado Git inicial: `main...origin/main [ahead 1]`, sem alterações; branch `dev` criada a partir de `main` conforme `AGENTS.md` §9.
+- `package.json` declara comandos `agent:*`, mas os respectivos scripts de `scripts/.agents/` não existem no checkout; nenhum comando declarado foi usado como validação.
+
+### Falhas, hipóteses descartadas e antirrepetição
+
+- Não criar `handoff.md` manualmente: `AGENTS.md` exige geração por `agent:handoff`, indisponível neste checkout.
+- Não usar um JSON central com metadados completos de todos os livros: o requisito do produto exige um `metadata.json` por livro.
+
+### Próximo ponto
+
+Concluir a etapa 1, redigir `RCF.md`, validar a consistência estática e atualizar esta memória antes do encerramento.
+
+### Dados de execução
+
+- `MACHINE_ID`: `codex-desktop`.
+- `DATA_REF`: `20260711.2348.18`.
+- Cache: leitura integral válida para esta FT; revalidar apenas arquivos alterados.
