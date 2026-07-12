@@ -12,7 +12,7 @@
 ### 1.2 Objetivo e limite
 
 - `RCF-IF-CORE-001` O produto DEVE permitir identificar inequivocamente o artefato usado como referência bibliográfica e verificar a sua integridade criptográfica.
-- `RCF-IF-CORE-002` O produto NÃO DEVE hospedar, reproduzir, distribuir, editar ou prometer a disponibilidade de livros de terceiros, exceto artefato fornecido pelo responsável pelo acervo privado, acompanhado de origem verificável e destinado expressamente à preservação pública como fonte do próprio índice.
+- `RCF-IF-CORE-002` O produto NÃO DEVE reproduzir, editar ou prometer a disponibilidade de livros de terceiros. Artefato fornecido pelo responsável pelo acervo privado, com origem verificável, DEVE ser preservado exclusivamente em pacote público `.7z` do respectivo Livro; o arquivo interno NÃO DEVE ser publicado solto.
 - `RCF-IF-CORE-003` O produto DEVE apresentar apenas metadados, endereços de fonte, hashes, resultados de verificação e explicações necessárias à rastreabilidade.
 - `RCF-IF-CORE-004` Cada fonte DEVE representar exatamente o recurso efetivamente usado; uma fonte NÃO DEVE ser interpretada como sinônimo do livro, de sua edição ou de seu hash global.
 - `RCF-IF-CORE-005` Inserção, atualização, sincronização ou manutenção de PDF, EPUB ou URL DEVE tentar localizar fontes equivalentes adicionais somente entre provedores confiáveis configurados; candidato divergente NÃO DEVE integrar dados canônicos, assets ou fontes publicadas.
@@ -73,6 +73,19 @@
 - `RCF-IF-DATA-003` Índice de navegação gerado no build PODE conter somente `book_id`, título, autor principal, URL lógica e campos necessários à listagem; ele NÃO DEVE duplicar fontes, hashes, descrição, edição ou demais metadados do livro.
 - `RCF-IF-DATA-004` Campo inferível de forma determinística a partir de outro campo canônico, do caminho, do conteúdo ou da revisão publicada NÃO DEVE ser persistido no `metadata.json`.
 - `RCF-IF-DATA-005` Contagem, estado de validação, data da última validação, URL ativa, resumo de verificação e ordenação derivada DEVEM ser calculados, nunca persistidos como verdade editorial.
+- `RCF-IF-DATA-026` A árvore pública de cada Livro DEVE ser `data/<segmento_1>/<segmento_2>/<slug>/`, com exatamente dois segmentos de dois caracteres derivados dos quatro primeiros caracteres literais do `slug`; posição inexistente DEVE receber `-`.
+- `RCF-IF-DATA-027` `slug` DEVE usar somente `a-z`, `0-9` e `-`, resultar de normalização Unicode, remoção de diacríticos, minúsculas, colapso de caracteres não alfanuméricos e desambiguação estável. O diretório final DEVE conservar o `slug` integral e a URL do metadado DEVE ser calculável somente por base pública e `slug`.
+- `RCF-IF-DATA-028` Ativo exclusivo de Livro DEVE coexistir com seu `metadata.json`; árvore paralela de capas, downloads ou fontes publicadas NÃO DEVE existir. `data/index/` PODE conter somente manifestos e fragmentos mínimos de descoberta.
+- `RCF-IF-DATA-029` `metadata.json` schema 4 DEVE conter identificador estável, `slug`, metadados editoriais, origem e hashes dos formatos internos, além de `assets.cover` e `download`; referências locais DEVEM ser relativas ao diretório do Livro.
+- `RCF-IF-DATA-030` `data/index/manifest.json` DEVE declarar versão, estratégia de fragmentação, quantidade, tamanho, caminho e hash de cada fragmento. Índice global NÃO DEVE duplicar metadados completos nem ser a única forma de localizar Livro.
+
+### 3.1.1 Pacotes e capas públicos
+
+- `RCF-IF-PKG-001` Cada Livro com artefato preservado DEVE publicar um único `<slug>.7z`, criado com LZMA2, nível máximo disponível, execução não interativa e conteúdo limitado aos formatos aceitos, aviso obrigatório e metadados internos indispensáveis.
+- `RCF-IF-PKG-002` PDF, EPUB ou formato interno NÃO DEVE existir solto em `dist/`; o arquivo `.7z` DEVE conter somente arquivos de nome portátil, sem caminho absoluto, temporário, cache, credencial ou conteúdo de outro Livro.
+- `RCF-IF-PKG-003` A geração DEVE registrar hash SHA-256, SHA-512, tamanho original, tamanho final, taxa de redução, método e teste de integridade do pacote. Pacote vazio, corrompido, divergente ou com entrada inesperada DEVE bloquear a publicação.
+- `RCF-IF-PKG-004` A capa pública DEVE ser `./cover.webp`, otimizada para navegador e regenerável a partir da capa EPUB ou da primeira página PDF adequada. PNG de trabalho NÃO DEVE integrar `dist/`.
+- `RCF-IF-PKG-005` O build DEVE medir a árvore real: densidade por segmentos, comprimento de caminho, tamanho publicado, maior arquivo e total de entradas. Mais de 1.000 Livros em segmento secundário DEVE alertar; mais de 2.000 DEVE falhar. Limite configurado de hospedagem, repositório ou executor DEVE falhar antes do deploy.
 
 ### 3.2 Contrato de `metadata.json`
 
@@ -196,6 +209,8 @@
 - `RCF-IF-BUILD-003` Build DEVE minificar, remover código morto, aplicar tree shaking quando aplicável e excluir dependência, ícone, fonte, dado de desenvolvimento e asset não usados.
 - `RCF-IF-BUILD-004` Entradas idênticas DEVEM produzir saídas idênticas, exceto campo explicitamente dependente do instante de publicação; esse campo DEVE ser único, documentado e derivado de fonte controlada.
 - `RCF-IF-BUILD-005` Build com metadado inválido, rota duplicada, Hash Global ausente, ID inválido, referência interna ausente ou asset não permitido DEVE falhar antes da publicação.
+- `RCF-IF-BUILD-010` Insumos editoriais internos sob `src/` DEVEM permanecer separados de `dist/`; o build DEVE regenerar a árvore pública segmentada, capas WebP, pacotes `.7z`, índices fragmentados e manifesto a partir de insumos validados, sem copiar PDF, EPUB ou PNG de trabalho para publicação.
+- `RCF-IF-BUILD-011` Build completo DEVE continuar disponível; manutenção incremental DEVERIA processar somente Livro, pacote, capa, segmento e fragmento alterados, preservando resultado previamente validado até substituição completa.
 
 ### 6.2 Desempenho
 
@@ -244,6 +259,7 @@
 - `RCF-IF-WF-002` O workflow de validação editorial DEVE validar dados, rotas, schema, hashes, links internos e build antes de permitir publicação.
 - `RCF-IF-WF-003` O workflow de publicação DEVE publicar somente artefato validado, registrar revisão e validar rota inicial, rota de livro e 404 após disponibilidade.
 - `RCF-IF-WF-010` O workflow de publicação DEVE executar `npm run egw:validate` e `npm run build`, enviar exclusivamente `dist/` como artefato do GitHub Pages e nunca publicar `src/`, `src/egw/`, configuração de build, estado ou relatório local.
+- `RCF-IF-WF-011` Workflow de publicação DEVE instalar implementação compatível com 7-Zip/LZMA2, executar teste dos pacotes e bloquear deploy acima do limite público configurado; o mesmo mecanismo DEVE ser executável localmente.
 - `RCF-IF-WF-004` O workflow de índice DEVE gerar somente artefatos derivados permitidos e DEVE falhar quando ele divergir do conjunto de `metadata.json` válidos.
 - `RCF-IF-WF-007` A importação do Acervo de entrada DEVE ser reiniciável: artefato de destino com hash idêntico PODE ser reutilizado; saída diferente DEVE ser substituída somente após validação completa do grupo; relatório derivado DEVE registrar grupos processados, agrupamentos, exceções de formato e falhas.
 - `RCF-IF-WF-008` Todo script invocado por workflow DEVE ser executável localmente pelo mesmo comando Node e aceitar configuração, checkpoint e relatório equivalentes; o workflow DEVE apenas fornecer agenda, limite global e credenciais estritamente necessárias.
@@ -291,6 +307,7 @@
 - `RCF-IF-ACC-003` Validação de dados DEVE comprovar que cada livro possui somente um `metadata.json` canônico, que não há JSON central duplicando livros e que IDs, hashes e rotas são únicos e válidos.
 - `RCF-IF-ACC-007` Validação de importação DEVE comprovar que `src/egw/` permanece ignorado, todo artefato aceito possui origem e hash de entrada válidos ou proveniência local explicitamente registrada, PDF e EPUB de manifesto comum resultam em um único Livro, cada asset publicado existe e tem Hash da Fonte e Hash Global correspondentes, e o catálogo reduzido cobre exatamente os metadados gerados.
 - `RCF-IF-ACC-010` Validação arquitetural DEVE comprovar que a aplicação reside em `src/`, que `dist/` espelha somente a raiz pública, que o root do repositório não contém recursos específicos da aplicação e que nenhuma URL, asset ou dado publicado contém o prefixo `src/`.
+- `RCF-IF-ACC-011` Validação da árvore estática DEVE comprovar segmentos calculáveis, um diretório por Livro, `metadata.json`, `cover.webp` e `<slug>.7z` correlatos, ausência de PDF/EPUB/PNG soltos no artefato, teste 7-Zip, hashes, densidade, manifesto e índices fragmentados.
 - `RCF-IF-ACC-008` Validação de manutenção DEVE comprovar domínio confiável, limite diário, timeout de workflow, checkpoint local recuperável, rejeição de hash divergente, incorporação apenas de hash idêntico e execução local do mesmo script do workflow.
 - `RCF-IF-ACC-009` Validação de capa DEVE comprovar `cover.png` para todo livro importado, precedência da capa EPUB, fallback PDF, dimensão máxima de 800 px, PNG legível e regeneração quando removida.
 - `RCF-IF-ACC-004` Validação de build DEVE comprovar determinismo, minificação, ausência de código morto detectável, assets seletivos, independência de serviço privado e integridade do artefato estático.

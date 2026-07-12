@@ -31,6 +31,24 @@ FT-001|nome=Indice de Fontes Bibliograficas|objetivo=Concluir a superficie estat
   2/4 Reestruturar fonte e entrada [concluído]
   3/4 Materializar artefato publicado [concluído]
   4/4 Validar e autorizar convergência [concluído]
+FT-002|nome=Normalizar artefato estático|objetivo=Materializar livros públicos descentralizados, empacotados e auditáveis sem publicar originais soltos.|escopo=tecnico|status=em andamento
+1/4 Reinterpretar e registrar arquitetura [concluído]
+  1/3 Ler norma de dados estáticos [concluído]
+  2/3 Medir acervo e limites [concluído]
+  3/3 Evoluir RCF e README [concluído]
+2/4 Implementar gerador público [em andamento]
+  1/4 Criar módulos de segmentação e pacote [pendente]
+  2/4 Gerar metadado schema 4 e índice fragmentado [pendente]
+  3/4 Converter capa WebP e validar limites [pendente]
+  4/4 Adaptar front controller e workflow [pendente]
+3/4 Validar artefato completo [pendente]
+  1/3 Gerar acervo integral [pendente]
+  2/3 Testar pacotes, árvore e interface [pendente]
+  3/3 Validar fluxo local e CI [pendente]
+4/4 Encerrar e publicar [pendente]
+  1/3 Atualizar memória e handoff [pendente]
+  2/3 Comitar em etapas [pendente]
+  3/3 Convergir e publicar [pendente]
 
 ## FT-001 — RCF, superfície inicial e importação do Índice de Fontes
 
@@ -135,3 +153,44 @@ O gerador adotado requer bloco `FT-NNN|...` e etapas em colchetes. Esse bloco fo
 - `MACHINE_ID`: `codex-desktop`.
 - `DATA_REF`: `20260712.0400.00`.
 - Cache: saída integral, capas e manutenção validada; revalidar somente livro, capa, fonte e checkpoint afetados por nova entrada.
+
+## FT-002 — Normalizar artefato estático de livros
+
+- Escopo: Técnico — migração evolutiva da materialização pública.
+- Prioridade: alta.
+- Status: em andamento.
+- Início: `20260712.2330.00`.
+- Atualização: `20260712.2330.00`.
+- Etapa atual: `2/4` — implementar gerador público.
+- Tarefa atual: criar módulos compartilhados de segmentação, pacote e validação.
+
+### Objetivo
+
+Materializar `dist/` como banco de dados estático descentralizado, com um diretório calculável por Livro, metadado schema 4, capa WebP e pacote 7-Zip validado, sem publicar PDF, EPUB ou PNG soltos.
+
+### Plano
+
+| Etapa | Objetivo | Dependência | Tarefas | Estado |
+| --- | --- | --- | --- | --- |
+| 1/4 | Reinterpretar e registrar arquitetura | nenhuma | 1. ler norma; 2. medir acervo e limites; 3. evoluir RCF e README | concluído |
+| 2/4 | Implementar gerador público | etapa 1 | 1. módulos de segmento/pacote; 2. schema 4 e índice; 3. WebP e limites; 4. front controller e workflow | em andamento |
+| 3/4 | Validar artefato completo | etapa 2 | 1. gerar acervo; 2. testar pacotes, árvore e interface; 3. validar fluxo local e CI | pendente |
+| 4/4 | Encerrar e publicar | etapa 3 | 1. memória e handoff; 2. commits; 3. convergir e publicar | pendente |
+
+### Decisões e evidências
+
+- `CONTRADIÇÃO DETECTADA: assets preservados soltos em árvore paralela vs norma anexada de banco estático descentralizado — Aplicando a regra de maior precedência.`
+- O acervo atual possui 527 Livros, 1.051 PDF/EPUB, 527 PNG e 897.681.567 bytes; PDF/EPUB totalizam 637.905.746 bytes. O maior arquivo tem 8.718.126 bytes.
+- GitHub Pages possui limite público documentado de 1 GB e timeout de deploy de 10 minutos; o build passará a medir limite configurado antes da publicação. GitHub bloqueia arquivo Git comum acima de 100 MiB; nenhum asset atual se aproxima desse limite.
+- `7z.exe` local foi localizado em `C:\Program Files\7-Zip\7z.exe`; o workflow instalará equivalente Linux antes do build.
+- Os originais versionados sob `src/assets/books/` permanecem apenas como insumo interno porque `src/egw/` é privado e não está disponível no CI. O build não os copiará para `dist/`.
+
+### Próximo ponto
+
+Implementar módulos reutilizáveis para cálculo de `slug` e segmentos, criação e teste `.7z`, geração de WebP, metadado schema 4, shards e manifesto; então ajustar build, interface e workflow.
+
+### Dados de execução FT-002
+
+- `MACHINE_ID`: `codex-desktop`.
+- `DATA_REF`: `20260712.2330.00`.
+- Cache: inspeção normativa, medição do corpus e limites externos concluídas; revalidar arquivos alterados e artefato integral ao final.
