@@ -4,7 +4,7 @@
 
 - Escopo: Técnico — contrato e primeira superfície estática do produto.
 - Prioridade: alta.
-- Status: em andamento.
+- Status: pendente de encerramento operacional.
 - Início: `20260711.2348.18`.
 - Atualização: `20260712.0118.00`.
 - Etapa atual: `6/6` — encerramento operacional.
@@ -58,6 +58,7 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 - Validação estática: `requirements=144`, `duplicates=0`; busca por modalidades proibidas sem resultado; `git diff --check` sem erro.
 - Integridade do RCF: `SHA-256 d480038dbfbb2775832c76341524760d55ae585d21c831607867cf0954508461`.
 - Commits desta FT: `a52d181 Registra FT inicial`; `bbbad7b Define RCF do índice`.
+- Commit da importação e infraestrutura: `b64d33c Importa acervo EGW`.
 - Validação de comportamento: JSDOM confirmou `HTML_404_NOSCRIPT_OK` para rota ausente e `HTML_FRONT_CONTROLLER_OK` para rota de livro com metadado canônico simulado.
 - Validação visual: navegador local confirmou composição em largura padrão e `390px`, com página inicial visível, `<noscript>` presente e `overflow=false` no viewport estreito.
 - `git diff --check -- RCF.md .agents/continue.ia 404.html` não reportou erro de conteúdo.
@@ -85,7 +86,7 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 
 ### Próximo ponto
 
-Registrar commit da geração e das mudanças de contrato; a ausência pré-existente de `scripts/.agents/repo-tools.js` e `scripts/.agents/to-ia.js` continua impedindo a geração autorizada de `handoff.md` e a convergência de `dev` em `main` sob `AGENTS.md` §§9 e 15.
+Importação, manutenção, workflow e validações estão registradas. A ausência pré-existente de `scripts/.agents/repo-tools.js` e `scripts/.agents/to-ia.js` continua impedindo a geração autorizada de `handoff.md` e a convergência de `dev` em `main` sob `AGENTS.md` §§9 e 15.
 
 ### Dados de execução
 
