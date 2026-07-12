@@ -1,14 +1,41 @@
 # Memória operacional
 
+<!-- Estado estruturado consumido por npm run agent:handoff. -->
+FT-001|nome=Indice de Fontes Bibliograficas|objetivo=Concluir a superficie estatica e a importacao rastreavel do acervo EGW.|escopo=tecnico|status=em andamento
+1/6 Registrar evolução do acervo [concluído]
+  1/3 Ignorar entrada privada [concluído]
+  2/3 Evoluir RCF [concluído]
+  3/3 Registrar plano [concluído]
+2/6 Implementar importação editorial [concluído]
+  1/3 Descobrir manifestos [concluído]
+  2/3 Agrupar formatos [concluído]
+  3/3 Gerar dados e assets [concluído]
+3/6 Módulos, capas e descoberta [concluído]
+  1/3 Fatorar lógica [concluído]
+  2/3 Gerar capas [concluído]
+  3/3 Localizar equivalentes confiáveis [concluído]
+4/6 Manutenção e workflow [concluído]
+  1/3 Persistir checkpoints [concluído]
+  2/3 Limitar manutenção [concluído]
+  3/3 Reutilizar script local [concluído]
+5/6 Validar acervo importado [concluído]
+  1/3 Validar hashes e capas [concluído]
+  2/3 Validar catálogo [concluído]
+  3/3 Validar leitura pública [concluído]
+6/6 Encerrar ciclo [em andamento]
+  1/3 Atualizar memória [concluído]
+  2/3 Gerar handoff [em andamento]
+  3/3 Convergir branches [pendente]
+
 ## FT-001 — RCF, superfície inicial e importação do Índice de Fontes
 
 - Escopo: Técnico — contrato e primeira superfície estática do produto.
 - Prioridade: alta.
-- Status: pendente de encerramento operacional.
+- Status: em andamento.
 - Início: `20260711.2348.18`.
-- Atualização: `20260712.0118.00`.
+- Atualização: `20260712.0132.00`.
 - Etapa atual: `6/6` — encerramento operacional.
-- Tarefa atual: `1/3` — registrar geração, validações e commit.
+- Tarefa atual: `2/3` — gerar handoff e validar convergência.
 
 ### Objetivo
 
@@ -83,13 +110,16 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 - Não usar um JSON central com metadados completos de todos os livros: o requisito do produto exige um `metadata.json` por livro.
 - Não manter nome original de asset no destino: um título excedeu o limite de nome Windows durante `git add`; o importador agora usa somente `source.pdf` e `source.epub` e remove arquivo de destino obsoleto após cópia validada.
 - Não compartilhar sufixo temporário de checkpoint entre workers: o primeiro teste paralelo teve colisão `EPERM`; `writeAtomic` recebeu sequência única e a retomada comprovou `527` reutilizações sem falha.
+- `agent:doctor` ainda informa `index.json` ausente e `agent:verify` falha por exigir `src/`, layout incompatível com o site estático; `agent:agents -- --check` detectou atualização canônica `release:v0.0.1`, que deve ser aplicada somente após commit isolado e worktree limpo.
 
 ### Próximo ponto
 
-Importação, manutenção, workflow e validações estão registradas. A ausência pré-existente de `scripts/.agents/repo-tools.js` e `scripts/.agents/to-ia.js` continua impedindo a geração autorizada de `handoff.md` e a convergência de `dev` em `main` sob `AGENTS.md` §§9 e 15.
+Os utilitários de governança agora existem. A primeira geração de `handoff.md` confirmou o mecanismo, mas não listou a FT devido ao formato estruturado ausente; o bloco canônico foi acrescentado, o handoff será regenerado e então `dev` poderá convergir em `main` sob `AGENTS.md` §§9 e 15.
+
+O gerador adotado requer bloco `FT-NNN|...` e etapas em colchetes. Esse bloco foi incorporado ao arquivo canônico, preservando a tabela humana detalhada e sem editar `handoff.md` manualmente.
 
 ### Dados de execução
 
 - `MACHINE_ID`: `codex-desktop`.
-- `DATA_REF`: `20260712.0118.00`.
+- `DATA_REF`: `20260712.0132.00`.
 - Cache: saída integral, capas e manutenção validada; revalidar somente livro, capa, fonte e checkpoint afetados por nova entrada.
