@@ -1,0 +1,19 @@
+node_modules/
+/.*/
+!/.vscode
+!/.github/
+!/.github/workflows/
+!/.github/workflows/*.yml
+!/.agents/
+*.psd
+*.ai
+*.zip
+*.7z
+tmp/
+
+0. Autoriza .md em ./.agents/
+/.agents/*
+/.agents/continue.ia
+/.agents/continue.dev
+!/.agents/*.md
+!/.agents/**/*.md
