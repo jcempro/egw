@@ -1,0 +1,7 @@
+# Índice de Fontes Bibliográficas
+
+Índice estático de obras e fontes preservadas. O contrato está em [RCF.md](RCF.md).
+
+`npm run egw:import` importa o acervo privado `egw/`; `npm run egw:update` regenera assets e capas; `npm run egw:maintain` procura equivalentes confiáveis dentro das cotas; `npm run egw:maintain -- --timeout-ms=840000` reproduz o limite do workflow localmente. `npm run egw:validate` verifica a saída.
+
+O acervo de entrada não é versionado. A manutenção só adiciona URL cujo SHA-512 seja idêntico ao asset já aceito. Licença: [MPL-2.0](LICENSE).

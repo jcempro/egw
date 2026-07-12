@@ -1,0 +1,32 @@
+name: Manutenção de fontes EGW
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  maintain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - run: npm ci
+      - run: npm run egw:maintain -- --timeout-ms=840000
+      - run: git diff --quiet || (git config user.name "egw-maintenance" && git config user.email "egw-maintenance@users.noreply.github.com" && git add data && git commit -m "Atualiza fontes EGW" && git push)
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: egw-maintenance-state
+          path: |
+            .egw-state/maintenance.json
+            build/egw-maintenance-report.json
+          if-no-files-found: ignore

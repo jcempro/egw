@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "limits": { "default_daily_limit": 6, "max_candidate_bytes": 12582912, "request_timeout_ms": 15000 },
+  "providers": [
+    { "id": "white-estate-ebooks", "enabled": true, "kind": "white-estate-ebook", "domains": ["whiteestate.org"], "daily_limit": 6 },
+    { "id": "egw-writings", "enabled": true, "kind": "origin-only", "domains": ["media2.egwwritings.org", "media4.egwwritings.org"], "daily_limit": 1 },
+    { "id": "ellen-white-audio", "enabled": false, "kind": "catalog-only", "domains": ["ellenwhiteaudio.org"], "daily_limit": 1 },
+    { "id": "centro-white", "enabled": false, "kind": "catalog-only", "domains": ["centrowhite.org.br"], "daily_limit": 1 }
+  ]
+}

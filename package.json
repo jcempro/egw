@@ -14,6 +14,13 @@
     "release": "npm run agent:release",
     "release:trigger": "npm run agent:release:trigger",
     "test": "npm run agent:test",
+    "egw:import": "node scripts/import-egw.mjs",
+    "egw:validate": "node scripts/import-egw.mjs --check",
+    "egw:audit-text": "node scripts/import-egw.mjs --audit-text",
+    "egw:update": "node scripts/import-egw.mjs",
+    "egw:sync": "node scripts/maintain-egw.mjs",
+    "egw:maintain": "node scripts/maintain-egw.mjs",
+    "egw:covers": "node scripts/generate-egw-covers.mjs",
     "agents:update": "node scripts/.agents/repo-tools.js agent:agents",
     "agent:agents": "node scripts/.agents/repo-tools.js agent:agents",
     "agent:filter": "node scripts/.agents/to-ia.js --command agent:filter",
@@ -108,6 +115,7 @@
     "optionalDependencies": []
   },
   "devDependencies": {
-    "jsdom": "^29.1.1"
+    "jsdom": "^29.1.1",
+    "sharp": "^0.35.3"
   }
 }

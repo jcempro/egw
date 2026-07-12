@@ -6,9 +6,9 @@
 - Prioridade: alta.
 - Status: em andamento.
 - Início: `20260711.2348.18`.
-- Atualização: `20260712.0034.00`.
-- Etapa atual: `1/4` — registrar evolução do acervo.
-- Tarefa atual: `1/3` — ajustar contrato e entrada privada.
+- Atualização: `20260712.0118.00`.
+- Etapa atual: `6/6` — encerramento operacional.
+- Tarefa atual: `1/3` — registrar geração, validações e commit.
 
 ### Objetivo
 
@@ -18,10 +18,12 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 
 | Etapa | Objetivo | Dependência | Tarefas | Estado |
 | --- | --- | --- | --- | --- |
-| 1/4 | Registrar evolução do acervo | nenhuma | 1. ignorar `egw/`; 2. evoluir RCF; 3. registrar entrada e plano | em andamento |
-| 2/4 | Implementar importação editorial | etapa 1 | 1. descobrir manifestos; 2. agrupar formatos; 3. gerar dados e assets | pendente |
-| 3/4 | Validar acervo importado | etapa 2 | 1. validar hashes; 2. validar unicidade e catálogo; 3. validar leitura no navegador | pendente |
-| 4/4 | Encerrar ciclo | etapa 3 | 1. atualizar memória; 2. gerar handoff; 3. convergir branches | pendente |
+| 1/6 | Registrar evolução do acervo | nenhuma | 1. ignorar `egw/`; 2. evoluir RCF; 3. registrar entrada e plano | concluído |
+| 2/6 | Implementar importação editorial | etapa 1 | 1. descobrir manifestos; 2. agrupar formatos; 3. gerar dados e assets | concluído |
+| 3/6 | Módulos, capas e descoberta | etapa 2 | 1. fatorar lógica; 2. gerar capas; 3. localizar equivalentes confiáveis | concluído |
+| 4/6 | Manutenção e workflow | etapa 3 | 1. checkpoints; 2. manutenção limitada; 3. workflow local-equivalente | concluído |
+| 5/6 | Validar acervo importado | etapas 2–4 | 1. validar hashes e capas; 2. validar catálogo; 3. validar leitura pública | concluído |
+| 6/6 | Encerrar ciclo | etapa 5 | 1. atualizar memória; 2. gerar handoff; 3. convergir branches | em andamento |
 
 ### Decisões
 
@@ -36,6 +38,17 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 - A direção humana de `20260712` autoriza usar o acervo privado `egw/` como entrada editorial e preservar cada PDF/EPUB aceito como Asset preservado no destino público; esta autorização evolui a exceção controlada de `RCF-IF-CORE-002`.
 - O acervo encontrado possui 525 manifestos laterais `.source.json`, 525 PDFs e 526 EPUBs, totalizando aproximadamente 608 MiB. Há 524 grupos com dois formatos, um grupo somente PDF e dois grupos somente EPUB. O manifesto lateral contém URL de origem e SHA-256 de entrada.
 - A chave editorial de agrupamento será diretório relativo e título-base do manifesto lateral. PDF e EPUB desse grupo gerarão uma única identidade de Livro e duas Fontes/Hashes Globais; o build calculará impressão textual normalizada do EPUB quando disponível e registrará exceções sem EPUB.
+- Dois EPUBs (`The Review and Herald` e `The Signs of the Times`) não possuem manifesto lateral. Pela direção humana de preservar todos os arquivos, eles serão importados como Livros de formato único, com `origin_url: null`, SHA-512 calculado e proveniência local explícita no relatório; nenhuma URL externa será inventada.
+- A primeira execução do importador confirmou escrita atômica de 101 livros e 201 assets antes de encontrar falha de extração textual de EPUB. A impressão textual foi reclassificada como auditoria opcional: manifesto comum é a evidência determinística de PDF/EPUB pareados; impressão normalizada somente será exigida antes de associação entre manifestos distintos. Falha de parser será registrada por grupo e não autoriza mesclar identidades distintas.
+- Diagnóstico da retomada: `Do You Eat Flesh` possui manifesto e SHA-256 válido somente para o PDF, enquanto o EPUB local não tem registro de origem. O contrato passa a permitir proveniência por artefato: formato não registrado no manifesto permanece Fonte do mesmo Livro, com `origin_url: null` e registro de proveniência local; formato registrado conserva origem e validação de SHA-256.
+- `scripts/import-egw.mjs` usa somente APIs nativas do Node para descobrir grupos, validar SHA-256 quando fornecido, calcular SHA-512 por asset, criar `metadata.json` schema 2, copiar assets de forma atômica, gerar `data/catalog.json` e emitir relatório ignorado em `build/egw-import-report.json`.
+- O schema 2 estende cada Fonte com `origin_url`: URL HTTP(S) quando o manifesto identifica a origem ou `null` quando o artefato foi fornecido somente pelo acervo local. O `url` da Fonte aponta para o asset lógico sob `assets/books/<book_id>/` e é resolvido pelo caminho-base da página.
+- O agrupamento consolidou 527 Livros e 1.051 Assets: 524 grupos PDF+EPUB, um somente PDF e dois somente EPUB. O catálogo reduzido contém exatamente 527 entradas. Auditoria textual EPUB é opcional, pois a associação de formatos tem como prova determinística o manifesto comum; associação entre manifestos distintos permanece proibida sem auditoria textual explícita.
+- `404.html` aceita schemas 1–3, valida caminhos de asset contra traversal, mostra origem remota ou proveniência local, exige `provider` apenas para `equivalent-source` schema 3 e valida hash contra o asset resolvido no caminho-base.
+- `config/egw-sources.json` centraliza provedores, domínios permitidos, cota diária, tamanho de candidato e timeout de requisição. O adaptador ativo White Estate deriva página oficial de ebook da URL de origem, busca PDF/EPUB e só incorpora SHA-512 idêntico; EGW Writings, Ellen White Audio e Centro White estão declarados sem adaptação especulativa.
+- `scripts/lib/egw-common.mjs`, `egw-cover.mjs`, `egw-covers.mjs`, `egw-providers.mjs` e `egw-maintenance.mjs` concentram escrita atômica, checkpoints, capa, descoberta e manutenção. Importação, atualização, sincronização, manutenção e geração de capas usam esses módulos.
+- Toda obra agora possui `assets/books/<book_id>/source.pdf` e/ou `source.epub`, mais `cover.png`; nomes curtos eliminam o limite de caminho Windows. Capa EPUB tem precedência; ausência recorre à primeira página PDF; PNG é limitado a 800 px e otimizado por `sharp`.
+- `scripts/maintain-egw.mjs` é a manutenção periódica local; `.github/workflows/egw-maintenance.yml` o invoca com `--timeout-ms=840000`, cota e checkpoint. Localmente o timeout só existe quando o parâmetro é informado e persiste estado antes de devolver erro seguro.
 
 ### Evidências e comandos
 
@@ -49,19 +62,33 @@ Produzir `RCF.md` completo, determinístico e evolutivo, implementar a primeira 
 - Validação visual: navegador local confirmou composição em largura padrão e `390px`, com página inicial visível, `<noscript>` presente e `overflow=false` no viewport estreito.
 - `git diff --check -- RCF.md .agents/continue.ia 404.html` não reportou erro de conteúdo.
 - Alterações externas detectadas e preservadas: `package.json` modificado e `package-lock.json` não rastreado, ambos com `jsdom` adicionado fora desta atuação.
-- Leitura de entrada: todos os grupos possuem manifesto lateral; a contagem por extensão é `525 .pdf`, `526 .epub`, `525 .json` e um script histórico `baixar.py`. O script histórico não será incorporado, executado ou publicado.
+- Leitura de entrada: há 525 manifestos laterais para 527 grupos editoriais; a contagem por extensão é `525 .pdf`, `526 .epub`, `525 .json` e um script histórico `baixar.py`. O script histórico não será incorporado, executado ou publicado.
+- Geração: `npm run egw:import` concluiu com `livros=527`, `assets=1051`, `copiados=0`, `reutilizados=1051`, `pdf_sem_epub=1`, `epub_sem_pdf=2` após retomada idempotente.
+- Validação integral: `npm run egw:validate` confirmou `livros=527`, `assets=1051`, `pdf_sem_epub=1`, `epub_sem_pdf=2`; verificou hashes de entrada disponíveis, hashes SHA-512 dos assets, metadados, catálogo e ausência de divergência.
+- Validação de interface: JSDOM com `en-us-pamphlets-do-you-eat-flesh` confirmou `HTML_SCHEMA2_EGW_OK`, incluindo Livro renderizado, asset resolvido e rótulo `Origem: acervo local`.
+- Higiene: o único arquivo temporário deixado por execução interrompida foi identificado sob `assets/books/...tmp-49144`, removido após confirmação do caminho, e a saída final contém exatamente 1.051 assets.
+- Pré-commit: o Git recusou um caminho de asset acima do limite de nome do Windows. A saída será regenerada com nomes portáteis `source.pdf` e `source.epub`, sem alterar os bytes, hashes, Livro, Fonte ou origem de qualquer artefato.
+- A direção humana de `20260712` exige descoberta automática de equivalentes confiáveis com igualdade criptográfica, execução local equivalente ao workflow, timeout global somente em workflow, checkpoint fail-safe local sob parâmetro explícito, manutenção periódica limitada, capas PNG otimizadas e módulos compartilhados. O RCF foi evoluído antes da implementação.
+- Descoberta confirmada: White Estate publica páginas oficiais de ebooks com PDF e EPUB; seu adaptador será limitado ao domínio configurado e somente aceitará bytes cujo SHA-512 coincida com o asset já aceito. Outras fontes reconhecidas permanecerão adaptadores configuráveis e inativos até possuírem endpoint verificável.
+- Dependência de build: `sharp` foi instalado como `devDependency` para normalização de PNG; `pdftoppm` local é resolvido por binário seguro ou `PDFTOPPM_BIN`; o workflow instala `poppler-utils` no Linux.
+- Geração final: 527 `metadata.json`, 1.051 assets de fonte, 527 capas e 1.578 arquivos sob `assets/books/`; cada catálogo continua com 527 entradas.
+- Manutenção real: sete verificações dentro de cota (seis White Estate e uma EGW Writings) não encontraram SHA-512 equivalente; `schema3=0`, logo nenhuma URL divergente ou não comprovada foi publicada. Checkpoint conservou `cursor=3` e usos do dia.
+- Validação atual: `npm run egw:validate` aprovou `livros=527`, `assets=1051`, `capas=527`, exceções de formato esperadas e todos os hashes/metadados/capas. `npm run egw:covers` reaproveitou 527 capas sem falha; `npm run egw:maintain` executou localmente; `--timeout-ms=1` comprovou checkpoint fail-safe.
+- Renderização: JSDOM confirmou `HTML_SCHEMA2_COVER_OK`, `COVER_REGENERATION_OK` e schema 3 com fonte equivalente; navegador integrado bloqueou loopback nesta sessão, sem invalidar os testes renderizados do DOM.
 
 ### Falhas, hipóteses descartadas e antirrepetição
 
 - Não criar `handoff.md` manualmente: `AGENTS.md` exige geração por `agent:handoff`, indisponível neste checkout.
 - Não usar um JSON central com metadados completos de todos os livros: o requisito do produto exige um `metadata.json` por livro.
+- Não manter nome original de asset no destino: um título excedeu o limite de nome Windows durante `git add`; o importador agora usa somente `source.pdf` e `source.epub` e remove arquivo de destino obsoleto após cópia validada.
+- Não compartilhar sufixo temporário de checkpoint entre workers: o primeiro teste paralelo teve colisão `EPERM`; `writeAtomic` recebeu sequência única e a retomada comprovou `527` reutilizações sem falha.
 
 ### Próximo ponto
 
-Implementar importador Node determinístico, gerar dados e assets a partir de `egw/` e validar os agrupamentos antes de retomar o encerramento operacional. A ausência pré-existente de `scripts/.agents/repo-tools.js` e `scripts/.agents/to-ia.js` continua impedindo a geração autorizada de `handoff.md` e a convergência de `dev` em `main` sob `AGENTS.md` §§9 e 15.
+Registrar commit da geração e das mudanças de contrato; a ausência pré-existente de `scripts/.agents/repo-tools.js` e `scripts/.agents/to-ia.js` continua impedindo a geração autorizada de `handoff.md` e a convergência de `dev` em `main` sob `AGENTS.md` §§9 e 15.
 
 ### Dados de execução
 
 - `MACHINE_ID`: `codex-desktop`.
-- `DATA_REF`: `20260712.0034.00`.
-- Cache: contrato e superfície inicial preservados; revalidar arquivos alterados e todo o acervo no importador.
+- `DATA_REF`: `20260712.0118.00`.
+- Cache: saída integral, capas e manutenção validada; revalidar somente livro, capa, fonte e checkpoint afetados por nova entrada.

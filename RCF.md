@@ -15,6 +15,7 @@
 - `RCF-IF-CORE-002` O produto NÃO DEVE hospedar, reproduzir, distribuir, editar ou prometer a disponibilidade de livros de terceiros, exceto artefato fornecido pelo responsável pelo acervo privado, acompanhado de origem verificável e destinado expressamente à preservação pública como fonte do próprio índice.
 - `RCF-IF-CORE-003` O produto DEVE apresentar apenas metadados, endereços de fonte, hashes, resultados de verificação e explicações necessárias à rastreabilidade.
 - `RCF-IF-CORE-004` Cada fonte DEVE representar exatamente o recurso efetivamente usado; uma fonte NÃO DEVE ser interpretada como sinônimo do livro, de sua edição ou de seu hash global.
+- `RCF-IF-CORE-005` Inserção, atualização, sincronização ou manutenção de PDF, EPUB ou URL DEVE tentar localizar fontes equivalentes adicionais somente entre provedores confiáveis configurados; candidato divergente NÃO DEVE integrar dados canônicos, assets ou fontes publicadas.
 
 ### 1.3 Termos estáveis
 
@@ -78,14 +79,16 @@
 - `RCF-IF-DATA-013` `cover` DEVE apontar somente recurso estático pertencente ao mesmo livro ou ser `null`; URL externa de capa NÃO DEVE bloquear a consulta do livro.
 - `RCF-IF-DATA-014` `global_hashes` DEVE ser lista não vazia de objetos com `label`, `format`, `algorithm` e `value`.
 - `RCF-IF-DATA-015` Cada entrada de `global_hashes` DEVE identificar inequivocamente o artefato editorial e seu formato; formatos distintos da mesma edição DEVEM ocupar entradas distintas.
-- `RCF-IF-DATA-016` Em schema 1, `sources` DEVE ser lista ordenada de objetos com `id`, `title`, `url`, `type` e `hash`. Em schema 2, cada fonte DEVE conter também `origin_url`; `id` DEVE ser único dentro do livro e obedecer ao mesmo padrão de `book_id`.
+- `RCF-IF-DATA-016` Em schema 1, `sources` DEVE ser lista ordenada de objetos com `id`, `title`, `url`, `type` e `hash`. Em schema 2, cada fonte DEVE conter também `origin_url`. Em schema 3, fonte equivalente DEVE conter adicionalmente `provider`; `id` DEVE ser único dentro do livro e obedecer ao mesmo padrão de `book_id`.
 - `RCF-IF-DATA-017` Em fonte externa, `url` DEVE ser URI absoluta e conservar integralmente o endereço do recurso; esquemas aceitos DEVEM limitar-se a `https:`, `http:` e `file:`. Em Asset preservado schema 2, `url` DEVE ser caminho lógico relativo à publicação, iniciar por `assets/`, não conter segmento vazio, `.` ou `..`, e ser resolvido contra o caminho-base configurado.
 - `RCF-IF-DATA-018` `type` DEVE identificar a natureza editorial ou técnica da fonte, sem inferir autoridade, disponibilidade ou integridade.
 - `RCF-IF-DATA-019` `hash` de fonte DEVE ser `null` ou objeto com `algorithm` e `value`; valor não nulo DEVE representar exatamente o arquivo obtido naquela fonte.
 - `RCF-IF-DATA-020` Campo adicional no objeto raiz, livro, hash ou fonte NÃO DEVE ser aceito sem versão de schema que o defina.
-- `RCF-IF-DATA-021` O Acervo de entrada DEVE residir em `egw/`, permanecer ignorado pelo Git e conter, para cada grupo editorial, artefatos `.pdf` e/ou `.epub` e um manifesto lateral `<título>.source.json` com URL de origem e SHA-256 esperado.
-- `RCF-IF-DATA-022` PDF e EPUB associados ao mesmo manifesto lateral DEVEM constituir um único Livro e um único `metadata.json`; cada formato DEVE permanecer uma Fonte e um Hash Global distintos. Agrupamento sem manifesto comum, sem identidade textual comprovada ou com divergência de origem DEVE falhar, sem criar livro duplicado.
-- `RCF-IF-DATA-023` Todo Asset preservado DEVE conter `url` lógico do asset, `origin_url` absoluto do recurso que o originou e Hash da Fonte calculado sobre os bytes copiados. O build DEVE comparar previamente o SHA-256 de entrada registrado no manifesto quando ele existir.
+- `RCF-IF-DATA-021` O Acervo de entrada DEVE residir em `egw/`, permanecer ignorado pelo Git e conter artefatos `.pdf` e/ou `.epub`. Artefato com origem remota conhecida DEVE possuir registro correspondente no manifesto lateral `<título>.source.json`, com URL de origem e SHA-256 esperado; o manifesto PODE cobrir somente parte dos formatos preservados no grupo.
+- `RCF-IF-DATA-022` PDF e EPUB associados ao mesmo manifesto lateral DEVEM constituir um único Livro e um único `metadata.json`; cada formato DEVE permanecer uma Fonte e um Hash Global distintos. Artefato sem manifesto lateral DEVE constituir somente um Livro de formato único, com proveniência local explícita no relatório. Agrupamento entre grupos distintos sem manifesto comum e identidade textual comprovada DEVE falhar, sem criar livro duplicado.
+- `RCF-IF-DATA-023` Todo Asset preservado DEVE conter `url` lógico do asset e Hash da Fonte calculado sobre os bytes copiados. `origin_url` DEVE ser absoluto quando a origem remota for conhecida; em artefato de proveniência local sem manifesto ou sem registro próprio no manifesto, DEVE ser `null` e o relatório de build DEVE registrá-lo. O build DEVE comparar previamente o SHA-256 de entrada registrado no manifesto quando ele existir.
+- `RCF-IF-DATA-024` `book.cover` DEVE apontar para `assets/books/<book_id>/cover.png` quando houver PDF ou EPUB importado. A imagem DEVE representar capa extraída do EPUB ou, sem capa utilizável, a primeira página adequada do PDF; ausência de ambos DEVE falhar a geração do grupo.
+- `RCF-IF-DATA-025` Fonte equivalente adicional DEVE possuir URL HTTP(S), identificador do provedor confiável e Hash da Fonte igual ao hash do artefato já aceito. URL encontrada sem bytes comparáveis ou com hash divergente DEVE constar somente no relatório de manutenção, nunca em `metadata.json`.
 
 ### 3.3 Hashes
 
@@ -179,8 +182,10 @@
 
 - `RCF-IF-BUILD-001` Código de interface DEVE usar TypeScript e estilos DEVEM usar Sass quando existir pipeline de compilação; enquanto a superfície inicial estiver limitada ao documento único `404.html`, CSS e ECMAScript PODEM integrar esse documento para preservar publicação estática autônoma. O resultado publicado DEVE conter somente JavaScript, CSS, HTML, fontes e assets necessários ao runtime.
 - `RCF-IF-BUILD-002` Build DEVE validar schema, referências internas, unicidade de identificadores, integridade sintática, URLs lógicas e links públicos antes de publicar.
-- `RCF-IF-BUILD-006` O importador do Acervo de entrada DEVE descobrir grupos de forma determinística, validar manifestos e hashes de entrada, copiar cada artefato para `assets/books/<book_id>/`, gerar `data/books/<book_id>/metadata.json` e gerar índice reduzido em `data/catalog.json`; falha em um grupo NÃO DEVE publicar saída parcial desse grupo.
-- `RCF-IF-BUILD-007` A identidade textual entre formatos DEVE ser avaliada antes da consolidação. Quando o EPUB estiver disponível, o importador DEVE calcular impressão normalizada da ordem de leitura; manifesto lateral comum é a evidência de associação entre o PDF e o EPUB. Grupo sem EPUB DEVE ser registrado como exceção explícita no relatório de build, nunca duplicado por formato.
+- `RCF-IF-BUILD-006` O importador do Acervo de entrada DEVE descobrir grupos de forma determinística, validar manifestos e hashes de entrada quando existirem, copiar cada artefato para `assets/books/<book_id>/` com nome de destino determinístico, portátil e limitado, gerar `data/books/<book_id>/metadata.json` e gerar índice reduzido em `data/catalog.json`; falha em um grupo NÃO DEVE publicar saída parcial desse grupo.
+- `RCF-IF-BUILD-007` Manifesto lateral comum DEVE ser a evidência determinística de associação entre PDF e EPUB. O importador DEVE calcular impressão normalizada da ordem de leitura antes de qualquer associação entre grupos distintos; para grupo já associado pelo mesmo manifesto, essa impressão DEVE permanecer auditoria opcional e não bloqueante. Falha técnica de extração DEVE ser registrada no relatório e NÃO DEVE induzir agrupamento entre grupos distintos. Grupo sem EPUB DEVE ser registrado como exceção explícita no relatório, nunca duplicado por formato.
+- `RCF-IF-BUILD-008` Extração e atualização de capa DEVEM usar módulo compartilhado: capa declarada do EPUB tem precedência; sem ela, a primeira página do PDF DEVE ser rasterizada. A saída DEVE ser PNG, com maior dimensão limitada a 800 px, compressão otimizada para web e sem metadados desnecessários; atualização DEVE regenerá-la quando ausente ou divergente.
+- `RCF-IF-BUILD-009` Lógica de leitura de artefato, hash, escrita atômica, checkpoint, descoberta, comparação, asset, capa e metadado DEVE residir em módulos reutilizáveis; importação, atualização, sincronização e manutenção NÃO DEVEM reimplementá-la.
 - `RCF-IF-BUILD-003` Build DEVE minificar, remover código morto, aplicar tree shaking quando aplicável e excluir dependência, ícone, fonte, dado de desenvolvimento e asset não usados.
 - `RCF-IF-BUILD-004` Entradas idênticas DEVEM produzir saídas idênticas, exceto campo explicitamente dependente do instante de publicação; esse campo DEVE ser único, documentado e derivado de fonte controlada.
 - `RCF-IF-BUILD-005` Build com metadado inválido, rota duplicada, Hash Global ausente, ID inválido, referência interna ausente ou asset não permitido DEVE falhar antes da publicação.
@@ -207,6 +212,7 @@
 - `RCF-IF-SEC-002` Conteúdo de metadado e resposta remota DEVE ser inserido como texto; HTML, script, evento, estilo arbitrário e URL executável NÃO DEVEM ser interpretados.
 - `RCF-IF-SEC-003` Resolução de livro DEVE rejeitar `..`, barra invertida, NUL, codificação ambígua, segmento vazio e identificador fora do padrão antes de formar caminho interno.
 - `RCF-IF-SEC-004` Hash divergente, metadado inválido ou fonte maliciosa NÃO DEVE executar código, alterar dados canônicos, redirecionar automaticamente ou suprimir o diagnóstico.
+- `RCF-IF-SEC-005` Descoberta remota DEVE aceitar somente domínio e adaptador presentes em configuração versionada de provedores confiáveis, rejeitar redirecionamento para domínio não permitido, limitar tamanho de resposta e tratar HTML remoto como dado não executável.
 
 ### 7.2 Privacidade
 
@@ -221,6 +227,7 @@
 - `RCF-IF-REL-002` Operação recuperável DEVE possuir identidade determinística, checkpoint persistente e retomada a partir do último efeito confirmado.
 - `RCF-IF-REL-003` Retentativa automática DEVE ocorrer somente em falha transitória, possuir limite finito e preservar causa final visível.
 - `RCF-IF-REL-004` Operação parcial DEVE preservar efeitos confirmados, registrar itens pendentes e permitir retomada sem duplicar publicação, comentário, label ou dado.
+- `RCF-IF-REL-005` Timeout global DEVE aplicar-se a workflow automatizado. Execução local somente DEVE aplicar timeout quando `--timeout-ms` for fornecido; antes de interromper, DEVE persistir checkpoint com operação, cursor, efeitos confirmados, pendências e causa, retornando erro seguro para retomada idempotente.
 
 ## 8. Workflows e gestão de Issues
 
@@ -231,6 +238,8 @@
 - `RCF-IF-WF-003` O workflow de publicação DEVE publicar somente artefato validado, registrar revisão e validar rota inicial, rota de livro e 404 após disponibilidade.
 - `RCF-IF-WF-004` O workflow de índice DEVE gerar somente artefatos derivados permitidos e DEVE falhar quando ele divergir do conjunto de `metadata.json` válidos.
 - `RCF-IF-WF-007` A importação do Acervo de entrada DEVE ser reiniciável: artefato de destino com hash idêntico PODE ser reutilizado; saída diferente DEVE ser substituída somente após validação completa do grupo; relatório derivado DEVE registrar grupos processados, agrupamentos, exceções de formato e falhas.
+- `RCF-IF-WF-008` Todo script invocado por workflow DEVE ser executável localmente pelo mesmo comando Node e aceitar configuração, checkpoint e relatório equivalentes; o workflow DEVE apenas fornecer agenda, limite global e credenciais estritamente necessárias.
+- `RCF-IF-WF-009` O mantenedor periódico DEVE somente descobrir fontes equivalentes ainda ausentes, respeitar cota diária por provedor, concorrência, timeout global, checkpoint e limite finito; ele NÃO DEVE baixar ou publicar candidato divergente, processar continuamente ou exceder a janela agendada.
 - `RCF-IF-WF-005` Workflow interrompido DEVE retomar exatamente após o último checkpoint confirmado; ausência ou corrupção de checkpoint DEVE interromper com diagnóstico, sem reiniciar efeito externo ambíguo.
 - `RCF-IF-WF-006` Workflow NÃO DEVE publicar dado parcial, sobrescrever resultado válido, ocultar falha, executar indefinidamente ou exigir intervenção para itens já confirmados.
 
@@ -272,7 +281,9 @@
 - `RCF-IF-ACC-001` Entrega publicável DEVE validar ao menos página inicial, livro válido, URL lógica desconhecida, `404.html`, metadado inválido, fonte disponível, fonte indisponível, hash verificado, hash divergente, sem hash e sem JavaScript.
 - `RCF-IF-ACC-002` Validação visual DEVE comprovar cabeçalho, identidade do livro, indicadores, fontes, verificações, cartões informativos, rodapé, foco, contraste, viewport estreito e viewport amplo.
 - `RCF-IF-ACC-003` Validação de dados DEVE comprovar que cada livro possui somente um `metadata.json` canônico, que não há JSON central duplicando livros e que IDs, hashes e rotas são únicos e válidos.
-- `RCF-IF-ACC-007` Validação de importação DEVE comprovar que `egw/` permanece ignorado, todo artefato aceito possui origem e hash de entrada válidos, PDF e EPUB de manifesto comum resultam em um único Livro, cada asset publicado existe e tem Hash da Fonte e Hash Global correspondentes, e o catálogo reduzido cobre exatamente os metadados gerados.
+- `RCF-IF-ACC-007` Validação de importação DEVE comprovar que `egw/` permanece ignorado, todo artefato aceito possui origem e hash de entrada válidos ou proveniência local explicitamente registrada, PDF e EPUB de manifesto comum resultam em um único Livro, cada asset publicado existe e tem Hash da Fonte e Hash Global correspondentes, e o catálogo reduzido cobre exatamente os metadados gerados.
+- `RCF-IF-ACC-008` Validação de manutenção DEVE comprovar domínio confiável, limite diário, timeout de workflow, checkpoint local recuperável, rejeição de hash divergente, incorporação apenas de hash idêntico e execução local do mesmo script do workflow.
+- `RCF-IF-ACC-009` Validação de capa DEVE comprovar `cover.png` para todo livro importado, precedência da capa EPUB, fallback PDF, dimensão máxima de 800 px, PNG legível e regeneração quando removida.
 - `RCF-IF-ACC-004` Validação de build DEVE comprovar determinismo, minificação, ausência de código morto detectável, assets seletivos, independência de serviço privado e integridade do artefato estático.
 - `RCF-IF-ACC-005` Validação de workflow DEVE comprovar idempotência, checkpoint, retomada, falha segura e ausência de duplicação de efeito externo.
 - `RCF-IF-ACC-006` Requisito deste RCF DEVE ser considerado atendido somente quando sua evidência automatizada ou manual reprodutível estiver vinculada à revisão publicada.

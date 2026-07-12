@@ -348,6 +348,19 @@
         try { return ["https:", "http:", "file:"].includes(new URL(value).protocol); } catch (_) { return false; }
       }
 
+      function validOriginUrl(value) {
+        try { return ["https:", "http:"].includes(new URL(value).protocol); } catch (_) { return false; }
+      }
+
+      function validAssetPath(value) {
+        const parts = escapeText(value).split("/");
+        return parts.length === 4 && parts[0] === "assets" && parts[1] === "books" && BOOK_ID_PATTERN.test(parts[2]) && /\.(pdf|epub)$/i.test(parts[3]) && parts.every((part) => part && part !== "." && part !== ".." && !/[\u0000-\u001f]/.test(part));
+      }
+
+      function sourceHref(source) {
+        return source.type === "preserved-asset" ? rootPath(source.url) : source.url;
+      }
+
       function validHash(hash, isGlobal) {
         if (!isRecord(hash) || !escapeText(hash.algorithm) || !/^[0-9a-f]+$/i.test(escapeText(hash.value)) || escapeText(hash.value).length % 2 !== 0) return false;
         if (isGlobal && (!escapeText(hash.label) || !escapeText(hash.format) || !hasOnlyKeys(hash, ["label", "format", "algorithm", "value"]))) return false;
@@ -358,11 +371,17 @@
       }
 
       function validateMetadata(data, id) {
-        if (!isRecord(data) || !hasOnlyKeys(data, ["schema_version", "book", "global_hashes", "sources"]) || !Number.isInteger(data.schema_version) || !isRecord(data.book) || !Array.isArray(data.global_hashes) || !Array.isArray(data.sources)) return false;
+        if (!isRecord(data) || !hasOnlyKeys(data, ["schema_version", "book", "global_hashes", "sources"]) || ![1, 2, 3].includes(data.schema_version) || !isRecord(data.book) || !Array.isArray(data.global_hashes) || !Array.isArray(data.sources)) return false;
         if (!hasOnlyKeys(data.book, ["id", "title", "contributors", "edition", "language", "cover"]) || data.book.id !== id || !escapeText(data.book.title) || !Array.isArray(data.book.contributors) || !isRecord(data.book.edition) || !escapeText(data.book.language) || !(data.book.cover === null || typeof data.book.cover === "string")) return false;
         if (!data.book.contributors.every((person) => isRecord(person) && hasOnlyKeys(person, ["name", "role"]) && escapeText(person.name) && escapeText(person.role))) return false;
         if (!data.global_hashes.length || !data.global_hashes.every((hash) => validHash(hash, true))) return false;
-        return data.sources.every((source) => isRecord(source) && hasOnlyKeys(source, ["id", "title", "url", "type", "hash"]) && BOOK_ID_PATTERN.test(escapeText(source.id)) && escapeText(source.title) && validSourceUrl(escapeText(source.url)) && escapeText(source.type) && (source.hash === null || validHash(source.hash, false)));
+        return data.sources.every((source) => {
+          const schemaTwo = data.schema_version === 2;
+          const hasOrigin = data.schema_version >= 2;
+          const keys = data.schema_version === 3 ? ["id", "title", "url", "type", "hash", "origin_url", "provider"] : schemaTwo ? ["id", "title", "url", "type", "hash", "origin_url"] : ["id", "title", "url", "type", "hash"];
+          const localAsset = source.type === "preserved-asset";
+          return isRecord(source) && hasOnlyKeys(source, keys) && BOOK_ID_PATTERN.test(escapeText(source.id)) && escapeText(source.title) && escapeText(source.type) && (localAsset ? validAssetPath(source.url) : validSourceUrl(escapeText(source.url))) && (!hasOrigin || source.origin_url === null || validOriginUrl(escapeText(source.origin_url))) && (data.schema_version !== 3 || source.type !== "equivalent-source" || BOOK_ID_PATTERN.test(escapeText(source.provider))) && (source.hash === null || validHash(source.hash, false));
+        });
       }
 
       function authorLine(contributors) {
@@ -462,13 +481,27 @@
         const cells = [makeNode("td", String(index + 1)), makeNode("td", source.title)];
         const urlCell = makeNode("td", undefined, "url-cell");
         const link = document.createElement("a");
-        link.href = source.url;
+        const href = sourceHref(source);
+        link.href = href;
         link.target = "_blank";
         link.rel = "noopener noreferrer";
         link.className = "url-value";
-        link.textContent = source.url;
-        link.title = source.url;
+        link.textContent = href;
+        link.title = href;
         urlCell.append(link);
+        if (Object.hasOwn(source, "origin_url")) {
+          const provenance = document.createElement("small");
+          provenance.className = "source-provenance";
+          if (source.origin_url) {
+            const origin = document.createElement("a");
+            origin.href = source.origin_url;
+            origin.target = "_blank";
+            origin.rel = "noopener noreferrer";
+            origin.textContent = `Origem: ${source.origin_url}`;
+            provenance.append(origin);
+          } else provenance.textContent = "Origem: acervo local";
+          urlCell.append(provenance);
+        }
         cells.push(urlCell, makeNode("td", source.type));
         const stateCell = makeNode("td");
         stateCell.append(createStatus(source, state));
@@ -617,10 +650,10 @@
         const algorithm = algorithmName(source.hash.algorithm);
         if (!algorithm || !window.crypto || !crypto.subtle) return { status: "not-comparable", detail: "Algoritmo sem suporte local", updatedAt: Date.now() };
         let parsedUrl;
-        try { parsedUrl = new URL(source.url); } catch (_) { return { status: "unavailable", detail: "URL inválida", updatedAt: Date.now() }; }
+        try { parsedUrl = new URL(sourceHref(source), location.href); } catch (_) { return { status: "unavailable", detail: "URL inválida", updatedAt: Date.now() }; }
         if (parsedUrl.protocol === "file:") return { status: "not-comparable", detail: "Arquivo local não pode ser obtido pelo navegador", updatedAt: Date.now() };
         try {
-          const response = await fetch(source.url, { signal, redirect: "follow", credentials: "omit" });
+          const response = await fetch(sourceHref(source), { signal, redirect: "follow", credentials: "omit" });
           if (!response.ok) return { status: "unavailable", detail: `HTTP ${response.status}`, updatedAt: Date.now() };
           const digest = toHex(await crypto.subtle.digest(algorithm, await response.arrayBuffer()));
           return { status: digest === source.hash.value.toLowerCase() ? "verified" : "divergent", detail: digest === source.hash.value.toLowerCase() ? "Hash calculado corresponde ao registro" : "Hash calculado diverge do registro", updatedAt: Date.now() };
@@ -634,7 +667,9 @@
         if (validationController) return;
         validationController = new AbortController();
         button.textContent = "Cancelar verificações";
-        const eligible = data.sources.filter((source) => source.hash && /^https?:$/i.test(new URL(source.url).protocol));
+        const eligible = data.sources.filter((source) => {
+          try { return source.hash && /^https?:$/i.test(new URL(sourceHref(source), location.href).protocol); } catch (_) { return false; }
+        });
         let cursor = 0;
         async function worker() {
           while (cursor < eligible.length && !validationController.signal.aborted) {
