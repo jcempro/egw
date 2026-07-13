@@ -194,3 +194,4 @@ Implementar módulos reutilizáveis para cálculo de `slug` e segmentos, criaç�
 - `MACHINE_ID`: `codex-desktop`.
 - `DATA_REF`: `20260712.2330.00`.
 - Cache: inspeção normativa, medição do corpus e limites externos concluídas; revalidar arquivos alterados e artefato integral ao final.
+- [INTERROMPIDO_POR_LIMITACAO_DE_RECURSOS] Build integral iniciou a criação e teste sequencial de pacotes LZMA2; a sessão devolveu controle com processos filhos ainda em execução após 25 Livros. Os processos desta execução foram encerrados antes de qualquer publicação. Retomar por build limpo e manter `dist/` ignorado até a validação integral.

@@ -356,6 +356,10 @@
         const parts = escapeText(value).split("/");
         return parts.length === 4 && parts[0] === "assets" && parts[1] === "books" && BOOK_ID_PATTERN.test(parts[2]) && /\.(pdf|epub)$/i.test(parts[3]) && parts.every((part) => part && part !== "." && part !== ".." && !/[\u0000-\u001f]/.test(part));
       }
+      function validPublicBookPath(value) {
+        const parts = escapeText(value).split("/");
+        return parts.length === 5 && parts[0] === "data" && /^[a-z0-9-]{2}$/.test(parts[1]) && /^[a-z0-9-]{2}$/.test(parts[2]) && BOOK_ID_PATTERN.test(parts[3]) && /\.7z$/i.test(parts[4]) && parts.every((part) => part && part !== "." && part !== ".." && !/[\u0000-\u001f]/.test(part));
+      }
 
       function sourceHref(source) {
         return source.type === "preserved-asset" ? rootPath(source.url) : source.url;
@@ -371,6 +375,11 @@
       }
 
       function validateMetadata(data, id) {
+        if (isRecord(data) && data.schema_version === 4) {
+          if (!hasOnlyKeys(data, ["schema_version", "book", "global_hashes", "sources", "assets", "download"]) || !isRecord(data.book) || !isRecord(data.assets) || !isRecord(data.download) || data.book.id !== id || data.book.slug !== id || !escapeText(data.book.title) || !Array.isArray(data.book.contributors) || !Array.isArray(data.global_hashes) || !Array.isArray(data.sources)) return false;
+          if (data.assets.cover !== "./cover.webp" || data.download.url !== `./${id}.7z` || data.download.format !== "7z" || data.download.compression !== "LZMA2" || !validHash({ algorithm: "SHA-256", value: data.download.sha256 }, false) || !validHash({ algorithm: "SHA-512", value: data.download.sha512 }, false)) return false;
+          return data.global_hashes.every((hash) => validHash(hash, true)) && data.sources.every((source) => isRecord(source) && BOOK_ID_PATTERN.test(escapeText(source.id)) && escapeText(source.title) && escapeText(source.type) && (validSourceUrl(escapeText(source.url)) || validPublicBookPath(source.url)) && (source.hash === null || validHash(source.hash, false)));
+        }
         if (!isRecord(data) || !hasOnlyKeys(data, ["schema_version", "book", "global_hashes", "sources"]) || ![1, 2, 3].includes(data.schema_version) || !isRecord(data.book) || !Array.isArray(data.global_hashes) || !Array.isArray(data.sources)) return false;
         if (!hasOnlyKeys(data.book, ["id", "title", "contributors", "edition", "language", "cover"]) || data.book.id !== id || !escapeText(data.book.title) || !Array.isArray(data.book.contributors) || !isRecord(data.book.edition) || !escapeText(data.book.language) || !(data.book.cover === null || typeof data.book.cover === "string")) return false;
         if (!data.book.contributors.every((person) => isRecord(person) && hasOnlyKeys(person, ["name", "role"]) && escapeText(person.name) && escapeText(person.role))) return false;
@@ -634,7 +643,8 @@
       }
 
       function metadataUrl(bookId) {
-        return rootPath(`data/books/${encodeURIComponent(bookId)}/metadata.json`);
+        const padded = `${bookId}----`;
+        return rootPath(`data/${encodeURIComponent(padded.slice(0, 2))}/${encodeURIComponent(padded.slice(2, 4))}/${encodeURIComponent(bookId)}/metadata.json`);
       }
 
       function algorithmName(algorithm) {
