@@ -31,7 +31,7 @@ FT-001|nome=Indice de Fontes Bibliograficas|objetivo=Concluir a superficie estat
   2/4 Reestruturar fonte e entrada [concluído]
   3/4 Materializar artefato publicado [concluído]
   4/4 Validar e autorizar convergência [concluído]
-FT-002|nome=Normalizar artefato estático|objetivo=Materializar livros públicos descentralizados, empacotados e auditáveis sem publicar originais soltos.|escopo=tecnico|status=em andamento
+FT-002|nome=Normalizar artefato estático|objetivo=Materializar livros públicos descentralizados, empacotados e auditáveis sem publicar originais soltos.|escopo=tecnico|status=concluído
 1/4 Reinterpretar e registrar arquitetura [concluído]
   1/3 Ler norma de dados estáticos [concluído]
   2/3 Medir acervo e limites [concluído]
@@ -45,10 +45,10 @@ FT-002|nome=Normalizar artefato estático|objetivo=Materializar livros públicos
   1/3 Gerar acervo integral [concluído]
   2/3 Testar pacotes, árvore e interface [concluído]
   3/3 Validar fluxo local e CI [concluído]
-4/4 Encerrar e publicar [em andamento]
-  1/3 Atualizar memória e handoff [em andamento]
-  2/3 Comitar em etapas [em andamento]
-  3/3 Convergir e publicar [pendente]
+4/4 Encerrar e publicar [concluído]
+  1/3 Atualizar memória e handoff [concluído]
+  2/3 Comitar em etapas [concluído]
+  3/3 Convergir e publicar [concluído]
 
 ## FT-001 — RCF, superfície inicial e importação do Índice de Fontes
 
@@ -158,11 +158,12 @@ O gerador adotado requer bloco `FT-NNN|...` e etapas em colchetes. Esse bloco fo
 
 - Escopo: Técnico — migração evolutiva da materialização pública.
 - Prioridade: alta.
-- Status: em andamento.
+- Status: concluído.
 - Início: `20260712.2330.00`.
-- Atualização: `20260718.2245.00`.
-- Etapa atual: `4/4` — encerrar e publicar.
-- Tarefa atual: atualizar memória, comitar, convergir branches e verificar GitHub Pages.
+- Atualização: `20260718.2305.00`.
+- Conclusão: `20260718.2305.00`.
+- Etapa atual: `4/4` — concluída.
+- Tarefa atual: nenhuma; artefato publicado e validado no destino real.
 
 ### Objetivo
 
@@ -175,7 +176,7 @@ Materializar `dist/` como banco de dados estático descentralizado, com um diret
 | 1/4 | Reinterpretar e registrar arquitetura | nenhuma | 1. ler norma; 2. medir acervo e limites; 3. evoluir RCF e README | concluído |
 | 2/4 | Implementar gerador público | etapa 1 | 1. módulos de segmento/pacote; 2. schema 4 e índice; 3. WebP e limites; 4. front controller e workflow | concluído |
 | 3/4 | Validar artefato completo | etapa 2 | 1. gerar acervo; 2. testar pacotes, árvore e interface; 3. validar fluxo local e CI | concluído |
-| 4/4 | Encerrar e publicar | etapa 3 | 1. memória e handoff; 2. commits; 3. convergir e publicar | em andamento |
+| 4/4 | Encerrar e publicar | etapa 3 | 1. memória e handoff; 2. commits; 3. convergir e publicar | concluído |
 
 ### Decisões e evidências
 
@@ -187,7 +188,7 @@ Materializar `dist/` como banco de dados estático descentralizado, com um diret
 
 ### Próximo ponto
 
-Comitar a implementação validada, publicar `dev`, convergir em `main` e acompanhar o GitHub Pages até a URL real responder com o artefato novo.
+Nenhum; FT concluída e retida por 15 dias conforme governança.
 
 ### Dados de execução FT-002
 
@@ -195,6 +196,7 @@ Comitar a implementação validada, publicar `dev`, convergir em `main` e acompa
 - `DATA_REF`: `20260718.2245.00`.
 - Cache: build final `527/527/527`, 2 shards, 1.587 arquivos, 644.989.073 bytes; validação fonte `527/1051/527`; Chrome validou livro, download e 404. Revalidar somente após alteração de fonte, gerador, interface ou configuração.
 - Publicação `29664313747` bloqueou corretamente antes do build porque `egw:validate` exige `src/egw/`, ignorado por contrato. `RCF-IF-WF-010` foi corrigido: CI valida os insumos canônicos pelo build integral; validação contra o acervo privado permanece local.
+- Publicação final `29664424152` concluiu build e deploy; `https://fontes.jcem.pro/` respondeu HTTP 200 via GitHub Pages e `data/pt/-b/pt-br-livros-o-grande-conflito/metadata.json` respondeu HTTP 200 com schema 4.
 - Retomada validada em `20260718`: build limpo concluiu 527 Livros, 527 pacotes 7z testados, 527 capas WebP, 2 fragmentos, 1.587 arquivos e 644.988.297 bytes; nenhum artefato parcial foi publicado.
 
 ## FT-003 — Recuperar atualização de governança
