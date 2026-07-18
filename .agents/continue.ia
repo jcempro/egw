@@ -194,6 +194,7 @@ Comitar a implementação validada, publicar `dev`, convergir em `main` e acompa
 - `MACHINE_ID`: `codex-desktop`.
 - `DATA_REF`: `20260718.2245.00`.
 - Cache: build final `527/527/527`, 2 shards, 1.587 arquivos, 644.989.073 bytes; validação fonte `527/1051/527`; Chrome validou livro, download e 404. Revalidar somente após alteração de fonte, gerador, interface ou configuração.
+- Publicação `29664313747` bloqueou corretamente antes do build porque `egw:validate` exige `src/egw/`, ignorado por contrato. `RCF-IF-WF-010` foi corrigido: CI valida os insumos canônicos pelo build integral; validação contra o acervo privado permanece local.
 - Retomada validada em `20260718`: build limpo concluiu 527 Livros, 527 pacotes 7z testados, 527 capas WebP, 2 fragmentos, 1.587 arquivos e 644.988.297 bytes; nenhum artefato parcial foi publicado.
 
 ## FT-003 — Recuperar atualização de governança
