@@ -195,3 +195,37 @@ Implementar módulos reutilizáveis para cálculo de `slug` e segmentos, criaç�
 - `DATA_REF`: `20260712.2330.00`.
 - Cache: inspeção normativa, medição do corpus e limites externos concluídas; revalidar arquivos alterados e artefato integral ao final.
 - [INTERROMPIDO_POR_LIMITACAO_DE_RECURSOS] Build integral iniciou a criação e teste sequencial de pacotes LZMA2; a sessão devolveu controle com processos filhos ainda em execução após 25 Livros. Os processos desta execução foram encerrados antes de qualquer publicação. Retomar por build limpo e manter `dist/` ignorado até a validação integral.
+
+## FT-003 — Recuperar atualização de governança
+
+- Escopo: Técnico — correção emergencial do sincronismo operacional.
+- Prioridade: alta.
+- Status: concluído.
+- Início: `20260718.000000`.
+- Conclusão: `20260718.000000`.
+- Etapa atual: `1/1` — sincronizar e validar governança.
+- Tarefa atual: concluída.
+
+### Objetivo
+
+Restabelecer `agents:update` com a fonte homologada `https://github.com/jcempro/agents.md`, sem alterar o repositório upstream.
+
+### Plano
+
+| Etapa | Objetivo | Dependência | Tarefas | Estado |
+| --- | --- | --- | --- | --- |
+| 1/1 | Sincronizar e validar governança | nenhuma | 1. recuperar bootstrap; 2. redirecionar origem; 3. liberar override controlado; 4. executar atualização | concluído |
+
+### Decisões e evidências
+
+- O bloqueio registrado era `Ha commits locais pendentes; push normativo exclusivo bloqueado.`, emitido após `applyPlan`; não houve colisão de arquivo no log.
+- A fonte do bootstrap passou de `JeanCarloEM/agents.md` para `jcempro/agents.md`.
+- `--force` passou a liberar exclusivamente o bloqueio de commits pendentes já previsto para a atualização controlada; staging permanece limitado aos paths normativos calculados.
+- A origem homologada resolveu `release:v0.0.17`; `npm run agents:update -- --force` e `npm run agents:update` retornaram `exit 0`.
+- O estado já materializado e equivalente à release foi consolidado no commit `f827ba0` e publicado em `dev`.
+
+### Dados de execução FT-003
+
+- `MACHINE_ID`: `codex-desktop`.
+- `DATA_REF`: `20260718.000000`.
+- Cache: release `v0.0.17` confirmada; revalidar somente diante de nova release ou mudança local nos paths normativos.
