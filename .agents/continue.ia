@@ -36,18 +36,18 @@ FT-002|nome=Normalizar artefato estático|objetivo=Materializar livros públicos
   1/3 Ler norma de dados estáticos [concluído]
   2/3 Medir acervo e limites [concluído]
   3/3 Evoluir RCF e README [concluído]
-2/4 Implementar gerador público [em andamento]
-  1/4 Criar módulos de segmentação e pacote [pendente]
-  2/4 Gerar metadado schema 4 e índice fragmentado [pendente]
-  3/4 Converter capa WebP e validar limites [pendente]
-  4/4 Adaptar front controller e workflow [pendente]
-3/4 Validar artefato completo [pendente]
-  1/3 Gerar acervo integral [pendente]
-  2/3 Testar pacotes, árvore e interface [pendente]
-  3/3 Validar fluxo local e CI [pendente]
-4/4 Encerrar e publicar [pendente]
-  1/3 Atualizar memória e handoff [pendente]
-  2/3 Comitar em etapas [pendente]
+2/4 Implementar gerador público [concluído]
+  1/4 Criar módulos de segmentação e pacote [concluído]
+  2/4 Gerar metadado schema 4 e índice fragmentado [concluído]
+  3/4 Converter capa WebP e validar limites [concluído]
+  4/4 Adaptar front controller e workflow [concluído]
+3/4 Validar artefato completo [concluído]
+  1/3 Gerar acervo integral [concluído]
+  2/3 Testar pacotes, árvore e interface [concluído]
+  3/3 Validar fluxo local e CI [concluído]
+4/4 Encerrar e publicar [em andamento]
+  1/3 Atualizar memória e handoff [em andamento]
+  2/3 Comitar em etapas [em andamento]
   3/3 Convergir e publicar [pendente]
 
 ## FT-001 — RCF, superfície inicial e importação do Índice de Fontes
@@ -160,9 +160,9 @@ O gerador adotado requer bloco `FT-NNN|...` e etapas em colchetes. Esse bloco fo
 - Prioridade: alta.
 - Status: em andamento.
 - Início: `20260712.2330.00`.
-- Atualização: `20260712.2330.00`.
-- Etapa atual: `2/4` — implementar gerador público.
-- Tarefa atual: criar módulos compartilhados de segmentação, pacote e validação.
+- Atualização: `20260718.2245.00`.
+- Etapa atual: `4/4` — encerrar e publicar.
+- Tarefa atual: atualizar memória, comitar, convergir branches e verificar GitHub Pages.
 
 ### Objetivo
 
@@ -173,9 +173,9 @@ Materializar `dist/` como banco de dados estático descentralizado, com um diret
 | Etapa | Objetivo | Dependência | Tarefas | Estado |
 | --- | --- | --- | --- | --- |
 | 1/4 | Reinterpretar e registrar arquitetura | nenhuma | 1. ler norma; 2. medir acervo e limites; 3. evoluir RCF e README | concluído |
-| 2/4 | Implementar gerador público | etapa 1 | 1. módulos de segmento/pacote; 2. schema 4 e índice; 3. WebP e limites; 4. front controller e workflow | em andamento |
-| 3/4 | Validar artefato completo | etapa 2 | 1. gerar acervo; 2. testar pacotes, árvore e interface; 3. validar fluxo local e CI | pendente |
-| 4/4 | Encerrar e publicar | etapa 3 | 1. memória e handoff; 2. commits; 3. convergir e publicar | pendente |
+| 2/4 | Implementar gerador público | etapa 1 | 1. módulos de segmento/pacote; 2. schema 4 e índice; 3. WebP e limites; 4. front controller e workflow | concluído |
+| 3/4 | Validar artefato completo | etapa 2 | 1. gerar acervo; 2. testar pacotes, árvore e interface; 3. validar fluxo local e CI | concluído |
+| 4/4 | Encerrar e publicar | etapa 3 | 1. memória e handoff; 2. commits; 3. convergir e publicar | em andamento |
 
 ### Decisões e evidências
 
@@ -187,14 +187,14 @@ Materializar `dist/` como banco de dados estático descentralizado, com um diret
 
 ### Próximo ponto
 
-Implementar módulos reutilizáveis para cálculo de `slug` e segmentos, criação e teste `.7z`, geração de WebP, metadado schema 4, shards e manifesto; então ajustar build, interface e workflow.
+Comitar a implementação validada, publicar `dev`, convergir em `main` e acompanhar o GitHub Pages até a URL real responder com o artefato novo.
 
 ### Dados de execução FT-002
 
 - `MACHINE_ID`: `codex-desktop`.
-- `DATA_REF`: `20260712.2330.00`.
-- Cache: inspeção normativa, medição do corpus e limites externos concluídas; revalidar arquivos alterados e artefato integral ao final.
-- [INTERROMPIDO_POR_LIMITACAO_DE_RECURSOS] Build integral iniciou a criação e teste sequencial de pacotes LZMA2; a sessão devolveu controle com processos filhos ainda em execução após 25 Livros. Os processos desta execução foram encerrados antes de qualquer publicação. Retomar por build limpo e manter `dist/` ignorado até a validação integral.
+- `DATA_REF`: `20260718.2245.00`.
+- Cache: build final `527/527/527`, 2 shards, 1.587 arquivos, 644.989.073 bytes; validação fonte `527/1051/527`; Chrome validou livro, download e 404. Revalidar somente após alteração de fonte, gerador, interface ou configuração.
+- Retomada validada em `20260718`: build limpo concluiu 527 Livros, 527 pacotes 7z testados, 527 capas WebP, 2 fragmentos, 1.587 arquivos e 644.988.297 bytes; nenhum artefato parcial foi publicado.
 
 ## FT-003 — Recuperar atualização de governança
 

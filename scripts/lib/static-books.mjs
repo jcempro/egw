@@ -1,13 +1,14 @@
+// JeanCarloEM — https://www.jeancarloem.com — https://github.com/jcempro/egw
+// MPL-2.0 — https://www.mozilla.org/MPL/2.0/ — uso sob a Mozilla Public License 2.0.
+
 import { createHash } from "node:crypto";
-import { access, mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, readdir, rename, rm, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 import { execFile } from "node:child_process";
 import sharp from "sharp";
 
 const execute = promisify(execFile);
-const POSIX = (value) => value.split(path.sep).join("/");
-
 export function bookSegments(slug) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error(`Slug inválido: ${slug}`);
   const padded = `${slug}----`;
@@ -30,8 +31,18 @@ function sevenZip() {
 async function createPackage({ destination, sourceDirectory, entries }) {
   const names = entries.map((entry) => entry.name).sort((left, right) => left.localeCompare(right, "en"));
   if (!names.length) throw new Error("Pacote sem artefato de livro");
-  await execute(sevenZip(), ["a", "-t7z", "-m0=LZMA2", "-mx=9", "-ms=on", "-mmt=on", "-y", destination, ...names], { cwd: sourceDirectory, maxBuffer: 1024 * 1024 });
-  await execute(sevenZip(), ["t", destination], { maxBuffer: 1024 * 1024 });
+  const temporary = `${destination}.partial`;
+  await rm(temporary, { force: true });
+  try {
+    await execute(sevenZip(), ["a", "-t7z", "-m0=LZMA2", "-mx=9", "-ms=on", "-mmt=on", "-mtc=off", "-mta=off", "-mtm=off", "-y", temporary, ...names], { cwd: sourceDirectory, maxBuffer: 1024 * 1024 });
+    await execute(sevenZip(), ["t", temporary], { maxBuffer: 1024 * 1024 });
+    const { stdout } = await execute(sevenZip(), ["l", "-slt", temporary], { maxBuffer: 1024 * 1024 });
+    if (!/Method = .*LZMA2/m.test(stdout) || names.some((name) => !stdout.includes(`Path = ${name}`))) throw new Error(`Pacote inválido: ${path.basename(destination)}`);
+    await rename(temporary, destination);
+  } catch (error) {
+    await rm(temporary, { force: true });
+    throw error;
+  }
   return { sha256: await hashFile(destination, "sha256"), sha512: await hashFile(destination, "sha512"), size: (await stat(destination)).size };
 }
 
@@ -98,10 +109,10 @@ export async function materializeBooks({ sourceRoot, distRoot, pageLimit = 1_000
     manifestShards.push({ path: relative, count: items.length, sha256: await hashFile(target, "sha256"), size: (await stat(target)).size });
   }
   const files = await collectFiles(distRoot);
-  const totalSize = (await Promise.all(files.map(async (file) => (await stat(file)).size))).reduce((sum, size) => sum + size, 0);
-  if (totalSize > pageLimit) throw new Error(`Artefato excede limite configurado: ${totalSize} > ${pageLimit}`);
-  await writeJson(path.join(dataRoot, "index", "manifest.json"), { schema_version: 1, strategy: "slug-first-four", book_count: books.length, shards: manifestShards, total_size: totalSize });
-  return { books: books.length, shards: manifestShards.length, totalSize };
+  const dataSize = (await Promise.all(files.map(async (file) => (await stat(file)).size))).reduce((sum, size) => sum + size, 0);
+  if (dataSize > pageLimit) throw new Error(`Dados excedem limite configurado: ${dataSize} > ${pageLimit}`);
+  await writeJson(path.join(dataRoot, "index", "manifest.json"), { schema_version: 1, strategy: "slug-first-four", book_count: books.length, shards: manifestShards, data_size: dataSize });
+  return { books: books.length, shards: manifestShards.length };
 }
 
 async function collectFiles(directory) {

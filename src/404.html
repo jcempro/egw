@@ -1,4 +1,6 @@
 <!doctype html>
+<!-- JeanCarloEM — https://www.jeancarloem.com — https://github.com/jcempro/egw
+     MPL-2.0 — https://www.mozilla.org/MPL/2.0/ — uso sob a Mozilla Public License 2.0. -->
 <html lang="pt-BR" data-base="">
 <head>
   <meta charset="utf-8">
@@ -362,7 +364,7 @@
       }
 
       function sourceHref(source) {
-        return source.type === "preserved-asset" ? rootPath(source.url) : source.url;
+        return ["preserved-asset", "preserved-package"].includes(source.type) ? rootPath(source.url) : source.url;
       }
 
       function validHash(hash, isGlobal) {
@@ -377,8 +379,8 @@
       function validateMetadata(data, id) {
         if (isRecord(data) && data.schema_version === 4) {
           if (!hasOnlyKeys(data, ["schema_version", "book", "global_hashes", "sources", "assets", "download"]) || !isRecord(data.book) || !isRecord(data.assets) || !isRecord(data.download) || data.book.id !== id || data.book.slug !== id || !escapeText(data.book.title) || !Array.isArray(data.book.contributors) || !Array.isArray(data.global_hashes) || !Array.isArray(data.sources)) return false;
-          if (data.assets.cover !== "./cover.webp" || data.download.url !== `./${id}.7z` || data.download.format !== "7z" || data.download.compression !== "LZMA2" || !validHash({ algorithm: "SHA-256", value: data.download.sha256 }, false) || !validHash({ algorithm: "SHA-512", value: data.download.sha512 }, false)) return false;
-          return data.global_hashes.every((hash) => validHash(hash, true)) && data.sources.every((source) => isRecord(source) && BOOK_ID_PATTERN.test(escapeText(source.id)) && escapeText(source.title) && escapeText(source.type) && (validSourceUrl(escapeText(source.url)) || validPublicBookPath(source.url)) && (source.hash === null || validHash(source.hash, false)));
+          if (!data.book.contributors.every((person) => isRecord(person) && escapeText(person.name) && escapeText(person.role)) || data.assets.cover !== "./cover.webp" || data.download.url !== `./${id}.7z` || data.download.format !== "7z" || data.download.compression !== "LZMA2" || !Number.isSafeInteger(data.download.size) || data.download.size <= 0 || !Array.isArray(data.download.content_formats) || !data.download.content_formats.every((format) => ["pdf", "epub"].includes(format)) || !validHash({ algorithm: "SHA-256", value: data.download.sha256 }, false) || !validHash({ algorithm: "SHA-512", value: data.download.sha512 }, false)) return false;
+          return data.global_hashes.length > 0 && data.global_hashes.every((hash) => validHash(hash, true)) && data.sources.every((source) => isRecord(source) && BOOK_ID_PATTERN.test(escapeText(source.id)) && escapeText(source.title) && escapeText(source.type) && (validSourceUrl(escapeText(source.url)) || validPublicBookPath(source.url)) && (source.hash === null || validHash(source.hash, false)));
         }
         if (!isRecord(data) || !hasOnlyKeys(data, ["schema_version", "book", "global_hashes", "sources"]) || ![1, 2, 3].includes(data.schema_version) || !isRecord(data.book) || !Array.isArray(data.global_hashes) || !Array.isArray(data.sources)) return false;
         if (!hasOnlyKeys(data.book, ["id", "title", "contributors", "edition", "language", "cover"]) || data.book.id !== id || !escapeText(data.book.title) || !Array.isArray(data.book.contributors) || !isRecord(data.book.edition) || !escapeText(data.book.language) || !(data.book.cover === null || typeof data.book.cover === "string")) return false;
@@ -465,7 +467,7 @@
         const cover = makeNode("div", undefined, "cover");
         if (typeof book.cover === "string" && book.cover) {
           const image = document.createElement("img");
-          image.src = book.cover;
+          image.src = validSourceUrl(book.cover) ? book.cover : rootPath(book.cover);
           image.alt = `Capa de ${book.title}`;
           image.addEventListener("error", () => { image.remove(); setSvg(cover, "book"); });
           cover.append(image);
@@ -585,7 +587,16 @@
         dataLink.className = "button button-secondary";
         dataLink.href = metadataUrl(bookId);
         dataLink.textContent = "Abrir metadata.json";
-        heading.append(headingContent, dataLink);
+        const headingActions = makeNode("div", undefined, "table-actions");
+        if (data.schema_version === 4) {
+          const downloadLink = document.createElement("a");
+          downloadLink.className = "button";
+          downloadLink.href = new URL(data.download.url, new URL(metadataUrl(bookId), location.href)).href;
+          downloadLink.textContent = "Baixar PDF/EPUB (.7z)";
+          headingActions.append(downloadLink);
+        }
+        headingActions.append(dataLink);
+        heading.append(headingContent, headingActions);
         sourcesSection.append(heading);
         const tableWrap = makeNode("div", undefined, "source-table-wrap");
         const table = document.createElement("table");
@@ -714,7 +725,11 @@
           const data = await response.json();
           if (!validateMetadata(data, bookId)) throw new Error("metadata-invalid");
           renderBook(data);
-        } catch (_) { showNotFound(); }
+        } catch (error) {
+          // FIX-BUG: preserva diagnóstico técnico sem expor detalhe na interface pública.
+          console.error(`BOOK_LOAD: ${error instanceof Error ? error.message : "erro-desconhecido"}`);
+          showNotFound();
+        }
       }
 
       document.getElementById("lookup-form").addEventListener("submit", (event) => {

@@ -211,6 +211,7 @@
 - `RCF-IF-BUILD-005` Build com metadado inválido, rota duplicada, Hash Global ausente, ID inválido, referência interna ausente ou asset não permitido DEVE falhar antes da publicação.
 - `RCF-IF-BUILD-010` Insumos editoriais internos sob `src/` DEVEM permanecer separados de `dist/`; o build DEVE regenerar a árvore pública segmentada, capas WebP, pacotes `.7z`, índices fragmentados e manifesto a partir de insumos validados, sem copiar PDF, EPUB ou PNG de trabalho para publicação.
 - `RCF-IF-BUILD-011` Build completo DEVE continuar disponível; manutenção incremental DEVERIA processar somente Livro, pacote, capa, segmento e fragmento alterados, preservando resultado previamente validado até substituição completa.
+- `RCF-IF-BUILD-012` Desenvolvimento local DEVE expor `npm run dev-live`, servir exclusivamente `dist/` conforme `src/config/dev-live.json` e recarregar o navegador por observação do artefato, sem incorporar esse mecanismo ao produto publicado.
 
 ### 6.2 Desempenho
 

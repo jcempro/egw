@@ -7,6 +7,7 @@
   "main": "src/agents.md",
   "scripts": {
     "build": "node scripts/build-site.mjs",
+    "dev-live": "node scripts/serve-site.mjs",
     "clean": "npm run agent:clean",
     "check": "npm run egw:validate",
     "lint": "npm run agent:lint",
