@@ -15,7 +15,7 @@ const path = require("path");
 const { extractZip } = require("../lib/archive");
 
 const ROOT_DIR = path.resolve(__dirname, "..", "..");
-const SOURCE_OWNER = "JeanCarloEM";
+const SOURCE_OWNER = "jcempro";
 const SOURCE_REPO = "agents.md";
 const SOURCE_API = `https://api.github.com/repos/${SOURCE_OWNER}/${SOURCE_REPO}`;
 const LOCK_FILE = path.join(".agents", "agents-update.lock.json");
@@ -64,7 +64,7 @@ async function main(argv = process.argv.slice(2), options = {}) {
   assertManagedFilesClean(rootDir, parsed.force, plan);
   assertNoUnmanagedCollisions(rootDir, parsed.force, plan);
   applyPlan(rootDir, plan);
-  commitAndPushNormativeUpdate(rootDir, plan);
+  commitAndPushNormativeUpdate(rootDir, plan, parsed.force);
   console.log(`Governanca operacional atualizada de ${plan.source.label}.`);
   return plan;
 }
@@ -456,7 +456,7 @@ function applyPlan(rootDir, plan) {
   fs.writeFileSync(path.join(rootDir, LOCK_FILE), `${JSON.stringify(plan.lock)}\n`, "utf8");
 }
 
-function commitAndPushNormativeUpdate(rootDir, plan) {
+function commitAndPushNormativeUpdate(rootDir, plan, force) {
   const paths = listChangedNormativePaths(plan);
 
   if (paths.length === 0) {
@@ -464,7 +464,7 @@ function commitAndPushNormativeUpdate(rootDir, plan) {
   }
 
   const upstream = resolveUpstream(rootDir);
-  assertNoPendingLocalCommits(rootDir, upstream);
+  assertNoPendingLocalCommits(rootDir, upstream, force);
   runGit(rootDir, ["add", "--", ...paths]);
 
   const staged = runGit(rootDir, ["diff", "--cached", "--name-only"]).stdout
@@ -517,7 +517,11 @@ function resolveUpstream(rootDir) {
   return upstream.stdout.trim();
 }
 
-function assertNoPendingLocalCommits(rootDir, upstream) {
+function assertNoPendingLocalCommits(rootDir, upstream, force) {
+  if (force) {
+    return;
+  }
+
   if (!upstream) {
     return;
   }
