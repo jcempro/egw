@@ -160,6 +160,37 @@ FT-009|nome=Refinar tema claro e escala desktop|objetivo=Fixar superfície insti
   1/3 Validar build, tipo e interface [concluído]
   2/3 Auditar desktop, mobile, foco e contraste [concluído]
   3/3 Atualizar memória e concluir FT [concluído]
+FT-010|nome=Corrigir ícones e feedback assíncrono|objetivo=Eliminar a causa raiz dos ícones vazios e informar carregamentos progressivos sem bloquear conteúdo.|escopo=tecnico|status=em andamento
+1/3 Corrigir contrato e plano [em andamento]
+  1/3 Reproduzir causa raiz no namespace SVG [concluído]
+  2/3 Normatizar providers, fallback e estados [concluído]
+  3/3 Comitar contrato antes do código [em andamento]
+2/3 Implementar evolução focada [pendente]
+  1/3 Corrigir renderer SVG e fallback neutro [pendente]
+  2/3 Implementar indicador e estados progressivos [pendente]
+  3/3 Reutilizar índices e requisições em voo [pendente]
+3/3 Homologar e encerrar [pendente]
+  1/3 Validar providers, fallback, rotas e cache [pendente]
+  2/3 Auditar navegador desktop e mobile [pendente]
+  3/3 Atualizar memória e concluir FT [pendente]
+
+## FT-010 — Corrigir ícones e feedback assíncrono
+
+- Escopo: Técnico — renderer de ícones, indicador linear e cache efêmero de requisições.
+- Prioridade: crítica.
+- Status: em andamento.
+- Início: `20260719.1900.00`.
+- Atualização: `20260719.1900.00`.
+- Etapa atual: `1/3` — contrato e plano.
+- Tarefa atual: `3/3` — comitar contrato antes do código.
+
+### Diagnóstico e preservações
+
+- O renderer TSX usa `document.createElement` inclusive para `svg` e `path`; esses nós pertencem ao namespace HTML, portanto o path existe no DOM, mas não é pintado pelo navegador. A validação anterior comprovava presença do atributo, não o namespace nem pixels renderizados, e normalizou conclusão incorreta.
+- A correção será aplicada no ponto comum do renderer e no adaptador neutro de ícones, com Font Awesome atual, WebAwesome/customizado representáveis por Node e fallback local quando não houver provider.
+- A rota curta exige mapa e depois metadado; será exibido progresso indeterminado desde a resolução inicial, com transição parcial entre as etapas e encerramento após renderização, sem overlay ou bloqueio.
+- Promessas de índice e metadado serão compartilhadas em memória durante a sessão; falhas removem cache. Não haverá streaming, suspense ou hidratação, pois o artefato estático entrega JSON pequeno e esses mecanismos seriam redundantes.
+- Identidade, composição, componentes existentes, temas, animações preexistentes, `/d/`, `/_/`, aliases, slugs, schema 5, busca por título, APIs e contratos de dados permanecem invariantes.
 
 ## FT-009 — Refinar tema claro e escala desktop
 

@@ -189,12 +189,15 @@
 - `RCF-IF-UX-002` A composição DEVE ser elegante, profissional, limpa, sóbria, moderna e atemporal, priorizando leitura, consulta e rastreabilidade.
 - `RCF-IF-UX-003` A edição de dados NÃO DEVE ser oferecida na interface pública.
 - `RCF-IF-UX-004` A tipografia DEVE usar Noto Sans; Google Fonts DEVE atuar somente como fallback carregável, seguido de família sans-serif do sistema.
-- `RCF-IF-UX-005` Ícone DEVE possuir significado textual acessível e ser renderizado pelo provider já configurado. Font Awesome, quando disponível, DEVE integrar somente ícones efetivamente referenciados pela versão publicada, usar o glifo Copy `f0c5` para cópia e representar formato de asset quando houver glifo inequívoco; indisponibilidade do provider DEVE degradar para glifo local semanticamente equivalente, sem dependência rígida. Extensão sem associação inequívoca DEVE ser exibida como texto iniciado por ponto.
+- `RCF-IF-UX-005` Ícone DEVE possuir significado textual acessível e ser renderizado por adaptador neutro de provider. Font Awesome, WebAwesome, provider customizado e ausência de provider DEVEM ser suportados sem alterar componente consumidor; Font Awesome, quando disponível, DEVE integrar somente ícones referenciados, usar Copy `f0c5` e representar formato de asset quando houver glifo inequívoco. Provider ausente, inválido ou incapaz DEVE degradar para fallback local semanticamente equivalente, sem espaço vazio, erro visual ou quebra de layout. SVG produzido programaticamente DEVE usar namespace SVG em todos os seus elementos. Extensão sem associação inequívoca DEVE ser exibida como texto iniciado por ponto.
 - `RCF-IF-UX-006` Interface, dados e controles DEVEM adaptar-se ao viewport sem breakpoint contratual, sem perda funcional, overflow não intencional, hierarquia ilegível ou dependência de ponteiro preciso.
 - `RCF-IF-UX-027` Superfície clara ou escura NÃO DEVE usar fundo monolítico opaco: planos DEVEM preservar leveza e hierarquia por gradiente suave, transparência, borda translúcida e desfoque de fundo quando suportado, com fallback legível sem `backdrop-filter`.
 - `RCF-IF-UX-028` Em viewport amplo, inclusive 2K ou superior, largura, padding, gaps e colunas DEVEM crescer de modo limitado e harmônico, sem esmagamento horizontal nem dispersão excessiva.
 - `RCF-IF-UX-030` A página institucional DEVE usar superfície global clara por padrão e manter escuros somente Top Bar e rodapé. Tema escuro, quando implementado, somente PODE ser ativado por seleção explícita e persistível do usuário; preferência automática do sistema NÃO DEVE substituir o padrão institucional claro.
 - `RCF-IF-UX-031` Ajuste de densidade desktop DEVE preservar forma, composição, componentes, arquitetura e responsividade existentes, reduzindo proporcionalmente tipografia, alturas, paddings, margens, gaps, ícones e dimensões mínimas excessivas sem comprometer conforto, toque ou leitura.
+- `RCF-IF-UX-032` Carregamento assíncrono relevante DEVE expor indicador linear superior discreto, não bloqueante, animado enquanto houver trabalho e removido automaticamente ao terminar; conteúdo disponível, navegação, foco e leitura NÃO DEVEM ser ocultados ou bloqueados.
+- `RCF-IF-UX-033` Estados `inicial`, `carregando`, `carregamento parcial`, `conteúdo parcial`, `concluído`, `erro` e `nova atualização` DEVEM possuir rótulo coerente para tecnologia assistiva e representação visual estável quando ativos. Transição parcial DEVE publicar imediatamente toda informação já validada, sem simular percentual não mensurado.
+- `RCF-IF-UX-034` Rota direta canônica, curta ou legada DEVE ativar feedback antes da primeira requisição, indicar resolução do índice antes do metadado quando aplicável, renderizar o Livro assim que seu metadado for validado e encerrar o indicador após a atualização do viewport.
 
 ### 5.2 Estrutura de página de livro
 
@@ -250,6 +253,7 @@
 - `RCF-IF-PERF-002` Índice, imagens, fontes, ícones, validações e dados não essenciais DEVEM ser adiados ou carregados seletivamente quando isso reduzir tempo percebido sem ocultar conteúdo.
 - `RCF-IF-PERF-003` Estratégia de indexação DEVE minimizar simultaneamente memória, banda, requisições HTTP e tempo percebido; JSON completo de todos os livros NÃO DEVE ser requisito de consulta.
 - `RCF-IF-PERF-004` Falha de fonte, ícone, fonte tipográfica, imagem de capa ou validação remota DEVE degradar para apresentação local legível.
+- `RCF-IF-PERF-005` Índice e metadado solicitados durante a mesma sessão DEVEM reutilizar promessa em voo e resultado válido em memória; falha ou cancelamento DEVE invalidar a entrada correspondente para permitir nova tentativa consistente. Prefetch PODE ocorrer por foco ou intenção explícita sem bloquear a primeira renderização.
 - `RCF-IF-PERF-005` Recursos de terceiros NÃO DEVEM bloquear conteúdo essencial; versão e origem de recurso externo DEVEM ser previsíveis e compatíveis com publicação estática.
 
 ### 6.3 Dados abertos
