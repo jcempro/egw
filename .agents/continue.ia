@@ -147,36 +147,39 @@ FT-008|nome=Refatorar transparência e grid de fontes|objetivo=Restabelecer leve
   1/3 Validar build, rotas e interface [concluído]
   2/3 Convergir dev e main [concluído]
   3/3 Publicar e verificar GitHub Pages [concluído]
-FT-009|nome=Refinar tema claro e escala desktop|objetivo=Fixar superfície institucional clara, restaurar ícones e reduzir a escala visual sem alterar composição ou contratos.|escopo=tecnico|status=em andamento
-1/3 Normatizar evolução visual [em andamento]
+FT-009|nome=Refinar tema claro e escala desktop|objetivo=Fixar superfície institucional clara, restaurar ícones e reduzir a escala visual sem alterar composição ou contratos.|escopo=tecnico|status=concluído
+1/3 Normatizar evolução visual [concluído]
   1/3 Auditar conflito e causa dos ícones [concluído]
   2/3 Evoluir RCF e registrar preservações [concluído]
-  3/3 Comitar contrato antes do código [em andamento]
-2/3 Refinar apresentação [pendente]
-  1/3 Fixar fundo claro e contraste estrutural [pendente]
-  2/3 Reduzir escala desktop proporcionalmente [pendente]
-  3/3 Blindar provider e fallback de ícones [pendente]
-3/3 Homologar e encerrar [pendente]
-  1/3 Validar build, tipo e interface [pendente]
-  2/3 Auditar desktop, mobile, foco e contraste [pendente]
-  3/3 Atualizar memória e concluir FT [pendente]
+  3/3 Comitar contrato antes do código [concluído]
+2/3 Refinar apresentação [concluído]
+  1/3 Fixar fundo claro e contraste estrutural [concluído]
+  2/3 Reduzir escala desktop proporcionalmente [concluído]
+  3/3 Blindar provider e fallback de ícones [concluído]
+3/3 Homologar e encerrar [concluído]
+  1/3 Validar build, tipo e interface [concluído]
+  2/3 Auditar desktop, mobile, foco e contraste [concluído]
+  3/3 Atualizar memória e concluir FT [concluído]
 
 ## FT-009 — Refinar tema claro e escala desktop
 
 - Escopo: Técnico — somente escala, contraste, cores necessárias e renderização de ícones.
 - Prioridade: alta.
-- Status: em andamento.
+- Status: concluído.
 - Início: `20260719.1800.00`.
-- Atualização: `20260719.1800.00`.
-- Etapa atual: `1/3` — normatização.
-- Tarefa atual: `3/3` — comitar contrato antes do código.
+- Atualização: `20260719.1845.00`.
+- Conclusão: `20260719.1845.00`.
+- Etapa atual: `3/3` — concluída.
+- Tarefa atual: nenhuma.
 
 ### Decisões e preservações
 
 - O modo escuro automático por `prefers-color-scheme` contraria o novo padrão institucional claro; a direção humana explícita evolui `RCF-IF-UX-027` sem remover suporte futuro a tema escuro selecionável.
 - A composição, a forma dos componentes, o grid fluido, as animações, `/d/`, `/_/`, aliases, segmentação de slug, schema 5, busca somente por título e contratos públicos permanecem invariantes.
-- Font Awesome já está disponível e `faCopy` resolve ao unicode `f0c5`; a renderização será blindada por fallback semântico local no provider existente, sem ampliar o conjunto de dependências.
+- Font Awesome já está disponível no provider configurado e `faCopy` resolve ao unicode `f0c5`; dimensões, preenchimento, foco e visibilidade do SVG foram explicitados sem ampliar o conjunto de dependências.
 - A redução de escala será prioritariamente desktop e limitada por breakpoints, preservando alvos confortáveis e o comportamento mobile atual.
+- Build integral aprovado com 527 livros, 1.051 assets, 881.690.231 bytes e zero pacote recompresso; `check:dist`, `test:ui`, `test-dev-live`, `typecheck` e `git diff --check` foram aprovados.
+- Navegador real em 1440×900 confirmou fundo claro, Top Bar escura, título de 56,8 px, ícones visíveis, alvos de copiar de 36 px e download de 44 px, sem overflow ou scroll local. Em 390×844, fundo claro e responsividade foram preservados, com alvos de 40 px e aproximadamente 50 px.
 
 ## FT-008 — Refatorar transparência e grid de fontes
 
