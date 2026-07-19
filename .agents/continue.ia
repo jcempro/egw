@@ -96,31 +96,52 @@ FT-006|nome=Convergir e publicar schema 5|objetivo=Validar a aplicação complet
   3/4 Acionar e acompanhar GitHub Actions [concluído]
   4/4 Verificar destino publicado [concluído]
 FT-007|nome=Reparar publicação e página de livros|objetivo=Eliminar originais crus da publicação, recuperar autoria editorial e tornar hashes e assets compactos, claros e acionáveis.|escopo=tecnico|status=em andamento
-1/6 Corrigir contrato e planejar reparo [em andamento]
+1/6 Corrigir contrato e planejar reparo [concluído]
   1/3 Reavaliar regressões e anexos [concluído]
   2/3 Evoluir RCF e documentação [concluído]
-  3/3 Comitar contrato antes da implementação [em andamento]
-2/6 Corrigir ambiente dev-live [pendente]
-  1/3 Reproduzir raiz pública e front controller [pendente]
-  2/3 Corrigir recarga e rotas profundas [pendente]
-  3/3 Validar paridade local com GitHub Pages [pendente]
-3/6 Reparar pipeline editorial [pendente]
-  1/4 Extrair autoria e qualificadores com falha segura [pendente]
-  2/4 Empacotar cada formato em 7z LZMA2 [pendente]
-  3/4 Remover originais crus e atualizar metadados [pendente]
-  4/4 Implementar redundância validada de provedores [pendente]
-4/6 Refatorar página do livro [pendente]
-  1/3 Harmonizar identidade e indicadores [pendente]
-  2/3 Organizar hashes globais e cópia integral [pendente]
-  3/3 Reestruturar assets, URLs e downloads [pendente]
-5/6 Homologar reparo integral [pendente]
-  1/3 Validar dados, pacotes e ausência de crus [pendente]
-  2/3 Validar responsividade, temas e clipboard [pendente]
-  3/3 Comprovar não regressão de rotas e busca [pendente]
-6/6 Encerrar e publicar [pendente]
-  1/3 Atualizar memória e handoff [pendente]
-  2/3 Convergir dev e main [pendente]
+  3/3 Comitar contrato antes da implementação [concluído]
+2/6 Corrigir ambiente dev-live [concluído]
+  1/3 Reproduzir raiz pública e front controller [concluído]
+  2/3 Corrigir recarga e rotas profundas [concluído]
+  3/3 Validar paridade local com GitHub Pages [concluído]
+3/6 Reparar pipeline editorial [concluído]
+  1/4 Extrair autoria e qualificadores com falha segura [concluído]
+  2/4 Empacotar cada formato em 7z LZMA2 [concluído]
+  3/4 Remover originais crus e atualizar metadados [concluído]
+  4/4 Implementar redundância validada de provedores [concluído]
+4/6 Refatorar página do livro [concluído]
+  1/3 Harmonizar identidade e indicadores [concluído]
+  2/3 Organizar hashes globais e cópia integral [concluído]
+  3/3 Reestruturar assets, URLs e downloads [concluído]
+5/6 Homologar reparo integral [concluído]
+  1/3 Validar dados, pacotes e ausência de crus [concluído]
+  2/3 Validar responsividade, temas e clipboard [concluído]
+  3/3 Comprovar não regressão de rotas e busca [concluído]
+6/6 Encerrar e publicar [em andamento]
+  1/3 Atualizar memória e handoff [concluído]
+  2/3 Convergir dev e main [em andamento]
   3/3 Publicar e verificar GitHub Pages [pendente]
+
+## FT-007 — Reparar publicação e página de livros
+
+- Escopo: Técnico — causa raiz normativa, pipeline editorial, interface e publicação.
+- Prioridade: crítica.
+- Status: em andamento.
+- Início: `20260719.1448.21`.
+- Atualização: `20260719.1540.05`.
+- Etapa atual: `6/6` — encerrar e publicar.
+- Tarefa atual: `2/3` — convergir `dev` e `main`.
+
+### Decisões e evidências
+
+- Regressões estavam normatizadas em `RCF-IF-DATA-001/016`, `PKG-001/002`, `BUILD-010`, `ACC-011` e README; o contrato foi restaurado antes do código no commit `0e19a33`.
+- `/d/<idioma>/<categoria>/<primeira>/<segunda>/<restante>/`, `/_/<token>/`, busca mínima e aliases legados foram preservados sem alteração de algoritmo.
+- `dev-live` agora responde rota profunda com `404.html`/404, JavaScript e CSS com MIME correto e asset ausente sem falso 200; `test-dev-live.mjs` fixa a paridade.
+- Autoria deriva do OPF do EPUB ou `/Author` interno do PDF, inclusive UTF-16BE escapado; ausência ou conflito falha. Os 527 livros foram regenerados e validados com autoria, três qualificadores foram separados em `edition.qualifier`.
+- Cada um dos 1.051 PDF/EPUB internos gera contêiner `.7z` LZMA2 próprio e reutilizável por cache criptográfica. `dist/` contém zero PDF/EPUB cru, 527 metadados, 527 capas e 1.051 contêineres; tamanho final `881690977` bytes.
+- Pacote agregado foi removido por duplicar conteúdo e elevar `dist/` a `1501992897` bytes; os contêineres individuais preservam todos os downloads sem redundância.
+- Página homologada em navegador real, desktop, modo escuro e viewport estreito: título principal/qualificador/autoria separados, métricas coerentes, hashes truncados visualmente, cópia integral, URL compacta, nove colunas, hash do asset e download explícito.
+- Aceite local: `npm run check`, `npm run build`, `npm run check:dist`, `npm run test:ui` e `npm run typecheck` concluídos; `UI_OK`, `DEV_LIVE_OK` e rotas canônica, curta e legada comprovadas.
 
 ## FT-001 — RCF, superfície inicial e importação do Índice de Fontes
 
