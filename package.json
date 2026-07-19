@@ -10,11 +10,14 @@
     "dev-live": "node scripts/serve-site.mjs",
     "clean": "npm run agent:clean",
     "check": "npm run egw:validate",
+    "check:dist": "node scripts/validate-dist.mjs",
+    "typecheck": "tsc --noEmit",
     "lint": "npm run agent:lint",
     "prepare": "npm run agent:setup",
     "release": "npm run agent:release",
     "release:trigger": "npm run agent:release:trigger",
     "test": "npm run agent:test",
+    "test:ui": "node scripts/test-ui.mjs",
     "egw:import": "node scripts/import-egw.mjs",
     "egw:validate": "node scripts/import-egw.mjs --check",
     "egw:audit-text": "node scripts/import-egw.mjs --audit-text",
@@ -116,7 +119,10 @@
     "optionalDependencies": []
   },
   "devDependencies": {
+    "esbuild": "^0.28.1",
     "jsdom": "^29.1.1",
-    "sharp": "^0.35.3"
+    "sass": "^1.101.0",
+    "sharp": "^0.35.3",
+    "typescript": "^7.0.2"
   }
 }
