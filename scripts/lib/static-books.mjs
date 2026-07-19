@@ -209,15 +209,16 @@ function assetRecord(id, format, url, size, hashes, originUrl = null) {
 
 function sourceRecord(source, assetId, format, hashes, storageHost) {
   const provider = source.provider || (source.origin_url ? new URL(source.origin_url).hostname : "local-preserved");
+  const remote = /^https?:\/\//i.test(source.url || "");
   return {
     id: source.id,
-    title: storageHost,
-    url: `./source-${format}.7z`,
+    title: remote ? new URL(source.url).hostname : storageHost,
+    url: remote ? source.url : `./source-${format}.7z`,
     type: source.type || "preserved-asset",
     format,
     provider,
     asset_id: assetId,
-    hashes,
+    hashes: remote ? (source.hashes || hashes) : hashes,
   };
 }
 
@@ -248,7 +249,7 @@ export async function materializeBooks({ sourceRoot, distRoot, cacheRoot, public
     const formats = [];
     const assets = [];
     const globalHashes = [];
-    const sourceByFormat = new Map(input.sources.map((source) => [path.extname(new URL(source.origin_url || source.url, "https://local.invalid").pathname).slice(1).toLowerCase() || source.id, source]));
+    const sourceByFormat = new Map(input.sources.filter((source) => !/^https?:\/\//i.test(source.url || "")).map((source) => [path.extname(new URL(source.origin_url || source.url, "https://local.invalid").pathname).slice(1).toLowerCase() || source.id, source]));
     for (const format of ["pdf", "epub"]) {
       const sourceFile = path.join(sourceDirectory, `source.${format}`);
       if (!(await exists(sourceFile))) continue;

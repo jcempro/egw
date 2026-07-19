@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "limits": { "default_daily_limit": 6, "max_candidate_bytes": 12582912, "request_timeout_ms": 15000 },
+  "limits": { "default_daily_limit": 6, "max_candidate_bytes": 12582912, "max_archive_entries": 32, "request_timeout_ms": 15000 },
   "providers": [
     { "id": "white-estate-ebooks", "enabled": true, "kind": "white-estate-ebook", "domains": ["whiteestate.org"], "daily_limit": 6 },
     { "id": "egw-writings", "enabled": true, "kind": "origin-only", "domains": ["media2.egwwritings.org", "media4.egwwritings.org"], "daily_limit": 1 },

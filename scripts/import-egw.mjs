@@ -360,7 +360,7 @@ async function main() {
   if (CHECK_ONLY) {
     if (!(await exists(CATALOG_PATH)) || (await readFile(CATALOG_PATH, "utf8")) !== catalogContent) fail("Catálogo ausente ou divergente");
   } else { await writeAtomic(CATALOG_PATH, catalogContent); report.summary.covers = (await generateCovers({ root: APP_ROOT, stateRoot: ROOT, reportRoot: ROOT })).total; }
-  if (DISCOVER) await runMaintenance({ root: APP_ROOT, stateRoot: ROOT, reportRoot: ROOT, bookIds: catalog.map((book) => book.book_id) });
+  if (DISCOVER) await runMaintenance({ root: APP_ROOT, stateRoot: ROOT, reportRoot: ROOT });
   await writeAtomic(REPORT_PATH, json(report));
   process.stdout.write(`${CHECK_ONLY ? "VALIDADO" : "IMPORTADO"}: livros=${report.summary.books} assets=${report.summary.assets} capas=${report.summary.covers} copiados=${report.summary.copied} reutilizados=${report.summary.reused} pdf_sem_epub=${report.summary.pdf_only} epub_sem_pdf=${report.summary.epub_only}\n`);
 }

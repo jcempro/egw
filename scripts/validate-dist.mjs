@@ -54,8 +54,11 @@ async function main() {
     }
     for (const source of data.sources) {
       const asset = data.assets.find((entry) => entry.id === source.asset_id);
-      if (!asset || source.url !== asset.url || source.format === asset.format || JSON.stringify(source.hashes) !== JSON.stringify(asset.source_hashes)) throw new Error(`Fonte compactada divergente: ${data.book.id}/${source.id}`);
-      if (source.title !== storageHost || typeof source.provider !== "string" || !source.provider.trim()) throw new Error(`Fonte ou Provedor divergente: ${data.book.id}/${source.id}`);
+      const remote = /^https?:\/\//i.test(source.url);
+      if (!asset || source.format === asset.format || !hashes(source.hashes)) throw new Error(`Fonte divergente: ${data.book.id}/${source.id}`);
+      if (!remote && (source.url !== asset.url || JSON.stringify(source.hashes) !== JSON.stringify(asset.source_hashes))) throw new Error(`Fonte compactada divergente: ${data.book.id}/${source.id}`);
+      const expectedHost = remote ? new URL(source.url).hostname : storageHost;
+      if (source.title !== expectedHost || typeof source.provider !== "string" || !source.provider.trim()) throw new Error(`Fonte ou Provedor divergente: ${data.book.id}/${source.id}`);
     }
     expectedSearch.push([data.book.title, data.short_token]);
   }

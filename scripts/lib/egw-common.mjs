@@ -8,13 +8,13 @@ export const isRecord = (value) => value !== null && typeof value === "object" &
 let atomicSequence = 0;
 export async function exists(target) { try { await access(target); return true; } catch { return false; } }
 export async function hashFile(target) {
-  const sha256 = createHash("sha256"); const sha512 = createHash("sha512");
+  const sha1 = createHash("sha1"); const sha256 = createHash("sha256"); const sha512 = createHash("sha512");
   await new Promise((resolve, reject) => {
     const stream = createReadStream(target);
-    stream.on("data", (chunk) => { sha256.update(chunk); sha512.update(chunk); });
+    stream.on("data", (chunk) => { sha1.update(chunk); sha256.update(chunk); sha512.update(chunk); });
     stream.on("error", reject); stream.on("end", resolve);
   });
-  return { sha256: sha256.digest("hex"), sha512: sha512.digest("hex") };
+  return { sha1: sha1.digest("hex"), sha256: sha256.digest("hex"), sha512: sha512.digest("hex") };
 }
 export async function writeAtomic(target, content) {
   await mkdir(path.dirname(target), { recursive: true });
