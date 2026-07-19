@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-words-of-encouragement-to-workers-in-the-home-missionary-field",
     "title": "Words of Encouragement to Workers in the Home Missionary Field",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-words-of-encouragement-to-workers-in-the-home-missionary-field/cover.png"

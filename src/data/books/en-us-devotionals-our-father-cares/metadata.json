@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-our-father-cares",
     "title": "Our Father Cares",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-our-father-cares/cover.png"

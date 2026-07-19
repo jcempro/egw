@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-testimonies-on-sexual-behavior-adultery-and-divorce",
     "title": "Testimonies on Sexual Behavior, Adultery, and Divorce",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-testimonies-on-sexual-behavior-adultery-and-divorce/cover.png"

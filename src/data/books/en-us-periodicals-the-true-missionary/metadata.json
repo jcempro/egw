@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-the-true-missionary",
     "title": "The True Missionary",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-the-true-missionary/cover.png"

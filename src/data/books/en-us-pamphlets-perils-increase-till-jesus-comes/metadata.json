@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-perils-increase-till-jesus-comes",
     "title": "Perils Increase Till Jesus Comes",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-perils-increase-till-jesus-comes/cover.png"

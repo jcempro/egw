@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-manuscript-manuscript-releases-vol-5-nos-260-346",
     "title": "Manuscript Releases, vol. 5 [Nos. 260-346]",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-manuscript-manuscript-releases-vol-5-nos-260-346/cover.png"

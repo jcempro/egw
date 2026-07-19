@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-choice-thoughts-on-dress",
     "title": "Choice Thoughts on Dress",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-choice-thoughts-on-dress/cover.png"

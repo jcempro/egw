@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-manuscript-manuscript-releases-vol-2-nos-97-161",
     "title": "Manuscript Releases, vol. 2 [Nos. 97-161]",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-manuscript-manuscript-releases-vol-2-nos-97-161/cover.png"

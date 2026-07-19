@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-letters-from-ellen-g-white-to-sanitarium-workers",
     "title": "Letters from Ellen G. White to Sanitarium Workers",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-letters-from-ellen-g-white-to-sanitarium-workers/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-the-faith-i-live-by",
     "title": "The Faith I Live By",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-the-faith-i-live-by/cover.png"

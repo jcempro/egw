@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-thoughts-from-the-mount-of-blessing",
     "title": "Thoughts From the Mount of Blessing",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-thoughts-from-the-mount-of-blessing/cover.png"

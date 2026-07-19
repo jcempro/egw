@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-temperanca",
     "title": "Temperança",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-temperanca/cover.png"

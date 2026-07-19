@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-faith-and-works",
     "title": "Faith and Works",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-faith-and-works/cover.png"

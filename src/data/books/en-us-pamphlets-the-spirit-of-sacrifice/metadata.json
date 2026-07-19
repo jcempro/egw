@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-spirit-of-sacrifice",
     "title": "The Spirit of Sacrifice",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-spirit-of-sacrifice/cover.png"

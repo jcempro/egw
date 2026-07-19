@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-devocionais-cristo-triunfante",
     "title": "Cristo Triunfante",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-devocionais-cristo-triunfante/cover.png"

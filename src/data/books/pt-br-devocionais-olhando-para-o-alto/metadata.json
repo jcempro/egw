@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-devocionais-olhando-para-o-alto",
     "title": "Olhando Para O Alto",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-devocionais-olhando-para-o-alto/cover.png"

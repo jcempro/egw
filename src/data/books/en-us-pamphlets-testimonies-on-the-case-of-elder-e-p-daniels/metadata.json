@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimonies-on-the-case-of-elder-e-p-daniels",
     "title": "Testimonies on the Case of Elder E. P. Daniels",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimonies-on-the-case-of-elder-e-p-daniels/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-misc-the-paulson-collection-of-ellen-g-white-letters",
     "title": "The Paulson Collection of Ellen G. White Letters",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-misc-the-paulson-collection-of-ellen-g-white-letters/cover.png"

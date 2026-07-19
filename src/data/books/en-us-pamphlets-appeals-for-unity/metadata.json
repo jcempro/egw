@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-appeals-for-unity",
     "title": "Appeals for Unity",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-appeals-for-unity/cover.png"

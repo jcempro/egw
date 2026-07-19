@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimonies-to-the-church-regarding-the-strengthening-of-our-institutions-and-training-centers",
     "title": "Testimonies to the Church Regarding The Strengthening of Our Institutions and Training Centers",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimonies-to-the-church-regarding-the-strengthening-of-our-institutions-and-training-centers/cover.png"

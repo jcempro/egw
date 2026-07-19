@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimony-for-the-church-no-14",
     "title": "Testimony for the Church — No. 14",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimony-for-the-church-no-14/cover.png"

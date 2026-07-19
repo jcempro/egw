@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-paradise-valley-sanitarium",
     "title": "The Paradise Valley Sanitarium",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-paradise-valley-sanitarium/cover.png"

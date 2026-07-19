@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-to-the-little-remnant-scattered-abroad",
     "title": "To the Little Remnant Scattered Abroad",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-to-the-little-remnant-scattered-abroad/cover.png"

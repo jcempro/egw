@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-to-our-bookmen",
     "title": "To Our Bookmen",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-to-our-bookmen/cover.png"

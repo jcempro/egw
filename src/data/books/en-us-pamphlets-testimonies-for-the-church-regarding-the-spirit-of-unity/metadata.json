@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimonies-for-the-church-regarding-the-spirit-of-unity",
     "title": "Testimonies for the Church Regarding the Spirit of Unity",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimonies-for-the-church-regarding-the-spirit-of-unity/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-redemption-or-the-miracles-of-christ-the-mighty-one",
     "title": "Redemption - Or the Miracles of Christ, the Mighty One",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-redemption-or-the-miracles-of-christ-the-mighty-one/cover.png"

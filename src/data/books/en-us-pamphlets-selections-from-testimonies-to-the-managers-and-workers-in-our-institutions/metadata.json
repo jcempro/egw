@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-selections-from-testimonies-to-the-managers-and-workers-in-our-institutions",
     "title": "Selections from Testimonies to the Managers and Workers in our Institutions",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-selections-from-testimonies-to-the-managers-and-workers-in-our-institutions/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-battle-creek-college-record",
     "title": "(Battle Creek) College Record",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-battle-creek-college-record/cover.png"

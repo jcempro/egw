@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-mensagens-escolhidas-1",
     "title": "Mensagens Escolhidas 1",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-mensagens-escolhidas-1/cover.png"

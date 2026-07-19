@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-good-health",
     "title": "Good Health",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-good-health/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-the-day-star",
     "title": "The Day-Star",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-the-day-star/cover.png"

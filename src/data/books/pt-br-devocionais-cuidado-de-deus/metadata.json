@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-devocionais-cuidado-de-deus",
     "title": "Cuidado de Deus",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-devocionais-cuidado-de-deus/cover.png"

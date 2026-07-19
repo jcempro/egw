@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimonies-to-the-church-regarding-our-youth-going-to-battle-creek-to-obtain-an-education",
     "title": "Testimonies to the Church Regarding our Youth Going to Battle Creek to Obtain An Education",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimonies-to-the-church-regarding-our-youth-going-to-battle-creek-to-obtain-an-education/cover.png"

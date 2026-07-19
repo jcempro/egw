@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-letters-to-physicians-and-ministers",
     "title": "Letters to Physicians and Ministers",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-letters-to-physicians-and-ministers/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-special-testimonies-relating-to-various-matters-in-battle-creek",
     "title": "Special Testimonies - Relating to Various Matters in Battle Creek",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-special-testimonies-relating-to-various-matters-in-battle-creek/cover.png"

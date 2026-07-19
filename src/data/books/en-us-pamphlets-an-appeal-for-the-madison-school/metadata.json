@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-an-appeal-for-the-madison-school",
     "title": "An Appeal for the Madison School",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-an-appeal-for-the-madison-school/cover.png"

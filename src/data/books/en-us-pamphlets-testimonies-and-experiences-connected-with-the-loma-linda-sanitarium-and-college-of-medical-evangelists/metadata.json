@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimonies-and-experiences-connected-with-the-loma-linda-sanitarium-and-college-of-medical-evangelists",
     "title": "Testimonies and Experiences Connected with the Loma Linda Sanitarium and College of Medical Evangelists",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimonies-and-experiences-connected-with-the-loma-linda-sanitarium-and-college-of-medical-evangelists/cover.png"

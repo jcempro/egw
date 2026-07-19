@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-an-appeal-for-missions",
     "title": "An Appeal for Missions",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-an-appeal-for-missions/cover.png"

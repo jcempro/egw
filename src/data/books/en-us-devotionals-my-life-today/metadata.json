@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-my-life-today",
     "title": "My Life Today",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-my-life-today/cover.png"

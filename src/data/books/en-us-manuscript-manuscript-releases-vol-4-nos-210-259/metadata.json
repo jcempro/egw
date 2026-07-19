@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-manuscript-manuscript-releases-vol-4-nos-210-259",
     "title": "Manuscript Releases, vol. 4 [Nos. 210-259]",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-manuscript-manuscript-releases-vol-4-nos-210-259/cover.png"

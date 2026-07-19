@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-conselhos-sobre-a-escola-sabatina",
     "title": "Conselhos sobre a Escola Sabatina",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-conselhos-sobre-a-escola-sabatina/cover.png"

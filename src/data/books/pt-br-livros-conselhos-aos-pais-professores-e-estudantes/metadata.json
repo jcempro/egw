@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-conselhos-aos-pais-professores-e-estudantes",
     "title": "Conselhos Aos Pais, Professores E Estudantes",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-conselhos-aos-pais-professores-e-estudantes/cover.png"

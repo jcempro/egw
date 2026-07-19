@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-misc-notebook-leaflets-from-the-elmshaven-library-vol-2",
     "title": "Notebook Leaflets from the Elmshaven Library, vol. 2",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-misc-notebook-leaflets-from-the-elmshaven-library-vol-2/cover.png"

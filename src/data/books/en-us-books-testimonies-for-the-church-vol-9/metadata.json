@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-testimonies-for-the-church-vol-9",
     "title": "Testimonies for the Church, vol. 9",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-testimonies-for-the-church-vol-9/cover.png"

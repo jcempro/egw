@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-life-sketches-of-james-white-and-ellen-g-white-1888-ed",
     "title": "Life Sketches of James White and Ellen G. White (1888 ed.)",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-life-sketches-of-james-white-and-ellen-g-white-1888-ed/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-counsels-to-physicians-and-medical-students",
     "title": "Counsels to Physicians and Medical Students",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-counsels-to-physicians-and-medical-students/cover.png"

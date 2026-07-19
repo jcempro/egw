@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-testemunhos-seletos-1",
     "title": "Testemunhos Seletos 1",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-testemunhos-seletos-1/cover.png"

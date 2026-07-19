@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-special-testimonies-relating-to-medical-missionary-work",
     "title": "Special Testimonies Relating to Medical Missionary Work",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-special-testimonies-relating-to-medical-missionary-work/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-spiritual-gifts-vol-1",
     "title": "Spiritual Gifts, vol. 1",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-spiritual-gifts-vol-1/cover.png"

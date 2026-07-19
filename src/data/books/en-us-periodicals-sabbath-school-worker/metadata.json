@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-sabbath-school-worker",
     "title": "Sabbath-School Worker",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-sabbath-school-worker/cover.png"

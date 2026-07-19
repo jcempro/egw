@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-redemption-or-the-sufferings-of-christ-his-trial-and-crucifixion",
     "title": "Redemption Or The Sufferings Of Christ His Trial And Crucifixion",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-redemption-or-the-sufferings-of-christ-his-trial-and-crucifixion/cover.png"

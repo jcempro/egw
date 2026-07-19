@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-an-appeal-to-our-ministers-and-conference-committees",
     "title": "An Appeal to Our Ministers and Conference Committees",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-an-appeal-to-our-ministers-and-conference-committees/cover.png"

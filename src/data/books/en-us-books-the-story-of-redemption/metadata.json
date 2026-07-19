@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-the-story-of-redemption",
     "title": "The Story of Redemption",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-the-story-of-redemption/cover.png"

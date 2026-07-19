@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-elder-daniels-and-the-fresno-church",
     "title": "Elder Daniels and the Fresno Church",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-elder-daniels-and-the-fresno-church/cover.png"

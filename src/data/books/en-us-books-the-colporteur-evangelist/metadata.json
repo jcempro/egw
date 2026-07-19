@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-the-colporteur-evangelist",
     "title": "The Colporteur Evangelist",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-the-colporteur-evangelist/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-gospel-workers-1915-ed",
     "title": "Gospel Workers (1915 ed.)",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-gospel-workers-1915-ed/cover.png"

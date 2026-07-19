@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-the-desire-of-ages",
     "title": "The Desire of Ages",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-the-desire-of-ages/cover.png"

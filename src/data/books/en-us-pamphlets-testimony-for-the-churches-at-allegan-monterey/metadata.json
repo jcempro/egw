@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimony-for-the-churches-at-allegan-monterey",
     "title": "Testimony for the Churches at Allegan & Monterey",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimony-for-the-churches-at-allegan-monterey/cover.png"

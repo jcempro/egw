@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-the-missionary-magazine",
     "title": "The Missionary Magazine",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-the-missionary-magazine/cover.png"

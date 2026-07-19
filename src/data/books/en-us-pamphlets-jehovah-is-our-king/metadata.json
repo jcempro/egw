@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-jehovah-is-our-king",
     "title": "Jehovah Is Our King",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-jehovah-is-our-king/cover.png"

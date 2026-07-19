@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-evangelism",
     "title": "Evangelism",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-evangelism/cover.png"

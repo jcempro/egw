@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-that-i-may-know-him",
     "title": "That I May Know Him",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-that-i-may-know-him/cover.png"

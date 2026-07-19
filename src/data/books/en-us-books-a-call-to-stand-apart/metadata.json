@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-a-call-to-stand-apart",
     "title": "A Call To Stand Apart",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-a-call-to-stand-apart/cover.png"

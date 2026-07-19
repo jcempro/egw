@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-special-testimonies-on-education",
     "title": "Special Testimonies On Education",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-special-testimonies-on-education/cover.png"

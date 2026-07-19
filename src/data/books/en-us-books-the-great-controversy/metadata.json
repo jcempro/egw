@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-the-great-controversy",
     "title": "The Great Controversy",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-the-great-controversy/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-from-the-heart",
     "title": "From the Heart",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-from-the-heart/cover.png"

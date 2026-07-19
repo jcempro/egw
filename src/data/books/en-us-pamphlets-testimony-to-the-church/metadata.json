@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimony-to-the-church",
     "title": "Testimony to the Church",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimony-to-the-church/cover.png"

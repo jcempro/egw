@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-a-new-life-revival-and-beyond",
     "title": "A New Life (Revival and Beyond)",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-a-new-life-revival-and-beyond/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimony-for-the-church-no-26",
     "title": "Testimony for the Church — No. 26",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimony-for-the-church-no-26/cover.png"

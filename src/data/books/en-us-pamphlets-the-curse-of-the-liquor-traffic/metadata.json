@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-curse-of-the-liquor-traffic",
     "title": "The Curse of the Liquor Traffic",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-curse-of-the-liquor-traffic/cover.png"

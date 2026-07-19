@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-the-columbia-union-visitor",
     "title": "The Columbia Union Visitor",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-the-columbia-union-visitor/cover.png"

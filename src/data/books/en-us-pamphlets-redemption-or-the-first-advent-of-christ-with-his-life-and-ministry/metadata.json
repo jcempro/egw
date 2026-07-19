@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-redemption-or-the-first-advent-of-christ-with-his-life-and-ministry",
     "title": "Redemption Or The First Advent Of Christ With His Life And Ministry",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-redemption-or-the-first-advent-of-christ-with-his-life-and-ministry/cover.png"

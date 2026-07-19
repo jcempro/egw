@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-redemption-or-the-teachings-of-christ-the-anointed-one",
     "title": "Redemption - or the Teachings of Christ, the Anointed One",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-redemption-or-the-teachings-of-christ-the-anointed-one/cover.png"

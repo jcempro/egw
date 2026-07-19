@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-testimony-studies-on-diet-and-foods",
     "title": "Testimony Studies on Diet and Foods",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-testimony-studies-on-diet-and-foods/cover.png"

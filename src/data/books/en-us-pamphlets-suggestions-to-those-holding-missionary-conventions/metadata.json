@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-suggestions-to-those-holding-missionary-conventions",
     "title": "Suggestions to Those Holding Missionary Conventions",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-suggestions-to-those-holding-missionary-conventions/cover.png"

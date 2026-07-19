@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-the-upward-look",
     "title": "The Upward Look",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-the-upward-look/cover.png"

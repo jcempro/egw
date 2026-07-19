@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-pastoral-ministry",
     "title": "Pastoral Ministry",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-pastoral-ministry/cover.png"

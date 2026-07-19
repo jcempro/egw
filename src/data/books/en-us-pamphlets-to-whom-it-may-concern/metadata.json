@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-to-whom-it-may-concern",
     "title": "To Whom it May Concern",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-to-whom-it-may-concern/cover.png"

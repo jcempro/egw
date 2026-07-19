@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-australasian-signs-of-the-times",
     "title": "Australasian Signs of the Times",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-australasian-signs-of-the-times/cover.png"

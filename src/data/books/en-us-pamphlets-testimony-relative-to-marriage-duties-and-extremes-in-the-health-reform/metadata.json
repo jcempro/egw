@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimony-relative-to-marriage-duties-and-extremes-in-the-health-reform",
     "title": "Testimony Relative to Marriage Duties, and Extremes in The Health Reform",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimony-relative-to-marriage-duties-and-extremes-in-the-health-reform/cover.png"

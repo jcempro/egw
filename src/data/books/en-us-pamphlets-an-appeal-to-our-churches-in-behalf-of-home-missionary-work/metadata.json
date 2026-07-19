@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-an-appeal-to-our-churches-in-behalf-of-home-missionary-work",
     "title": "An Appeal to Our Churches in Behalf of Home Missionary Work",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-an-appeal-to-our-churches-in-behalf-of-home-missionary-work/cover.png"

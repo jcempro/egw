@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-musica-sua-influencia-na-vida-do-cristao",
     "title": "Música — Sua Influência na Vida do Cristão",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-musica-sua-influencia-na-vida-do-cristao/cover.png"

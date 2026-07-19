@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-letters-from-ellen-g-white-to-sanitarium-workers-in-southern-california-b",
     "title": "Letters from Ellen G. White to Sanitarium Workers in Southern California—b",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-letters-from-ellen-g-white-to-sanitarium-workers-in-southern-california-b/cover.png"

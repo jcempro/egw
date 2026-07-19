@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-special-testimonies-concerning-the-work-and-workers-in-the-pacific-press",
     "title": "Special Testimonies Concerning the Work and Workers in the Pacific Press",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-special-testimonies-concerning-the-work-and-workers-in-the-pacific-press/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-redemption-or-the-teachings-of-paul-and-his-mission-to-the-gentiles",
     "title": "Redemption - or the Teachings of Paul, and his Mission to the Gentiles",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-redemption-or-the-teachings-of-paul-and-his-mission-to-the-gentiles/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-peter-s-counsel-to-parents",
     "title": "Peter’s Counsel to Parents",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-peter-s-counsel-to-parents/cover.png"

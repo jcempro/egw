@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-conselhos-sobre-o-regime-alimentar",
     "title": "Conselhos sobre o Regime Alimentar",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-conselhos-sobre-o-regime-alimentar/cover.png"

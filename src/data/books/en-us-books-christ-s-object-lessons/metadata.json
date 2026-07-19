@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-christ-s-object-lessons",
     "title": "Christ’s Object Lessons",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-christ-s-object-lessons/cover.png"

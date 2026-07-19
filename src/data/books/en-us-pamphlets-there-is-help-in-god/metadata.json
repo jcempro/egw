@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-there-is-help-in-god",
     "title": "There Is Help in God",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-there-is-help-in-god/cover.png"

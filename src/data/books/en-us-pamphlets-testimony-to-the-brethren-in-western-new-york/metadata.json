@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimony-to-the-brethren-in-western-new-york",
     "title": "Testimony To the Brethren in Western New York",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimony-to-the-brethren-in-western-new-york/cover.png"

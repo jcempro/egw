@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-an-exposure-of-fanaticism-and-wickedness",
     "title": "An Exposure of Fanaticism and Wickedness",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-an-exposure-of-fanaticism-and-wickedness/cover.png"

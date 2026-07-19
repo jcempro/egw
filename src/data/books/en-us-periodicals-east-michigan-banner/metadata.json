@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-east-michigan-banner",
     "title": "East Michigan Banner",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-east-michigan-banner/cover.png"

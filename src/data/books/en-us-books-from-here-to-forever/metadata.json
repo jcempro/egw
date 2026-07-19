@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-from-here-to-forever",
     "title": "From Here to Forever",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-from-here-to-forever/cover.png"

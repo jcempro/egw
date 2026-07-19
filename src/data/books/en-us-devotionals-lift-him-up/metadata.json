@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-lift-him-up",
     "title": "Lift Him Up",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-lift-him-up/cover.png"

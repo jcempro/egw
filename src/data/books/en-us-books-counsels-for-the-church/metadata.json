@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-counsels-for-the-church",
     "title": "Counsels for the Church",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-counsels-for-the-church/cover.png"

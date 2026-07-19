@@ -17,7 +17,7 @@
     "release": "npm run agent:release",
     "release:trigger": "npm run agent:release:trigger",
     "test": "npm run agent:test",
-    "test:ui": "node scripts/test-ui.mjs",
+    "test:ui": "node scripts/test-ui.mjs && node scripts/test-dev-live.mjs",
     "egw:import": "node scripts/import-egw.mjs",
     "egw:validate": "node scripts/import-egw.mjs --check",
     "egw:audit-text": "node scripts/import-egw.mjs --audit-text",

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-gospel-workers-1892-1893-ed",
     "title": "Gospel Workers (1892_1893 ed.)",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-gospel-workers-1892-1893-ed/cover.png"

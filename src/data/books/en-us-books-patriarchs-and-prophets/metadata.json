@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-patriarchs-and-prophets",
     "title": "Patriarchs and Prophets",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-patriarchs-and-prophets/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-a-call-to-the-watchmen",
     "title": "A Call to the Watchmen",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-a-call-to-the-watchmen/cover.png"

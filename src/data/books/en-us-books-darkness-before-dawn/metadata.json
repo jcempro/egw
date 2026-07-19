@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-darkness-before-dawn",
     "title": "Darkness Before Dawn",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-darkness-before-dawn/cover.png"

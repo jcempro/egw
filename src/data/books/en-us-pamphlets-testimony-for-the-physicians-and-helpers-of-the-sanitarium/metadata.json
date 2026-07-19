@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimony-for-the-physicians-and-helpers-of-the-sanitarium",
     "title": "Testimony for the Physicians and Helpers of the Sanitarium",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimony-for-the-physicians-and-helpers-of-the-sanitarium/cover.png"

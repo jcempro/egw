@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-manuscript-manuscript-releases-vol-3-nos-162-209",
     "title": "Manuscript Releases, vol. 3 [Nos. 162-209]",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-manuscript-manuscript-releases-vol-3-nos-162-209/cover.png"

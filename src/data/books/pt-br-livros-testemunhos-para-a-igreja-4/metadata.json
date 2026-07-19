@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-testemunhos-para-a-igreja-4",
     "title": "Testemunhos para a Igreja 4",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-testemunhos-para-a-igreja-4/cover.png"

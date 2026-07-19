@@ -3,8 +3,15 @@
   "book": {
     "id": "pt-br-livros-o-grande-conflito-condensado",
     "title": "O Grande Conflito (condensado)",
-    "contributors": [],
-    "edition": {},
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
+    "edition": {
+      "qualifier": "condensado"
+    },
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-o-grande-conflito-condensado/cover.png"
   },

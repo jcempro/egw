@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-to-be-like-jesus",
     "title": "To Be Like Jesus",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-to-be-like-jesus/cover.png"

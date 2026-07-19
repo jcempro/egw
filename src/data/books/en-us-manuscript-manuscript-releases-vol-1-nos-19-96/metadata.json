@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-manuscript-manuscript-releases-vol-1-nos-19-96",
     "title": "Manuscript Releases, vol. 1 [Nos. 19-96]",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-manuscript-manuscript-releases-vol-1-nos-19-96/cover.png"

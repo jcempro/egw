@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-an-important-testimony-to-our-brethren-and-sisters-in-new-york",
     "title": "An Important Testimony to our Brethren and Sisters in New York",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-an-important-testimony-to-our-brethren-and-sisters-in-new-york/cover.png"

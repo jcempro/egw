@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-devocionais-refletindo-a-cristo",
     "title": "Refletindo a Cristo",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-devocionais-refletindo-a-cristo/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-appeal-to-our-people-in-america-in-behalf-of-the-nashville-publishing-house",
     "title": "Appeal To Our People in America in Behalf of the Nashville Publishing House",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-appeal-to-our-people-in-america-in-behalf-of-the-nashville-publishing-house/cover.png"

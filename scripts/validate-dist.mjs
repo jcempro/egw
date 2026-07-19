@@ -39,16 +39,27 @@ async function main() {
     const padded = `${data.book.id}----`;
     if (legacy[`data/${padded.slice(0, 2)}/${padded.slice(2, 4)}/${data.book.id}/`] !== canonical) throw new Error(`Alias histórico ausente: ${data.book.id}`);
     if (!data.global_hashes.length || !data.global_hashes.every((entry) => ["pdf", "epub"].includes(entry.format) && hashes(entry))) throw new Error(`Hash Global inválido: ${data.book.id}`);
+    if (!Array.isArray(data.book.contributors) || !data.book.contributors.some((entry) => entry.role === "author" && typeof entry.name === "string" && entry.name.trim())) throw new Error(`Autoria editorial ausente: ${data.book.id}`);
     for (const asset of data.assets) {
       if (!/^\.\/[a-z0-9][a-z0-9.-]*$/i.test(asset.url) || !hashes(asset.source_hashes)) throw new Error(`Asset inválido: ${data.book.id}`);
       const target = path.join(path.dirname(file), asset.url.slice(2));
       await access(target);
       if ((await stat(target)).size !== asset.size) throw new Error(`Tamanho divergente: ${target}`);
     }
+    for (const global of data.global_hashes) {
+      const asset = data.assets.find((entry) => entry.id === global.artifact_id);
+      if (!asset || asset.format !== "7z" || asset.url !== `./source-${global.format}.7z`) throw new Error(`Contêiner de formato ausente: ${data.book.id}/${global.format}`);
+    }
+    for (const source of data.sources) {
+      const asset = data.assets.find((entry) => entry.id === source.asset_id);
+      if (!asset || source.url !== asset.url || source.format === asset.format || JSON.stringify(source.hashes) !== JSON.stringify(asset.source_hashes)) throw new Error(`Fonte compactada divergente: ${data.book.id}/${source.id}`);
+    }
     expectedSearch.push([data.book.title, data.short_token]);
   }
   if (JSON.stringify(search) !== JSON.stringify(expectedSearch)) throw new Error("Índice de busca contém dado extra, ausente ou fora de ordem");
   if (Object.keys(short).length !== files.length || Object.keys(legacy).length !== files.length) throw new Error("Cobertura dos mapas divergente");
+  async function assertNoRaw(directory) { for (const entry of await readdir(directory, { withFileTypes: true })) { const target = path.join(directory, entry.name); if (entry.isDirectory()) await assertNoRaw(target); else if (/\.(?:pdf|epub)$/i.test(entry.name)) throw new Error(`Original cru publicado: ${target}`); } }
+  await assertNoRaw(DIST);
   process.stdout.write(`DIST_OK livros=${files.length} busca_campos=2 tokens=${seenTokens.size}\n`);
 }
 

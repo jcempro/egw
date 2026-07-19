@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-in-heavenly-places",
     "title": "In Heavenly Places",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-in-heavenly-places/cover.png"

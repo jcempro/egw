@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-hillcrest-school-farm",
     "title": "Hillcrest School Farm",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-hillcrest-school-farm/cover.png"

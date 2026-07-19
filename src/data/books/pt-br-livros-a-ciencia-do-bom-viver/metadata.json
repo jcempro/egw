@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-a-ciencia-do-bom-viver",
     "title": "A Ciência Do Bom Viver",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-a-ciencia-do-bom-viver/cover.png"

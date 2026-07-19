@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-reflecting-christ",
     "title": "Reflecting Christ",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-reflecting-christ/cover.png"

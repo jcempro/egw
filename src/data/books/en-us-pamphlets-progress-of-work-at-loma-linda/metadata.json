@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-progress-of-work-at-loma-linda",
     "title": "Progress of Work at Loma Linda",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-progress-of-work-at-loma-linda/cover.png"

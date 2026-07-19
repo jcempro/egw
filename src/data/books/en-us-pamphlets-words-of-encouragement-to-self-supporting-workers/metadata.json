@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-words-of-encouragement-to-self-supporting-workers",
     "title": "Words of Encouragement to Self-supporting Workers",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-words-of-encouragement-to-self-supporting-workers/cover.png"

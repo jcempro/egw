@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-special-testimonies-for-ministers-and-workers-no-10",
     "title": "Special Testimonies for Ministers and Workers—No. 10",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-special-testimonies-for-ministers-and-workers-no-10/cover.png"

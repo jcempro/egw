@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-from-eternity-past",
     "title": "From Eternity Past",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-from-eternity-past/cover.png"

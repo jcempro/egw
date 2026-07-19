@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-testemunhos-sobre-conduta-sexual-adulterio-e-divorcio",
     "title": "Testemunhos Sobre Conduta Sexual, Adultério e Divórcio",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-testemunhos-sobre-conduta-sexual-adulterio-e-divorcio/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-selections-from-the-testimonies-for-the-church-for-the-study-of-those-attending-the-general-conference-in-oakland-ca-march-27-1903",
     "title": "Selections from the Testimonies for the Church For the Study of Those Attending the General Conference in Oakland, Ca., March 27, 1903",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-selections-from-the-testimonies-for-the-church-for-the-study-of-those-attending-the-general-conference-in-oakland-ca-march-27-1903/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimonies-to-the-church-regarding-individual-responsibility-and-christian-unity",
     "title": "Testimonies to the Church Regarding Individual Responsibility and Christian Unity",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimonies-to-the-church-regarding-individual-responsibility-and-christian-unity/cover.png"

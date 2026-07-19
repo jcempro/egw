@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-backsliding-in-health-reform",
     "title": "Backsliding in Health Reform",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-backsliding-in-health-reform/cover.png"

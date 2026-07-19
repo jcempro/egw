@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-writing-and-sending-out-of-the-testimonies-to-the-church",
     "title": "The Writing and Sending Out of the Testimonies to the Church",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-writing-and-sending-out-of-the-testimonies-to-the-church/cover.png"

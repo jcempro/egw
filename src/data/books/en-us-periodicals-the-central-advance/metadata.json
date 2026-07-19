@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-the-central-advance",
     "title": "The Central Advance",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-the-central-advance/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-misc-the-story-of-our-health-message",
     "title": "The Story of Our Health Message",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-misc-the-story-of-our-health-message/cover.png"

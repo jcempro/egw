@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-the-adventist-home",
     "title": "The Adventist Home",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-the-adventist-home/cover.png"

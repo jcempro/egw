@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-life-sketches-of-ellen-g-white",
     "title": "Life Sketches of Ellen G. White",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-life-sketches-of-ellen-g-white/cover.png"

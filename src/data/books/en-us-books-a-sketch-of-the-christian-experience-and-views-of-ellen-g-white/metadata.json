@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-a-sketch-of-the-christian-experience-and-views-of-ellen-g-white",
     "title": "A Sketch of the Christian Experience and Views of Ellen G. White",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-a-sketch-of-the-christian-experience-and-views-of-ellen-g-white/cover.png"

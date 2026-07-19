@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-devocionais-e-recebereis-poder",
     "title": "E Recebereis Poder",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-devocionais-e-recebereis-poder/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-huntsville-school",
     "title": "The Huntsville School",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-huntsville-school/cover.png"

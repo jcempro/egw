@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-devocionais-jesus-meu-modelo",
     "title": "Jesus, Meu Modelo",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-devocionais-jesus-meu-modelo/cover.png"

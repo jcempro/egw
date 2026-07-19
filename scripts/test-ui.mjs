@@ -31,16 +31,20 @@ async function fetchLocal(url) {
 async function render(pathname) {
   const dom = new JSDOM(html, { url: `https://example.test${pathname}`, runScripts: "outside-only", pretendToBeVisual: true });
   dom.window.fetch = fetchLocal;
+  let copied = null; Object.defineProperty(dom.window.navigator, "clipboard", { value: { writeText: async (value) => { copied = value; } } });
   dom.window.console.error = () => undefined;
   dom.window.eval(script);
   await new Promise((resolve) => setTimeout(resolve, 40));
-  return { dom, state: { landing: !dom.window.document.getElementById("landing-view").hidden, book: !dom.window.document.getElementById("book-view").hidden, notFound: !dom.window.document.getElementById("not-found-view").hidden, title: dom.window.document.title } };
+  return { dom, copied: () => copied, state: { landing: !dom.window.document.getElementById("landing-view").hidden, book: !dom.window.document.getElementById("book-view").hidden, notFound: !dom.window.document.getElementById("not-found-view").hidden, title: dom.window.document.title } };
 }
 
 const home = await render("/");
 if (!home.state.landing || home.state.book || home.state.notFound || !home.dom.window.document.querySelector("noscript") || !home.dom.window.document.querySelector('link[href="/assets/app.css"]')) throw new Error("Página inicial ou noscript divergente");
 const canonicalResult = await render(`/${canonical}`);
 if (!canonicalResult.state.book || canonicalResult.state.notFound || !canonicalResult.dom.window.document.querySelector("#book-view-title")) throw new Error("Rota canônica não renderizou Livro");
+const metadata = JSON.parse(await readFile(path.join(DIST, ...canonical.split("/"), "metadata.json"), "utf8"));
+const copy = canonicalResult.dom.window.document.querySelector('.hash-panel .icon-button'); copy.click(); await new Promise((resolve) => setTimeout(resolve, 0));
+if (canonicalResult.copied() !== metadata.global_hashes[0].sha1 || !canonicalResult.dom.window.document.querySelector('.compact-url .icon-button') || canonicalResult.dom.window.document.querySelectorAll('thead th').length !== 9 || !canonicalResult.dom.window.document.querySelector('.download-button')) throw new Error("UI de hashes, URLs ou assets divergente");
 const shortResult = await render(`/_/${token}/`);
 if (!shortResult.state.book) throw new Error("Rota curta não renderizou Livro");
 const legacyResult = await render(`/${legacyPath}`);

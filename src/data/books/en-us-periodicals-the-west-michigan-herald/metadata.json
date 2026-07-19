@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-the-west-michigan-herald",
     "title": "The West Michigan Herald",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-the-west-michigan-herald/cover.png"

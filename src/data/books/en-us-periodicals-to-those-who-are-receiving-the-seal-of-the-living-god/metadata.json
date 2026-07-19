@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-to-those-who-are-receiving-the-seal-of-the-living-god",
     "title": "To Those who are receiving the seal of the living God",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-to-those-who-are-receiving-the-seal-of-the-living-god/cover.png"

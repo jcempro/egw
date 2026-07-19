@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-appeal-and-suggestions-to-conference-officers",
     "title": "Appeal and Suggestions to Conference Officers",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-appeal-and-suggestions-to-conference-officers/cover.png"

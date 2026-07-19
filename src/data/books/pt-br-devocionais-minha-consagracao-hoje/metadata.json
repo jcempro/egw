@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-devocionais-minha-consagracao-hoje",
     "title": "Minha Consagração Hoje",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-devocionais-minha-consagracao-hoje/cover.png"

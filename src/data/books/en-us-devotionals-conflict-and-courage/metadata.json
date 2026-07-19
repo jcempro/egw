@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-conflict-and-courage",
     "title": "Conflict and Courage",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-conflict-and-courage/cover.png"

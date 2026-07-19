@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-help-in-daily-living",
     "title": "Help In Daily Living",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-help-in-daily-living/cover.png"

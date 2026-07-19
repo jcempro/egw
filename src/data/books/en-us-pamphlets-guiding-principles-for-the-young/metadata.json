@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-guiding-principles-for-the-young",
     "title": "Guiding Principles for the Young",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-guiding-principles-for-the-young/cover.png"

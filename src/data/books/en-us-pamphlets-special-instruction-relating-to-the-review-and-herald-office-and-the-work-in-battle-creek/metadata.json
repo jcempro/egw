@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-special-instruction-relating-to-the-review-and-herald-office-and-the-work-in-battle-creek",
     "title": "Special Instruction Relating to The Review and Herald Office, and The Work in Battle Creek",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-special-instruction-relating-to-the-review-and-herald-office-and-the-work-in-battle-creek/cover.png"

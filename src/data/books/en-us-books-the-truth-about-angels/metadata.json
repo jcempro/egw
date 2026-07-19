@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-the-truth-about-angels",
     "title": "The Truth About Angels",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-the-truth-about-angels/cover.png"

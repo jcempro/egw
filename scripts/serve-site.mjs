@@ -12,7 +12,7 @@ const REPOSITORY_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)
 const config = JSON.parse(await readFile(path.join(REPOSITORY_ROOT, "src", "config", "dev-live.json"), "utf8"));
 const PUBLIC_ROOT = path.resolve(REPOSITORY_ROOT, config.root);
 const clients = new Set();
-const types = new Map([[".html", "text/html; charset=utf-8"], [".json", "application/json; charset=utf-8"], [".svg", "image/svg+xml"], [".webp", "image/webp"], [".woff2", "font/woff2"], [".7z", "application/x-7z-compressed"]]);
+const types = new Map([[".html", "text/html; charset=utf-8"], [".js", "text/javascript; charset=utf-8"], [".css", "text/css; charset=utf-8"], [".json", "application/json; charset=utf-8"], [".png", "image/png"], [".svg", "image/svg+xml"], [".webp", "image/webp"], [".woff2", "font/woff2"], [".7z", "application/x-7z-compressed"]]);
 const reloadClient = '<script>new EventSource("/__reload").onmessage=()=>location.reload()</script>';
 
 async function exists(target) {
@@ -37,7 +37,8 @@ const server = http.createServer(async (request, response) => {
   let target = safePath(pathname);
   if (!target) { response.writeHead(400).end("Caminho inválido"); return; }
   if (pathname.endsWith("/")) target = path.join(target, "index.html");
-  if (!(await exists(target))) target = path.extname(pathname) ? path.join(PUBLIC_ROOT, "404.html") : path.join(PUBLIC_ROOT, "index.html");
+  // FIX-BUG: rota profunda ausente deve reproduzir o front controller do GitHub Pages.
+  if (!(await exists(target))) target = path.join(PUBLIC_ROOT, "404.html");
   const extension = path.extname(target).toLowerCase();
   let body = await readFile(target);
   if (extension === ".html") body = Buffer.from(body.toString("utf8").replace("</body>", `${reloadClient}</body>`));

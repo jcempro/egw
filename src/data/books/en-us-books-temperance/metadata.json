@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-temperance",
     "title": "Temperance",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-temperance/cover.png"

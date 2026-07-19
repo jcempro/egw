@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-health-philanthropic-and-medical-missionary-work",
     "title": "Health, Philanthropic, and Medical Missionary Work",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-health-philanthropic-and-medical-missionary-work/cover.png"

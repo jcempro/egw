@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-special-testimony-to-the-oakland-and-battle-creek-churches",
     "title": "Special Testimony to the Oakland and Battle Creek Churches",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-special-testimony-to-the-oakland-and-battle-creek-churches/cover.png"

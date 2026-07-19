@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-misc-the-kress-collection",
     "title": "The Kress Collection",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-misc-the-kress-collection/cover.png"

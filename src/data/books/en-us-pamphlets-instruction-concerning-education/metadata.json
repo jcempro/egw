@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-instruction-concerning-education",
     "title": "Instruction Concerning Education",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-instruction-concerning-education/cover.png"

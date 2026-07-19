@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-danger-in-adopting-worldly-policy-in-the-work-of-god",
     "title": "Danger in Adopting Worldly Policy in the Work of God",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-danger-in-adopting-worldly-policy-in-the-work-of-god/cover.png"

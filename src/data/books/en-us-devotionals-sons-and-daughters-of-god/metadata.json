@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-sons-and-daughters-of-god",
     "title": "Sons and Daughters of God",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-sons-and-daughters-of-god/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-the-voice-in-speech-and-song",
     "title": "The Voice in Speech and Song",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-the-voice-in-speech-and-song/cover.png"

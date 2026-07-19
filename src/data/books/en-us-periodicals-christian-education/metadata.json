@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-christian-education",
     "title": "Christian Education",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-christian-education/cover.png"

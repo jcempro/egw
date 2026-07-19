@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-address-to-ministers",
     "title": "Address To Ministers",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-address-to-ministers/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-home-and-church-school-manual",
     "title": "Home and Church School Manual",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-home-and-church-school-manual/cover.png"

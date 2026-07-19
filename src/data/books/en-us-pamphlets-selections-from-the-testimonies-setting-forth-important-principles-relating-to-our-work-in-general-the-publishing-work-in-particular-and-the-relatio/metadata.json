@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-selections-from-the-testimonies-setting-forth-important-principles-relating-to-our-work-in-general-the-publishing-work-in-particular-and-the-relatio",
     "title": "Selections from the Testimonies Setting forth Important Principles Relating to Our Work in General, the Publishing Work in Particular, and the Relatio",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-selections-from-the-testimonies-setting-forth-important-principles-relating-to-our-work-in-general-the-publishing-work-in-particular-and-the-relatio/cover.png"

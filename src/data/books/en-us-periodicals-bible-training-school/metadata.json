@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-bible-training-school",
     "title": "Bible Training School",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-bible-training-school/cover.png"

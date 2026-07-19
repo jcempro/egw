@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-and-their-cry-came-up-unto-god",
     "title": "And Their Cry Came Up Unto God",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-and-their-cry-came-up-unto-god/cover.png"

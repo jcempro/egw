@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-to-brother-j-n-andrews-and-sister-h-n-smith",
     "title": "To Brother J. N. Andrews And Sister H. N. Smith",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-to-brother-j-n-andrews-and-sister-h-n-smith/cover.png"

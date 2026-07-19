@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-to-conference-officers-and-managers-of-our-schools",
     "title": "To Conference Officers and Managers of Our Schools",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-to-conference-officers-and-managers-of-our-schools/cover.png"

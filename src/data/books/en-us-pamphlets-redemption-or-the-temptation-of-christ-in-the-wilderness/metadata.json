@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-redemption-or-the-temptation-of-christ-in-the-wilderness",
     "title": "Redemption; or the Temptation of Christ in The Wilderness",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-redemption-or-the-temptation-of-christ-in-the-wilderness/cover.png"

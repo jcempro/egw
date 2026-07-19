@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-medical-ministry",
     "title": "Medical Ministry",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-medical-ministry/cover.png"

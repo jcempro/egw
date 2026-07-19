@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimonies-for-the-church-containing-letters-to-physicians-and-ministers-instruction-to-seventh-day-adventists",
     "title": "Testimonies for the Church Containing Letters to Physicians and Ministers Instruction to Seventh-Day Adventists",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimonies-for-the-church-containing-letters-to-physicians-and-ministers-instruction-to-seventh-day-adventists/cover.png"

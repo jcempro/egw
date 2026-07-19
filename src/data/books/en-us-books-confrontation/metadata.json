@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-confrontation",
     "title": "Confrontation",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-confrontation/cover.png"

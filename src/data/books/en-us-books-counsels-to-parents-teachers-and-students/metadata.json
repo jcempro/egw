@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-counsels-to-parents-teachers-and-students",
     "title": "Counsels to Parents, Teachers, and Students",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-counsels-to-parents-teachers-and-students/cover.png"

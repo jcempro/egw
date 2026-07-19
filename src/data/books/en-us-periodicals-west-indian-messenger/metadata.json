@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-west-indian-messenger",
     "title": "West Indian Messenger",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-west-indian-messenger/cover.png"

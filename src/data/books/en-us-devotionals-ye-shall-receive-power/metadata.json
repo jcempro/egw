@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-ye-shall-receive-power",
     "title": "Ye Shall Receive Power",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-ye-shall-receive-power/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-misc-loma-linda-messages",
     "title": "Loma Linda Messages",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-misc-loma-linda-messages/cover.png"

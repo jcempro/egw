@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-misc-sermons-and-talks-vol-1",
     "title": "Sermons and Talks, vol. 1",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-misc-sermons-and-talks-vol-1/cover.png"

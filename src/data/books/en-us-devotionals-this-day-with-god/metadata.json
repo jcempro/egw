@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-this-day-with-god",
     "title": "This Day With God",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-this-day-with-god/cover.png"

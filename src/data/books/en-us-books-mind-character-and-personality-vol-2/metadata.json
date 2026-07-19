@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-mind-character-and-personality-vol-2",
     "title": "Mind, Character, and Personality, vol. 2",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-mind-character-and-personality-vol-2/cover.png"

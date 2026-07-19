@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-record-of-progress-and-an-appeal-in-behalf-of-the-boulder-colorado-sanitarium",
     "title": "Record of Progress and An Appeal In Behalf of the Boulder-Colorado Sanitarium",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-record-of-progress-and-an-appeal-in-behalf-of-the-boulder-colorado-sanitarium/cover.png"

@@ -69,9 +69,9 @@ async function main() {
   const metadataCount = bookEntries.filter((entry) => entry.relative.endsWith("/metadata.json")).length;
   const coverCount = bookEntries.filter((entry) => entry.relative.endsWith("/cover.png")).length;
   const packageCount = bookEntries.filter((entry) => entry.relative.endsWith(".7z")).length;
-  const originalCount = bookEntries.filter((entry) => /\/source\.(pdf|epub)$/.test(entry.relative)).length;
+  const originalCount = bookEntries.filter((entry) => /\.(pdf|epub)$/i.test(entry.relative)).length;
   if (forbidden) throw new Error(`Artefato público proibido: ${forbidden.relative}`);
-  if ([metadataCount, coverCount, packageCount].some((count) => count !== generated.books) || originalCount !== generated.assets) throw new Error(`Árvore incompleta: metadata=${metadataCount} capas=${coverCount} pacotes=${packageCount} originais=${originalCount}`);
+  if (metadataCount !== generated.books || coverCount !== generated.books || packageCount !== generated.assets || originalCount !== 0) throw new Error(`Árvore incompleta: metadata=${metadataCount} capas=${coverCount} pacotes=${packageCount} originais=${originalCount}`);
   const oversized = publicEntries.find((entry) => entry.size > 100_000_000);
   if (oversized) throw new Error(`Arquivo público excede 100 MB: ${oversized.relative}`);
   const totalSize = publicEntries.reduce((sum, entry) => sum + entry.size, 0);

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-historical-sketches-of-the-foreign-missions-of-the-seventh-day-adventists",
     "title": "Historical Sketches of the Foreign Missions of the Seventh-day Adventists",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-historical-sketches-of-the-foreign-missions-of-the-seventh-day-adventists/cover.png"

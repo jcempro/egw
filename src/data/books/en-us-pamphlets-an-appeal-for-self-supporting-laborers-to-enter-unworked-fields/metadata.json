@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-an-appeal-for-self-supporting-laborers-to-enter-unworked-fields",
     "title": "An Appeal for Self-supporting Laborers to Enter Unworked Fields",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-an-appeal-for-self-supporting-laborers-to-enter-unworked-fields/cover.png"

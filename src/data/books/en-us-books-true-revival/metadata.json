@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-true-revival",
     "title": "True Revival",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-true-revival/cover.png"

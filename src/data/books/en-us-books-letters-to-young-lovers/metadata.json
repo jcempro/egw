@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-letters-to-young-lovers",
     "title": "Letters to Young Lovers",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-letters-to-young-lovers/cover.png"

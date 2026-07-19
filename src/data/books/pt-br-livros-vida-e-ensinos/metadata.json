@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-vida-e-ensinos",
     "title": "Vida e Ensinos",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-vida-e-ensinos/cover.png"

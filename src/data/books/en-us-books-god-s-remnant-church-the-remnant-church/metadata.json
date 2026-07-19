@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-god-s-remnant-church-the-remnant-church",
     "title": "God’s Remnant Church (The Remnant Church)",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-god-s-remnant-church-the-remnant-church/cover.png"

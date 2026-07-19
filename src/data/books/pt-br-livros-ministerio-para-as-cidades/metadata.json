@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-ministerio-para-as-cidades",
     "title": "Ministério Para As Cidades",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-ministerio-para-as-cidades/cover.png"

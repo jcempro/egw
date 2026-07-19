@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-a-call-to-service-in-the-masters-harvest-field",
     "title": "A Call to Service in the Masters Harvest Field",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-a-call-to-service-in-the-masters-harvest-field/cover.png"

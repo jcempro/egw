@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-unwise-use-of-money-and-the-spirit-of-speculation",
     "title": "The Unwise Use of Money and the Spirit of Speculation",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-unwise-use-of-money-and-the-spirit-of-speculation/cover.png"

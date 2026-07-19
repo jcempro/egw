@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-oakwood-manual-training-school",
     "title": "The Oakwood Manual Training School",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-oakwood-manual-training-school/cover.png"

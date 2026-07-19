@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-misc-spalding-and-magan-collection",
     "title": "Spalding and Magan Collection",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-misc-spalding-and-magan-collection/cover.png"

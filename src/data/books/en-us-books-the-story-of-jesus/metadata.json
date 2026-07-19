@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-the-story-of-jesus",
     "title": "The Story of Jesus",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-the-story-of-jesus/cover.png"

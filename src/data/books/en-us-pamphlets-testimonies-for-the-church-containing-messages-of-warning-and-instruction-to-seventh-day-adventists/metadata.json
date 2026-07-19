@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimonies-for-the-church-containing-messages-of-warning-and-instruction-to-seventh-day-adventists",
     "title": "Testimonies for the Church Containing Messages of Warning and Instruction to Seventh-day Adventists",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimonies-for-the-church-containing-messages-of-warning-and-instruction-to-seventh-day-adventists/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-dress-reform",
     "title": "The Dress Reform",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-dress-reform/cover.png"

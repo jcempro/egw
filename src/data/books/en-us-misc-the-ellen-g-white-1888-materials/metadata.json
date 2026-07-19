@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-misc-the-ellen-g-white-1888-materials",
     "title": "The Ellen G. White 1888 Materials",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-misc-the-ellen-g-white-1888-materials/cover.png"

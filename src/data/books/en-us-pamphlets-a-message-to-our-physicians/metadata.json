@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-a-message-to-our-physicians",
     "title": "A Message to Our Physicians",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-a-message-to-our-physicians/cover.png"

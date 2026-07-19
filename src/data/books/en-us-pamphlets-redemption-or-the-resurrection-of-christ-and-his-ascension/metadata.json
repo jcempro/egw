@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-redemption-or-the-resurrection-of-christ-and-his-ascension",
     "title": "Redemption - or the Resurrection of Christ; and His Ascension",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-redemption-or-the-resurrection-of-christ-and-his-ascension/cover.png"

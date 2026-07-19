@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-australasian-union-conference-record",
     "title": "Australasian Union Conference Record",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-australasian-union-conference-record/cover.png"

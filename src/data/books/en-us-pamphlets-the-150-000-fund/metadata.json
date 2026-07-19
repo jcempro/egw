@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-150-000-fund",
     "title": "The $150,000 Fund",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-150-000-fund/cover.png"

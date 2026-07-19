@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-time-and-the-work",
     "title": "The Time and The Work",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-time-and-the-work/cover.png"

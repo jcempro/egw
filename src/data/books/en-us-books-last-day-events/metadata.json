@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-last-day-events",
     "title": "Last Day Events",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-last-day-events/cover.png"

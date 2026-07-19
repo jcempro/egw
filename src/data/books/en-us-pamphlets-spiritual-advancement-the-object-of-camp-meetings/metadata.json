@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-spiritual-advancement-the-object-of-camp-meetings",
     "title": "Spiritual Advancement the Object of Camp-Meetings",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-spiritual-advancement-the-object-of-camp-meetings/cover.png"

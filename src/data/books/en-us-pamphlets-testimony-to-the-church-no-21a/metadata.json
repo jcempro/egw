@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimony-to-the-church-no-21a",
     "title": "Testimony to the Church — No. 21a",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimony-to-the-church-no-21a/cover.png"

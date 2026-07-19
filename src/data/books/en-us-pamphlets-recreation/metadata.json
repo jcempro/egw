@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-recreation",
     "title": "Recreation",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-recreation/cover.png"

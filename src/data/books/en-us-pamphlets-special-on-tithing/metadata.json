@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-special-on-tithing",
     "title": "Special on Tithing",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-special-on-tithing/cover.png"

@@ -9,6 +9,7 @@ import { inflateRawSync } from "node:zlib";
 import { validCover } from "./lib/egw-cover.mjs";
 import { generateCovers } from "./lib/egw-covers.mjs";
 import { runMaintenance } from "./lib/egw-maintenance.mjs";
+import { extractEditorial } from "./lib/egw-editorial.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const APP_ROOT = path.join(ROOT, "src");
@@ -294,6 +295,7 @@ async function main() {
     }
     const sources = [];
     const globalHashes = [];
+    const editorial = await extractEditorial({ epub: group.local.get(".epub") || null, pdf: group.local.get(".pdf") || null, fallbackTitle: group.stem });
     const groupReport = { book_id: bookId, input: `${relativeDirectory}/${group.stem}`, formats, provenance: manifest ? "remote-manifest" : "local-input", text_audit: AUDIT_TEXT ? "requested" : "not-requested", text_fingerprint: null, status: "valid" };
     for (const extension of formats) {
       const sourcePath = group.local.get(extension);
@@ -319,7 +321,7 @@ async function main() {
     if (!group.local.has(".epub")) groupReport.status = "pdf-only";
     if (group.local.size === 1 && group.local.has(".epub")) groupReport.status = "epub-only";
     const coverPath = `assets/books/${bookId}/cover.png`;
-    const metadata = { schema_version: 2, book: { id: bookId, title: group.stem, contributors: [], edition: {}, language, cover: coverPath }, global_hashes: globalHashes, sources };
+    const metadata = { schema_version: 2, book: { id: bookId, title: group.stem, contributors: [{ name: editorial.author, role: "author" }], edition: editorial.qualifier ? { qualifier: editorial.qualifier } : {}, language, cover: coverPath }, global_hashes: globalHashes, sources };
     const metadataPath = path.join(BOOK_ROOT, bookId, "metadata.json");
     const assetDirectory = path.join(ASSET_ROOT, bookId);
     const expectedAssetNames = new Set([...sources.map((source) => path.basename(source.url)), "cover.png"]);
@@ -351,7 +353,8 @@ async function main() {
     report.summary.assets += sources.length;
     if (groupReport.status === "pdf-only") report.summary.pdf_only += 1;
     if (groupReport.status === "epub-only") report.summary.epub_only += 1;
-    catalog.push({ book_id: bookId, title: group.stem, author: null, url: `livro/${bookId}/` });
+    groupReport.editorial = editorial;
+    catalog.push({ book_id: bookId, title: group.stem, author: editorial.author, url: `livro/${bookId}/` });
   }
   const catalogContent = json({ schema_version: 1, books: catalog });
   if (CHECK_ONLY) {

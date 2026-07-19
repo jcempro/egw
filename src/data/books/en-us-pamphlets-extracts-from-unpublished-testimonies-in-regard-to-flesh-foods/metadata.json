@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-extracts-from-unpublished-testimonies-in-regard-to-flesh-foods",
     "title": "Extracts from Unpublished Testimonies in Regard to Flesh Foods",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-extracts-from-unpublished-testimonies-in-regard-to-flesh-foods/cover.png"

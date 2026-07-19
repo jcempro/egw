@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-with-god-at-dawn",
     "title": "With God at Dawn",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-with-god-at-dawn/cover.png"

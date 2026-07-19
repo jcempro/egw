@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-o-grande-conflito",
     "title": "O Grande Conflito",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-o-grande-conflito/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-god-s-plan-for-the-relief-of-avondale-school",
     "title": "God’s Plan for the Relief of Avondale School",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-god-s-plan-for-the-relief-of-avondale-school/cover.png"

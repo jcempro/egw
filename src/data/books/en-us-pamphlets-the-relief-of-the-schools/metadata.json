@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-relief-of-the-schools",
     "title": "The Relief of the Schools",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-relief-of-the-schools/cover.png"

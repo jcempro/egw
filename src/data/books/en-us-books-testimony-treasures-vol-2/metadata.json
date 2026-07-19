@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-testimony-treasures-vol-2",
     "title": "Testimony Treasures, vol. 2",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-testimony-treasures-vol-2/cover.png"

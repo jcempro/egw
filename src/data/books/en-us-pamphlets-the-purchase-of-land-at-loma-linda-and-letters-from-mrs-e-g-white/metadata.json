@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-purchase-of-land-at-loma-linda-and-letters-from-mrs-e-g-white",
     "title": "The Purchase of Land at Loma Linda and Letters from Mrs. E. G. White",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-purchase-of-land-at-loma-linda-and-letters-from-mrs-e-g-white/cover.png"

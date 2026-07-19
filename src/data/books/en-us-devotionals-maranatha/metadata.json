@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-maranatha",
     "title": "Maranatha",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-maranatha/cover.png"

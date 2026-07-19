@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-an-appeal-to-ministers-and-church-officers",
     "title": "An Appeal to Ministers and Church Officers",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-an-appeal-to-ministers-and-church-officers/cover.png"

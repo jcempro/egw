@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-counsels-on-stewardship",
     "title": "Counsels on Stewardship",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-counsels-on-stewardship/cover.png"

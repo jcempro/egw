@@ -52,27 +52,38 @@ function metadataPath(data: Metadata): string {
   return `/d/${segment(data.book.language)}/${segment(data.book.primary_category)}/${words[0] || segment(data.book.id)}/${words[1] || remainder}/${remainder}/metadata.json`;
 }
 function formatBytes(value: number): string { const divisor = value >= 1_000_000 ? 1_000_000 : 1_000; return `${(value / divisor).toFixed(1)} ${divisor === 1_000_000 ? "MB" : "kB"}`; }
+function icon(name: "copy" | "download"): Node { return name === "copy" ? <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 8h10v11H9zM5 4h10v3H8v8H5z" fill="currentColor" /></svg> : <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M11 4h2v9l3-3 1.4 1.4L12 17l-5.4-5.6L8 10l3 3zM5 19h14v2H5z" fill="currentColor" /></svg>; }
+async function copyValue(value: string): Promise<void> {
+  if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(value);
+  const field = document.createElement("textarea"); field.value = value; field.className = "sr-only"; document.body.append(field); field.select(); const copied = document.execCommand("copy"); field.remove(); if (!copied) throw new Error("Cópia indisponível");
+}
 function copyButton(value: string, label: string): HTMLButtonElement {
-  const button = <button type="button" className="icon-button" aria-label={label}>Copiar</button> as HTMLButtonElement;
-  button.addEventListener("click", async () => { await navigator.clipboard.writeText(value); announce("Hash copiado."); });
+  const button = <button type="button" className="icon-button" aria-label={label} title={label}>{icon("copy")}</button> as HTMLButtonElement;
+  button.addEventListener("click", async () => { try { await copyValue(value); announce("Valor integral copiado."); } catch { announce("Não foi possível copiar; selecione o valor integral."); } });
   return button;
+}
+function compactValue(value: string, kind: "hash" | "url", label: string): Node { return <span className={`compact-value compact-${kind}`}><span className="compact-text" title={value}>{value}</span>{copyButton(value, label)}</span>; }
+function titleIdentity(data: Metadata): { title: string; qualifier: string | null } {
+  const configured = typeof data.book.edition?.qualifier === "string" ? data.book.edition.qualifier.trim() : ""; const match = /^(.*?)\s*\(([^()]+)\)\s*$/.exec(data.book.title);
+  if (configured && match) return { title: match[1].trim(), qualifier: configured }; if (configured) return { title: data.book.title, qualifier: configured };
+  return match && /condensad|abridg|adaptad|resum|edi[cç][aã]o|edition|vers[aã]o|version/i.test(match[2]) ? { title: match[1].trim(), qualifier: match[2].trim() } : { title: data.book.title, qualifier: null };
 }
 function renderBook(data: Metadata, metadataUrl: string): void {
   const base = new URL("./", metadataUrl);
   const cover = data.assets.find((asset) => asset.id === "cover");
-  const packageAsset = data.assets.find((asset) => asset.id === "package");
-  const authors = data.book.contributors.filter((person) => person.role === "author").map((person) => person.name).join(", ") || "Autoria editorial não informada";
-  const globalRows = data.global_hashes.map((hash) => <article className="panel"><p className="eyebrow">Hash Global {hash.format.toUpperCase()}</p>{(["sha1", "sha256", "sha512"] as const).map((algorithm) => <p className="hash-row"><code className="hash">{algorithm.toUpperCase()}: {hash[algorithm]}</code>{copyButton(hash[algorithm], `Copiar ${algorithm}`)}</p>)}</article>);
+  const authors = data.book.contributors.filter((person) => person.role === "author").map((person) => person.name).join(", "); const identity = titleIdentity(data);
+  const globalRows = data.global_hashes.map((hash) => <article className="panel hash-panel"><header><span className="format-badge">{hash.format.toUpperCase()}</span><h3>Hash global</h3></header><dl>{(["sha1", "sha256", "sha512"] as const).map((algorithm) => <div className="hash-row"><dt>{algorithm.toUpperCase()}</dt><dd><code className="hash">{compactValue(hash[algorithm], "hash", `Copiar ${algorithm.toUpperCase()} integral`)}</code></dd></div>)}</dl></article>);
   const sourceRows = data.sources.map((source, index) => {
     const asset = data.assets.find((candidate) => candidate.id === source.asset_id);
     const href = asset ? new URL(asset.url, base).href : source.url;
-    return <tr><td>{index + 1}</td><td>{source.title}</td><td className="url-cell"><a href={href} target="_blank" rel="noopener noreferrer">{href}</a></td><td>{source.format.toUpperCase()}</td><td>{source.provider}</td><td>{asset ? formatBytes(asset.size) : "Externa"}</td></tr>;
+    const assetHash = asset?.source_hashes.sha256 || source.hashes?.sha256 || "";
+    return <tr><td>{index + 1}</td><td>{source.title}</td><td className="url-cell"><span className="compact-value compact-url"><a className="compact-text" href={href} target="_blank" rel="noopener noreferrer" title={href}>{href}</a>{copyButton(href, "Copiar URL integral")}</span></td><td><span className="format-badge">{source.format.toUpperCase()}</span></td><td>{asset?.format.toUpperCase() || "REMOTO"}</td><td>{assetHash ? <code className="hash">{compactValue(assetHash, "hash", "Copiar SHA-256 integral do asset")}</code> : "Não comparável"}</td><td>{source.provider}</td><td>{asset ? formatBytes(asset.size) : "Externa"}</td><td><a className="download-button" href={href} download aria-label={`Baixar ${source.format.toUpperCase()} em ${asset?.format.toUpperCase() || "asset remoto"}`} title="Baixar asset">{icon("download")}</a></td></tr>;
   });
   bookView.replaceChildren(
-    <section className="book-hero"><div className="cover">{cover ? <img src={new URL(cover.url, base).href} alt={`Capa de ${data.book.title}`} /> : null}</div><div><p className="eyebrow">Referência bibliográfica</p><h1 id="book-view-title">{data.book.title}</h1><p className="book-author">{authors}</p><p>Idioma: {data.book.language} · Categoria: {data.book.primary_category}</p></div></section>,
-    <section className="section"><div className="metric-grid"><article className="metric"><strong>{data.sources.length}</strong><span>Fontes</span></article><article className="metric"><strong>{data.assets.length}</strong><span>Assets</span></article><article className="metric"><strong>{data.short_token}</strong><span>URL curta</span></article></div></section>,
+    <section className="book-hero"><div className="cover">{cover ? <img src={new URL(cover.url, base).href} alt={`Capa de ${data.book.title}`} /> : null}</div><div className="book-identity"><p className="eyebrow">Referência bibliográfica</p><h1 id="book-view-title">{identity.title}</h1>{identity.qualifier ? <p className="book-qualifier">{identity.qualifier}</p> : null}<p className="book-author">{authors}</p><dl className="book-facts"><div><dt>Idioma</dt><dd>{data.book.language}</dd></div><div><dt>Categoria</dt><dd>{data.book.primary_category}</dd></div></dl></div></section>,
+    <section className="section"><div className="metric-grid"><article className="metric"><span>Fontes preservadas</span><strong>{data.sources.length}</strong></article><article className="metric"><span>Assets públicos</span><strong>{data.assets.length}</strong></article><article className="metric"><span>URL curta</span><strong>/_/{data.short_token}</strong></article></div></section>,
     <section className="section"><div className="section-heading"><div><p className="eyebrow">Integridade</p><h2>Hashes dos artefatos originais</h2></div></div><div className="metric-grid">{globalRows}</div></section>,
-    <section className="section"><div className="section-heading"><div><p className="eyebrow">Fontes</p><h2>Assets e proveniência</h2></div><div className="table-actions">{packageAsset ? <a className="button" href={new URL(packageAsset.url, base).href}>Baixar pacote</a> : null}<a className="button button-secondary" href={metadataUrl}>metadata.json</a></div></div><div className="source-table-wrap"><table><thead><tr><th>#</th><th>Fonte</th><th>URL</th><th>Formato</th><th>Provedor</th><th>Tamanho</th></tr></thead><tbody>{sourceRows}</tbody></table></div></section>
+    <section className="section"><div className="section-heading"><div><p className="eyebrow">Fontes</p><h2>Assets e proveniência</h2></div><div className="table-actions"><a className="button button-secondary" href={metadataUrl}>metadata.json</a></div></div><div className="source-table-wrap"><table><thead><tr><th>#</th><th>Fonte</th><th>URL</th><th>Formato</th><th>Asset</th><th>Hash do asset</th><th>Provedor</th><th>Tamanho</th><th><span className="sr-only">Download</span></th></tr></thead><tbody>{sourceRows}</tbody></table></div></section>
   );
   setView("book"); document.title = `${data.book.title} — Índice de Fontes`;
 }

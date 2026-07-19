@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-from-trials-to-triumph",
     "title": "From Trials to Triumph",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-from-trials-to-triumph/cover.png"

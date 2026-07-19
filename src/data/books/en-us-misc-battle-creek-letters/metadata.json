@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-misc-battle-creek-letters",
     "title": "Battle Creek Letters",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-misc-battle-creek-letters/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-health-and-healing",
     "title": "Health and Healing",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-health-and-healing/cover.png"

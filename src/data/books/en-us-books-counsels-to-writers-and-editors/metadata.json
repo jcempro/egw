@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-counsels-to-writers-and-editors",
     "title": "Counsels to Writers and Editors",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-counsels-to-writers-and-editors/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-report-of-progress",
     "title": "Report of Progress",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-report-of-progress/cover.png"

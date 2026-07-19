@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-notes-on-health-and-temperance-topics",
     "title": "Notes on Health and Temperance Topics",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-notes-on-health-and-temperance-topics/cover.png"

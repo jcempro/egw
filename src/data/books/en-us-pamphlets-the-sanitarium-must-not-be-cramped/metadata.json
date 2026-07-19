@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-sanitarium-must-not-be-cramped",
     "title": "The Sanitarium Must Not be Cramped",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-sanitarium-must-not-be-cramped/cover.png"

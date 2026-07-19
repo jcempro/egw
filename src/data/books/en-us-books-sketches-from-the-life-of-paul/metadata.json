@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-sketches-from-the-life-of-paul",
     "title": "Sketches from the Life of Paul",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-sketches-from-the-life-of-paul/cover.png"

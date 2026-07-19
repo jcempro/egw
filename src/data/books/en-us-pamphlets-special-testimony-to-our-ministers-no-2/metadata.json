@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-special-testimony-to-our-ministers-no-2",
     "title": "Special Testimony to Our Ministers—No. 2",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-special-testimony-to-our-ministers-no-2/cover.png"

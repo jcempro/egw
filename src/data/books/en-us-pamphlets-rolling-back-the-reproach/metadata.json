@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-rolling-back-the-reproach",
     "title": "Rolling Back the Reproach",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-rolling-back-the-reproach/cover.png"

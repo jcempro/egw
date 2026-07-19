@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-the-minnesota-worker",
     "title": "The Minnesota Worker",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-the-minnesota-worker/cover.png"

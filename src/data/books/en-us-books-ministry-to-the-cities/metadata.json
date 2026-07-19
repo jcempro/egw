@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-ministry-to-the-cities",
     "title": "Ministry to the Cities",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-ministry-to-the-cities/cover.png"

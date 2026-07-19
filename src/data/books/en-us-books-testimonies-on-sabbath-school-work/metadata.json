@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-testimonies-on-sabbath-school-work",
     "title": "Testimonies on Sabbath-School Work",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-testimonies-on-sabbath-school-work/cover.png"

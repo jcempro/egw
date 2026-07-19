@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-selected-messages-book-1",
     "title": "Selected Messages Book 1",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-selected-messages-book-1/cover.png"

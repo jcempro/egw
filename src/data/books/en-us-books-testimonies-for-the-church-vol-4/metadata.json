@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-testimonies-for-the-church-vol-4",
     "title": "Testimonies for the Church, vol. 4",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-testimonies-for-the-church-vol-4/cover.png"

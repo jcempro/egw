@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-testimonies-to-southern-africa",
     "title": "Testimonies to Southern Africa",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-testimonies-to-southern-africa/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-special-testimony-on-canvassing-for-christ-s-object-lessons",
     "title": "Special Testimony on Canvassing for Christ’s Object Lessons",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-special-testimony-on-canvassing-for-christ-s-object-lessons/cover.png"

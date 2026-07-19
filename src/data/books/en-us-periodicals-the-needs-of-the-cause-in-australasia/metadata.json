@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-the-needs-of-the-cause-in-australasia",
     "title": "The Needs of the Cause in Australasia",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-the-needs-of-the-cause-in-australasia/cover.png"

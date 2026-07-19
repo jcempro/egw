@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-sowing-beside-all-waters",
     "title": "Sowing Beside All Waters",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-sowing-beside-all-waters/cover.png"

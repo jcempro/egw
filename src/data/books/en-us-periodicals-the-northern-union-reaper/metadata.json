@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-the-northern-union-reaper",
     "title": "The Northern Union Reaper",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-the-northern-union-reaper/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-new-england-sanitarium",
     "title": "The New England Sanitarium",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-new-england-sanitarium/cover.png"

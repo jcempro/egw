@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-counsels-on-diet-and-foods",
     "title": "Counsels on Diet and Foods",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-counsels-on-diet-and-foods/cover.png"

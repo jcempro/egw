@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-o-lar-adventista",
     "title": "O Lar Adventista",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-o-lar-adventista/cover.png"

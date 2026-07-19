@@ -116,8 +116,8 @@ async function createPackage({ destination, sourceDirectory, names }) {
   return { hashes: await hashFile(destination), size: (await stat(destination)).size };
 }
 
-function packageCacheKey(bookId, globalHashes) {
-  const identity = JSON.stringify({ version: 1, format: "7z", method: "LZMA2", level: 9, bookId, artifacts: globalHashes.map(({ artifact_id, sha256 }) => [artifact_id, sha256]) });
+function packageCacheKey(bookId, globalHashes, variant = "all") {
+  const identity = JSON.stringify({ version: 2, format: "7z", method: "LZMA2", level: 9, bookId, variant, artifacts: globalHashes.map(({ artifact_id, sha256 }) => [artifact_id, sha256]) });
   return createHash("sha256").update(identity).digest("hex");
 }
 
@@ -183,23 +183,14 @@ export async function seedPackageCache(distRoot, cacheRoot) {
   for (const metadataPath of await collectMetadata(path.join(distRoot, "d"))) {
     const metadata = JSON.parse(await readFile(metadataPath, "utf8"));
     if (metadata.schema_version !== 5 || !Array.isArray(metadata.global_hashes) || !metadata.book?.id) continue;
-    const packageAsset = metadata.assets?.find((asset) => asset.id === "package" && /^\.\/[a-z0-9-]+\.7z$/.test(asset.url));
-    if (!packageAsset) continue;
-    const source = path.join(path.dirname(metadataPath), packageAsset.url.slice(2));
-    const names = metadata.global_hashes.map((hash) => `source.${hash.format}`);
-    if (!(await exists(source))) continue;
-    const key = packageCacheKey(metadata.book.id, metadata.global_hashes);
-    const cached = path.join(cacheRoot, `${key}.7z`);
-    const marker = path.join(cacheRoot, `${key}.json`);
-    if (!(await exists(cached))) {
-      if (!(await testPackage(source, names))) continue;
-      await copyFile(source, cached);
-      seeded += 1;
-    }
-    if (!(await exists(marker))) {
-      const hashes = await hashFile(cached);
-      if (JSON.stringify(hashes) !== JSON.stringify(packageAsset.source_hashes)) throw new Error(`Cache divergente durante semeadura: ${metadata.book.id}`);
-      await writeJson(marker, { schema_version: 1, names, hashes, size: (await stat(cached)).size });
+    const packages = metadata.assets?.filter((asset) => asset.format === "7z" && /^\.\/[a-z0-9-]+\.7z$/.test(asset.url)) || [];
+    for (const packageAsset of packages) {
+      const selected = packageAsset.id === "package" ? metadata.global_hashes : metadata.global_hashes.filter((hash) => packageAsset.id === `source-${hash.format}`);
+      const names = selected.map((hash) => `source.${hash.format}`); const variant = packageAsset.id === "package" ? "all" : selected[0]?.format;
+      const source = path.join(path.dirname(metadataPath), packageAsset.url.slice(2)); if (!names.length || !(await exists(source))) continue;
+      const key = packageCacheKey(metadata.book.id, selected, variant); const cached = path.join(cacheRoot, `${key}.7z`); const marker = path.join(cacheRoot, `${key}.json`);
+      if (!(await exists(cached))) { if (!(await testPackage(source, names))) continue; await copyFile(source, cached); seeded += 1; }
+      if (!(await exists(marker))) { const hashes = await hashFile(cached); if (JSON.stringify(hashes) !== JSON.stringify(packageAsset.source_hashes)) throw new Error(`Cache divergente durante semeadura: ${metadata.book.id}`); await writeJson(marker, { schema_version: 1, names, hashes, size: (await stat(cached)).size }); }
     }
   }
   return seeded;
@@ -217,13 +208,14 @@ function assetRecord(id, format, url, size, hashes, originUrl = null) {
 }
 
 function sourceRecord(source, assetId, format, hashes) {
+  const provider = source.provider || (source.origin_url ? new URL(source.origin_url).hostname : "local-preserved");
   return {
     id: source.id,
-    title: source.title,
-    url: source.origin_url || `./source.${format}`,
+    title: provider,
+    url: `./source-${format}.7z`,
     type: source.type || "preserved-asset",
     format,
-    provider: source.provider || (source.origin_url ? new URL(source.origin_url).hostname : "local-preserved"),
+    provider,
     asset_id: assetId,
     hashes,
   };
@@ -259,15 +251,13 @@ export async function materializeBooks({ sourceRoot, distRoot, cacheRoot }) {
     for (const format of ["pdf", "epub"]) {
       const sourceFile = path.join(sourceDirectory, `source.${format}`);
       if (!(await exists(sourceFile))) continue;
-      const destination = path.join(directory, `source.${format}`);
-      await copyFile(sourceFile, destination);
-      const hashes = await hashFile(destination);
-      const size = (await stat(destination)).size;
+      const hashes = await hashFile(sourceFile);
       const artifactId = `source-${format}`;
       const source = sourceByFormat.get(format);
       formats.push(format);
       globalHashes.push({ artifact_id: artifactId, format, ...hashes });
-      assets.push(assetRecord(artifactId, format, `./source.${format}`, size, hashes, source?.origin_url || null));
+      const archiveName = `source-${format}.7z`; const archive = await materializePackage({ destination: path.join(directory, archiveName), sourceDirectory, names: [`source.${format}`], cacheRoot, cacheKey: packageCacheKey(book.id, [{ artifact_id: artifactId, format, ...hashes }], format) });
+      assets.push(assetRecord(artifactId, "7z", `./${archiveName}`, archive.size, archive.hashes, source?.origin_url || null));
       publishedAssets += 1;
     }
     if (!formats.length) throw new Error(`Artefato interno ausente: ${book.id}`);
@@ -277,11 +267,6 @@ export async function materializeBooks({ sourceRoot, distRoot, cacheRoot }) {
     const coverPath = path.join(directory, "cover.png");
     await sharp(sourceCover).rotate().resize({ width: 800, height: 800, fit: "inside", withoutEnlargement: true }).png({ compressionLevel: 9, adaptiveFiltering: true }).toFile(coverPath);
     assets.push(assetRecord("cover", "png", "./cover.png", (await stat(coverPath)).size, await hashFile(coverPath)));
-
-    const packageName = `${normalizeSegment(book.id)}.7z`;
-    const packageNames = formats.map((format) => `source.${format}`);
-    const packageInfo = await materializePackage({ destination: path.join(directory, packageName), sourceDirectory, names: packageNames, cacheRoot, cacheKey: packageCacheKey(book.id, globalHashes) });
-    assets.push(assetRecord("package", "7z", `./${packageName}`, packageInfo.size, packageInfo.hashes));
 
     const token = assignments.get(book.id);
     const metadata = {

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-monthly-missionary-reading",
     "title": "Monthly Missionary Reading",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-monthly-missionary-reading/cover.png"

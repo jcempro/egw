@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-a-call-to-medical-evangelism-and-health-education",
     "title": "A Call to Medical Evangelism and Health Education",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-a-call-to-medical-evangelism-and-health-education/cover.png"

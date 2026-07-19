@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-echoes-from-the-field",
     "title": "Echoes From the Field",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-echoes-from-the-field/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-forest-park-reporter",
     "title": "Forest Park Reporter",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-forest-park-reporter/cover.png"

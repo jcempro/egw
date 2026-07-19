@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-the-spirit-of-prophecy-vol-1",
     "title": "The Spirit of Prophecy, vol. 1",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-the-spirit-of-prophecy-vol-1/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-steps-to-christ",
     "title": "Steps to Christ",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-steps-to-christ/cover.png"

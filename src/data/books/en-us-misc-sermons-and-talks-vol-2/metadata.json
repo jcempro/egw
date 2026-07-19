@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-misc-sermons-and-talks-vol-2",
     "title": "Sermons and Talks, vol. 2",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-misc-sermons-and-talks-vol-2/cover.png"

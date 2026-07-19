@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-living-by-principle",
     "title": "Living by Principle",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-living-by-principle/cover.png"

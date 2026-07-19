@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-what-shall-we-teach",
     "title": "What Shall We Teach",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-what-shall-we-teach/cover.png"

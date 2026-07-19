@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-place-of-herbs-in-rational-therapy",
     "title": "The Place of Herbs in Rational Therapy",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-place-of-herbs-in-rational-therapy/cover.png"

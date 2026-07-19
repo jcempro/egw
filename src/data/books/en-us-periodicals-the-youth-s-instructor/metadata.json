@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-the-youth-s-instructor",
     "title": "The Youth’s Instructor",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-the-youth-s-instructor/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-homeward-bound",
     "title": "Homeward Bound",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-homeward-bound/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-fundamentos-da-educacao-crista",
     "title": "Fundamentos da Educação Cristã",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-fundamentos-da-educacao-crista/cover.png"

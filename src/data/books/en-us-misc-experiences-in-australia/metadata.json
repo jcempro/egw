@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-misc-experiences-in-australia",
     "title": "Experiences in Australia",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-misc-experiences-in-australia/cover.png"

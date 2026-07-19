@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-devotionals-our-high-calling",
     "title": "Our High Calling",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-devotionals-our-high-calling/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-christian-experience-and-teachings-of-ellen-g-white",
     "title": "Christian Experience and Teachings of Ellen G. White",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-christian-experience-and-teachings-of-ellen-g-white/cover.png"

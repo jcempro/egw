@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-testimonies-on-fair-dealing-and-book-royalties",
     "title": "Testimonies on Fair Dealing and Book Royalties",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-testimonies-on-fair-dealing-and-book-royalties/cover.png"

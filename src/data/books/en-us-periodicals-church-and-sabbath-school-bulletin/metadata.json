@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-church-and-sabbath-school-bulletin",
     "title": "Church and Sabbath School Bulletin",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-church-and-sabbath-school-bulletin/cover.png"

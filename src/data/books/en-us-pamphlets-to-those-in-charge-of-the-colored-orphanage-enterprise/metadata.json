@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-to-those-in-charge-of-the-colored-orphanage-enterprise",
     "title": "To Those in Charge of the Colored Orphanage Enterprise",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-to-those-in-charge-of-the-colored-orphanage-enterprise/cover.png"

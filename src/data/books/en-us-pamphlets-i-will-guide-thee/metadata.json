@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-i-will-guide-thee",
     "title": "I Will Guide Thee",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-i-will-guide-thee/cover.png"

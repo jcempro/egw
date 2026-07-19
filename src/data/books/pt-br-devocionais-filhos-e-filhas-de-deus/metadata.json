@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-devocionais-filhos-e-filhas-de-deus",
     "title": "Filhos e Filhas de Deus",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-devocionais-filhos-e-filhas-de-deus/cover.png"

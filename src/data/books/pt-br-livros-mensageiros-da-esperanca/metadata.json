@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-mensageiros-da-esperanca",
     "title": "Mensageiros da Esperança",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-mensageiros-da-esperanca/cover.png"

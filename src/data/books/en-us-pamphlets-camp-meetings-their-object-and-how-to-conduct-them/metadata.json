@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-camp-meetings-their-object-and-how-to-conduct-them",
     "title": "Camp-Meetings Their Object, and How to Conduct Them",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-camp-meetings-their-object-and-how-to-conduct-them/cover.png"

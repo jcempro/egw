@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-from-heaven-with-love",
     "title": "From Heaven With Love",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-from-heaven-with-love/cover.png"

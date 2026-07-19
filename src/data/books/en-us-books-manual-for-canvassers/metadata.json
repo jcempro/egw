@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-manual-for-canvassers",
     "title": "Manual for Canvassers",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-manual-for-canvassers/cover.png"

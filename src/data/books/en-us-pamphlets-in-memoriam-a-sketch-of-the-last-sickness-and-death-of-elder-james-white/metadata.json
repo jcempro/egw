@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-in-memoriam-a-sketch-of-the-last-sickness-and-death-of-elder-james-white",
     "title": "In Memoriam - A Sketch of the Last Sickness and Death of Elder James White",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-in-memoriam-a-sketch-of-the-last-sickness-and-death-of-elder-james-white/cover.png"

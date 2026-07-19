@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-the-bible-echo",
     "title": "The Bible Echo",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-the-bible-echo/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-special-testimony-relative-to-tract-and-missionary-societies-and-our-preachers",
     "title": "Special Testimony Relative to Tract and Missionary Societies and Our Preachers",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-special-testimony-relative-to-tract-and-missionary-societies-and-our-preachers/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-colporteur-ministry",
     "title": "Colporteur Ministry",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-colporteur-ministry/cover.png"

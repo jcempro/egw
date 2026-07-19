@@ -13,16 +13,19 @@ function entryMap(buffer) {
   for (let index = 0; index < buffer.readUInt16LE(eocd + 10); index += 1) {
     if (buffer.readUInt32LE(offset) !== 0x02014b50) throw new Error("EPUB com índice ZIP inválido");
     const nameLength = buffer.readUInt16LE(offset + 28); const extraLength = buffer.readUInt16LE(offset + 30); const commentLength = buffer.readUInt16LE(offset + 32);
-    entries.set(buffer.subarray(offset + 46, offset + 46 + nameLength).toString("utf8"), { compression: buffer.readUInt16LE(offset + 10), size: buffer.readUInt32LE(offset + 20), local: buffer.readUInt32LE(offset + 42) });
+    entries.set(buffer.subarray(offset + 46, offset + 46 + nameLength).toString("utf8").replace(/\\/g, "/"), { compression: buffer.readUInt16LE(offset + 10), size: buffer.readUInt32LE(offset + 20), local: buffer.readUInt32LE(offset + 42) });
     offset += 46 + nameLength + extraLength + commentLength;
   }
-  return { read(name) { const item = entries.get(name); if (!item) return null; const local = item.local; const nameLength = buffer.readUInt16LE(local + 26); const extraLength = buffer.readUInt16LE(local + 28); const data = buffer.subarray(local + 30 + nameLength + extraLength, local + 30 + nameLength + extraLength + item.size); return item.compression === 8 ? inflateRawSync(data) : data; } };
+  return { read(name) { const item = entries.get(name.replace(/\\/g, "/")); if (!item) return null; const local = item.local; const nameLength = buffer.readUInt16LE(local + 26); const extraLength = buffer.readUInt16LE(local + 28); const data = buffer.subarray(local + 30 + nameLength + extraLength, local + 30 + nameLength + extraLength + item.size); return item.compression === 8 ? inflateRawSync(data) : data; } };
 }
 function attr(tag, name) { return new RegExp(`\\b${name}=["']([^"']+)["']`, "i").exec(tag)?.[1] || null; }
 function zipPath(base, href) { const result = path.posix.normalize(path.posix.join(base, href)).replace(/^\/+/, ""); if (!result || result.startsWith("../")) throw new Error("Caminho EPUB inseguro"); return result; }
-export async function epubCover(epub) {
+export async function epubPackage(epub) {
   const archive = entryMap(await readFile(epub)); const container = archive.read("META-INF/container.xml")?.toString("utf8"); const opfPath = /<rootfile\b[^>]*\bfull-path=["']([^"']+)["']/i.exec(container || "")?.[1];
-  if (!opfPath) throw new Error("EPUB sem pacote OPF"); const opf = archive.read(opfPath)?.toString("utf8") || ""; const base = path.posix.dirname(opfPath); const items = [...opf.matchAll(/<item\b[^>]*>/gi)].map(([tag]) => ({ id: attr(tag, "id"), href: attr(tag, "href"), properties: attr(tag, "properties") || "", media: attr(tag, "media-type") || "" }));
+  if (!opfPath) throw new Error(`EPUB sem pacote OPF: ${epub}`); const opf = archive.read(opfPath)?.toString("utf8"); if (!opf) throw new Error(`Pacote OPF ausente: ${epub} (${opfPath})`); return { archive, opf, opfPath };
+}
+export async function epubCover(epub) {
+  const { archive, opf, opfPath } = await epubPackage(epub); const base = path.posix.dirname(opfPath); const items = [...opf.matchAll(/<item\b[^>]*>/gi)].map(([tag]) => ({ id: attr(tag, "id"), href: attr(tag, "href"), properties: attr(tag, "properties") || "", media: attr(tag, "media-type") || "" }));
   const coverId = /<meta\b[^>]*\bname=["']cover["'][^>]*\bcontent=["']([^"']+)["']/i.exec(opf)?.[1]; const item = items.find((entry) => entry.id === coverId || /\bcover-image\b/.test(entry.properties) || /image\//.test(entry.media));
   if (!item?.href) throw new Error("EPUB sem imagem de capa"); const cover = archive.read(zipPath(base, item.href)); if (!cover) throw new Error("Imagem de capa EPUB ausente"); return cover;
 }

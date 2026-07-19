@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-an-appeal-to-seventh-day-adventists-to-fulfil-their-duty-to-the-south",
     "title": "An Appeal to Seventh-day Adventists to Fulfil Their Duty to the South",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-an-appeal-to-seventh-day-adventists-to-fulfil-their-duty-to-the-south/cover.png"

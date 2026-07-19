@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-our-work-in-washington-d-c",
     "title": "Our Work in Washington D. C.",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-our-work-in-washington-d-c/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-extracts-from-recent-letters-from-sister-white-relative-to-medical-missionary-work",
     "title": "Extracts from Recent Letters from Sister White Relative to Medical Missionary Work",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-extracts-from-recent-letters-from-sister-white-relative-to-medical-missionary-work/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-ser-mae-o-que-e",
     "title": "Ser Mãe — O que é",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-ser-mae-o-que-e/cover.png"

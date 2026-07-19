@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-an-appeal-in-behalf-of-our-work-in-scandinavia",
     "title": "An Appeal in Behalf of Our Work in Scandinavia",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-an-appeal-in-behalf-of-our-work-in-scandinavia/cover.png"

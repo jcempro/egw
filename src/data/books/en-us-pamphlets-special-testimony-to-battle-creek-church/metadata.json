@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-special-testimony-to-battle-creek-church",
     "title": "Special Testimony to Battle Creek Church",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-special-testimony-to-battle-creek-church/cover.png"

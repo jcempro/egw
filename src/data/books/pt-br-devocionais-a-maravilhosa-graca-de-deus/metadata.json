@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-devocionais-a-maravilhosa-graca-de-deus",
     "title": "A Maravilhosa Graça de Deus",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-devocionais-a-maravilhosa-graca-de-deus/cover.png"

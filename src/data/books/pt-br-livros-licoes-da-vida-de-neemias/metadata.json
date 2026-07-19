@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-licoes-da-vida-de-neemias",
     "title": "Lições da Vida de Neemias",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-licoes-da-vida-de-neemias/cover.png"

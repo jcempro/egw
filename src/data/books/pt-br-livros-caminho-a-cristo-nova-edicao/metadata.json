@@ -3,8 +3,15 @@
   "book": {
     "id": "pt-br-livros-caminho-a-cristo-nova-edicao",
     "title": "Caminho a Cristo (nova edição)",
-    "contributors": [],
-    "edition": {},
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
+    "edition": {
+      "qualifier": "nova edição"
+    },
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-caminho-a-cristo-nova-edicao/cover.png"
   },

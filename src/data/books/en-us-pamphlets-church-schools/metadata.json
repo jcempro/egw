@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-church-schools",
     "title": "Church Schools",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-church-schools/cover.png"

@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-general-conference-daily-bulletin",
     "title": "General Conference Daily Bulletin",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-general-conference-daily-bulletin/cover.png"

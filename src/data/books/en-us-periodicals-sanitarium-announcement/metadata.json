@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-periodicals-sanitarium-announcement",
     "title": "Sanitarium Announcement",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-periodicals-sanitarium-announcement/cover.png"

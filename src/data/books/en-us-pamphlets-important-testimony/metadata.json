@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-important-testimony",
     "title": "Important Testimony",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-important-testimony/cover.png"

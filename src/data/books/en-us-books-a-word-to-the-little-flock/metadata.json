@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-books-a-word-to-the-little-flock",
     "title": "A Word to the Little Flock",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-books-a-word-to-the-little-flock/cover.png"

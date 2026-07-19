@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-to-the-leading-men-of-our-churches",
     "title": "To the Leading Men of Our Churches",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-to-the-leading-men-of-our-churches/cover.png"

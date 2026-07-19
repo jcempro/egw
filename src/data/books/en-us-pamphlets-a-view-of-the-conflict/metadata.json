@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-a-view-of-the-conflict",
     "title": "A View of the Conflict",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-a-view-of-the-conflict/cover.png"

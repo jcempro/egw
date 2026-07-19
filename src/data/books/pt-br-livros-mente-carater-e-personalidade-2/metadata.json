@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-mente-carater-e-personalidade-2",
     "title": "Mente, Caráter e Personalidade 2",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-mente-carater-e-personalidade-2/cover.png"

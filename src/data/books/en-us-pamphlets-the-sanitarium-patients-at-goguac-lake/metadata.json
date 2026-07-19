@@ -3,7 +3,12 @@
   "book": {
     "id": "en-us-pamphlets-the-sanitarium-patients-at-goguac-lake",
     "title": "The Sanitarium Patients at Goguac Lake",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "en-us",
     "cover": "assets/books/en-us-pamphlets-the-sanitarium-patients-at-goguac-lake/cover.png"

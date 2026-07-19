@@ -3,7 +3,12 @@
   "book": {
     "id": "pt-br-livros-profetas-e-reis",
     "title": "Profetas e Reis",
-    "contributors": [],
+    "contributors": [
+      {
+        "name": "Ellen G. White",
+        "role": "author"
+      }
+    ],
     "edition": {},
     "language": "pt-br",
     "cover": "assets/books/pt-br-livros-profetas-e-reis/cover.png"
