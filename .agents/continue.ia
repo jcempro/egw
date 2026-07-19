@@ -121,7 +121,7 @@ FT-007|nome=Reparar publicação e página de livros|objetivo=Eliminar originais
   1/3 Atualizar memória e handoff [concluído]
   2/3 Convergir dev e main [concluído]
   3/3 Publicar e verificar GitHub Pages [concluído]
-FT-008|nome=Refatorar transparência e grid de fontes|objetivo=Restabelecer leveza institucional, eliminar overflow local e tornar hashes, URLs, formatos e proveniência inequívocos.|escopo=tecnico|status=em andamento
+FT-008|nome=Refatorar transparência e grid de fontes|objetivo=Restabelecer leveza institucional, eliminar overflow local e tornar hashes, URLs, formatos e proveniência inequívocos.|escopo=tecnico|status=concluído
 1/6 Registrar evolução visual [concluído]
   1/3 Reavaliar regressões e normas [concluído]
   2/3 Evoluir RCF sem regredir rotas [concluído]
@@ -143,20 +143,21 @@ FT-008|nome=Refatorar transparência e grid de fontes|objetivo=Restabelecer leve
   1/3 Derivar Fonte armazenadora [concluído]
   2/3 Separar Provedor editorial [concluído]
   3/3 Suprimir redundância sem perda [concluído]
-6/6 Homologar e publicar [em andamento]
+6/6 Homologar e publicar [concluído]
   1/3 Validar build, rotas e interface [concluído]
-  2/3 Convergir dev e main [pendente]
-  3/3 Publicar e verificar GitHub Pages [pendente]
+  2/3 Convergir dev e main [concluído]
+  3/3 Publicar e verificar GitHub Pages [concluído]
 
 ## FT-008 — Refatorar transparência e grid de fontes
 
 - Escopo: Técnico — evolução visual, responsividade, ações utilitárias e semântica de proveniência.
 - Prioridade: alta.
-- Status: em andamento.
+- Status: concluído.
 - Início: `20260719.1601.34`.
-- Atualização: `20260719.1620.00`.
-- Etapa atual: `6/6` — homologar e publicar.
-- Tarefa atual: `2/3` — convergir `dev` e `main`.
+- Atualização: `20260719.1630.00`.
+- Conclusão: `20260719.1630.00`.
+- Etapa atual: `6/6` — concluída.
+- Tarefa atual: nenhuma; publicação verificada no destino real.
 
 ### Decisões e preservações
 
@@ -166,6 +167,7 @@ FT-008|nome=Refatorar transparência e grid de fontes|objetivo=Restabelecer leve
 - Hash integral e URL integral permanecem disponíveis para cópia e tecnologia assistiva; o recorte de 7 caracteres é exclusivamente visual.
 - Build integral aprovado com 527 livros, 1.051 contêineres e índice de busca com dois campos. `check:dist`, `test:ui`, `test-dev-live` e `typecheck` foram aprovados.
 - Navegador real em 2560×1440 e 390×844 confirmou zero overflow de página ou scroll local, dois itens fluidos, hashes de sete caracteres, ícones visíveis, fonte `fontes.jcem.pro`, Provedor distinto e alvo de download ampliado. Claro/escuro usam gradientes, transparência e `backdrop-filter` com fallback.
+- `dev` e `main` convergiram em `980af52`; o GitHub Actions `29700503832` concluiu build e deploy. Home respondeu HTTP 200, rota canônica respondeu o 404 esperado com o shell, e assets públicos confirmaram grid fluido, Font Awesome incorporado, máscara de sete caracteres, transparência e ausência do contêiner de scroll anterior.
 
 ## FT-007 — Reparar publicação e página de livros
 
