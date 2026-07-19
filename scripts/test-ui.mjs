@@ -6,6 +6,7 @@ import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { transform } from "esbuild";
 import { JSDOM } from "jsdom";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -20,6 +21,12 @@ const legacyPath = Object.entries(legacy).find(([, value]) => value === canonica
 if (!legacyPath) throw new Error("Alias de teste ausente");
 if (faCopy.icon[3] !== "f0c5") throw new Error("Provider de ícones não expõe o glifo Copy f0c5");
 if (/prefers-color-scheme:\s*dark/.test(stylesheet) || !/color-scheme:\s*light/.test(stylesheet) || !/\.site-header\{[^}]*linear-gradient/.test(stylesheet) || !/\.site-footer\{[^}]*linear-gradient/.test(stylesheet)) throw new Error("Contrato de tema institucional claro divergente");
+const providerSource = await readFile(path.join(ROOT, "src", "app", "icon-provider.ts"), "utf8");
+const providerModule = await transform(providerSource, { loader: "ts", format: "esm", target: "es2020" });
+const { renderIcon } = await import(`data:text/javascript;base64,${Buffer.from(providerModule.code).toString("base64")}`);
+const providerDom = new JSDOM("<!doctype html><body></body>");
+const faNode = renderIcon(faCopy, "⧉", providerDom.window.document); const fallbackNode = renderIcon(null, "⧉", providerDom.window.document); const waNode = providerDom.window.document.createElement("wa-icon"); const customNode = renderIcon(waNode, "?", providerDom.window.document); const functionNode = renderIcon(() => providerDom.window.document.createElement("i"), "?", providerDom.window.document);
+if (faNode.namespaceURI !== "http://www.w3.org/2000/svg" || faNode.querySelector("path")?.namespaceURI !== "http://www.w3.org/2000/svg" || faNode.getAttribute("data-icon-unicode") !== "f0c5" || fallbackNode.textContent !== "⧉" || fallbackNode.dataset.iconProvider !== "fallback" || customNode.dataset.iconProvider !== "webawesome" || functionNode.dataset.iconProvider !== "custom") throw new Error("Adaptador neutro de providers ou fallback divergente");
 
 function response(body, contentType = "application/json") {
   return { ok: true, status: 200, headers: { get: (name) => name.toLowerCase() === "content-type" ? contentType : null }, json: async () => JSON.parse(body), text: async () => body };
@@ -39,7 +46,7 @@ async function render(pathname) {
   dom.window.console.error = () => undefined;
   dom.window.eval(script);
   await new Promise((resolve) => setTimeout(resolve, 40));
-  return { dom, copied: () => copied, state: { landing: !dom.window.document.getElementById("landing-view").hidden, book: !dom.window.document.getElementById("book-view").hidden, notFound: !dom.window.document.getElementById("not-found-view").hidden, title: dom.window.document.title } };
+  return { dom, copied: () => copied, state: { landing: !dom.window.document.getElementById("landing-view").hidden, book: !dom.window.document.getElementById("book-view").hidden, notFound: !dom.window.document.getElementById("not-found-view").hidden, title: dom.window.document.title, processing: dom.window.document.getElementById("processing-indicator").dataset.state } };
 }
 
 const home = await render("/");
@@ -51,10 +58,12 @@ const copy = canonicalResult.dom.window.document.querySelector('.hash-panel .ico
 const firstHash = canonicalResult.dom.window.document.querySelector('.hash-panel .compact-hash .compact-text');
 const sourceItems = canonicalResult.dom.window.document.querySelectorAll('.source-item');
 const firstSource = sourceItems[0];
-if (canonicalResult.copied() !== metadata.global_hashes[0].sha1 || firstHash?.textContent !== metadata.global_hashes[0].sha1.slice(-7) || firstHash?.getAttribute('aria-label') !== metadata.global_hashes[0].sha1 || !canonicalResult.dom.window.document.querySelector('.compact-url .icon-button .fa-icon[width="1em"][height="1em"]') || sourceItems.length !== metadata.sources.length || !firstSource?.querySelector('.asset-format .fa-icon') || !firstSource?.querySelector('.download-button .fa-icon')) throw new Error("UI de hashes, URLs, ícones ou assets divergente");
+const copySvg = canonicalResult.dom.window.document.querySelector('.compact-url .icon-button .fa-icon[width="1em"][height="1em"]');
+if (canonicalResult.copied() !== metadata.global_hashes[0].sha1 || firstHash?.textContent !== metadata.global_hashes[0].sha1.slice(-7) || firstHash?.getAttribute('aria-label') !== metadata.global_hashes[0].sha1 || copySvg?.namespaceURI !== "http://www.w3.org/2000/svg" || copySvg?.querySelector('path')?.namespaceURI !== "http://www.w3.org/2000/svg" || sourceItems.length !== metadata.sources.length || !firstSource?.querySelector('.asset-format .fa-icon') || !firstSource?.querySelector('.download-button .fa-icon')) throw new Error("UI de hashes, URLs, ícones ou assets divergente");
+if (!canonicalResult.dom.window.document.querySelector('#processing-indicator .processing-track') || canonicalResult.state.processing !== "completed") throw new Error("Estados progressivos da rota canônica divergentes");
 if (canonicalResult.dom.window.document.querySelector('.source-table-wrap, table') || !firstSource?.querySelector('.source-host') || !firstSource?.querySelector('.source-provider')) throw new Error("Grid ou proveniência divergente");
 const shortResult = await render(`/_/${token}/`);
-if (!shortResult.state.book) throw new Error("Rota curta não renderizou Livro");
+if (!shortResult.state.book || shortResult.state.processing !== "completed") throw new Error("Rota curta não renderizou Livro progressivamente");
 const legacyResult = await render(`/${legacyPath}`);
 if (!legacyResult.state.book) throw new Error("Alias histórico não renderizou Livro");
 const missing = await render("/rota-inexistente/");

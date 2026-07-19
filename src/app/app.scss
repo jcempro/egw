@@ -33,6 +33,16 @@
     a:focus-visible, button:focus-visible, input:focus-visible { outline: .2rem solid #d69b2d; outline-offset: .2rem; }
     [hidden] { display: none !important; }
 
+    .processing-indicator { position: fixed; inset: 0 0 auto; z-index: 20; display: grid; pointer-events: none; }
+    .processing-track { display: block; height: .18rem; overflow: hidden; background: rgba(255,255,255,.2); }
+    .processing-track span { display: block; width: 36%; height: 100%; background: linear-gradient(90deg, #d79b2d, #ffe19a); box-shadow: 0 0 .65rem rgba(255,225,154,.65); animation: processing-linear 1.25s ease-in-out infinite; }
+    .processing-label { justify-self: end; margin: .48rem clamp(1rem, 3vw, 2.5rem) 0 0; padding: .28rem .58rem; color: #fff; background: rgba(13,25,38,.9); border: 1px solid rgba(255,255,255,.3); border-radius: 999px; box-shadow: 0 .25rem .8rem rgba(13,25,38,.16); font-size: .72rem; font-weight: 700; letter-spacing: .015em; backdrop-filter: blur(.55rem); }
+    .processing-indicator[data-state="partial"] .processing-track span, .processing-indicator[data-state="content-partial"] .processing-track span { width: 62%; animation-duration: 1s; }
+    .processing-indicator[data-state="updating"] .processing-track span { background: linear-gradient(90deg, #4e83ad, #acd2ee); }
+    .processing-indicator[data-state="completed"] .processing-track span { width: 100%; transform: none; animation: none; background: var(--green); }
+    .processing-indicator[data-state="error"] .processing-track span { width: 100%; transform: none; animation: none; background: var(--red); }
+    @keyframes processing-linear { from { transform: translateX(-110%); } to { transform: translateX(290%); } }
+
     .site-header { position: relative; background: linear-gradient(105deg, #0d1926, #17283a); color: #fff; border-bottom: 1px solid rgba(255,255,255,.22); box-shadow: 0 .4rem 1.5rem rgba(18,25,35,.08); }
     .header-inner { width: min(calc(100% - clamp(2rem, 6vw, 8rem)), 100rem); min-height: 4.15rem; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: clamp(1rem, 2vw, 2.25rem); flex-wrap: wrap; padding: .75rem 0; }
     .brand { display: inline-flex; gap: .72rem; align-items: center; color: #f7d889; font-weight: 700; font-size: 1.13rem; text-decoration: none; letter-spacing: -.02em; }
@@ -110,6 +120,7 @@
     .icon-button:hover { background: #f2ede5; }
     .icon-button svg { width: 1rem; height: 1rem; }
     .fa-icon { display: block; width: 1em; height: 1em; overflow: visible; fill: currentColor; pointer-events: none; }
+    .icon-fallback { display: block; min-width: 1em; font-size: 1em; font-weight: 800; line-height: 1; text-align: center; pointer-events: none; }
     .format-badge { display: inline-flex; align-items: center; min-height: 1.7rem; padding: .18rem .5rem; color: var(--navy); background: #eee8dc; border-radius: 999px; font-size: .7rem; font-weight: 850; letter-spacing: .06em; }
     .facts { display: flex; gap: .75rem 1.25rem; flex-wrap: wrap; color: #3e474d; font-size: .9rem; }
     .fact { display: inline-flex; align-items: center; gap: .42rem; }
@@ -195,4 +206,4 @@
       .download-button svg { width: 1.15rem; height: 1.15rem; }
       .footer-inner { padding: 1.4rem 0; font-size: .82rem; }
     }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } .processing-track span { width: 100%; transform: none; } }

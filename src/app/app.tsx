@@ -1,23 +1,27 @@
 // JeanCarloEM — https://www.jeancarloem.com — https://github.com/jcempro/egw
 // MPL-2.0 — https://www.mozilla.org/MPL/2.0/ — uso sob a Mozilla Public License 2.0.
 
-import { faCopy, faDownload, faFileZipper, type IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { faCopy, faDownload, faFileZipper } from "@fortawesome/free-solid-svg-icons";
+import { renderIcon, type IconSource } from "./icon-provider";
 
 type Child = Node | string | number | null | undefined | false;
 type Hashes = { sha1: string; sha256: string; sha512: string };
 type Asset = { id: string; format: string; url: string; size: number; source_hashes: Hashes; origin_url: string | null };
 type Source = { id: string; title: string; url: string; type: string; format: string; provider: string; asset_id: string | null; hashes: Hashes | null };
 type Metadata = { schema_version: 5; book: { id: string; title: string; contributors: Array<{ name: string; role: string }>; edition: Record<string, unknown>; language: string; primary_category: string; tags: string[] }; short_token: string; global_hashes: Array<{ artifact_id: string; format: string } & Hashes>; assets: Asset[]; sources: Source[] };
+type ProcessingState = "initial" | "loading" | "partial" | "content-partial" | "completed" | "error" | "updating";
 
 export {};
 declare global { namespace JSX { interface IntrinsicElements { [element: string]: Record<string, unknown>; } } }
 
 const Fragment = Symbol("Fragment");
+const SVG_NS = "http://www.w3.org/2000/svg";
+const SVG_TAGS = new Set(["svg", "path", "circle", "line", "polyline", "polygon", "rect", "g", "use"]);
 function h(tag: string | symbol, props: Record<string, unknown> | null, ...children: Child[]): Node {
   if (tag === Fragment) { const fragment = document.createDocumentFragment(); children.flat().forEach((child) => append(fragment, child)); return fragment; }
-  const node = document.createElement(tag as string);
+  const name = tag as string; const node = SVG_TAGS.has(name) ? document.createElementNS(SVG_NS, name) : document.createElement(name);
   for (const [key, value] of Object.entries(props || {})) {
-    if (key === "className") node.className = String(value);
+    if (key === "className") node.setAttribute("class", String(value));
     else if (value !== false && value !== null && value !== undefined) node.setAttribute(key, String(value));
   }
   children.flat().forEach((child) => append(node, child));
@@ -30,14 +34,27 @@ const landing = required("landing-view");
 const bookView = required("book-view");
 const notFound = required("not-found-view");
 const live = required("live-region");
+const processing = required("processing-indicator");
+const processingLabel = required("processing-label");
 const form = required("lookup-form") as HTMLFormElement;
 const input = required("book-id") as HTMLInputElement;
 let searchAbort: AbortController | null = null;
 let searchIndex: Array<[string, string]> | null = null;
+let searchIndexPromise: Promise<Array<[string, string]>> | null = null;
+let processingSequence = 0;
+const jsonRequests = new Map<string, Promise<unknown>>();
 
 function rootUrl(relative: string): string { return new URL(relative.replace(/^\/+/, ""), `${location.origin}/`).href; }
 function setView(view: "landing" | "book" | "notFound"): void { landing.hidden = view !== "landing"; bookView.hidden = view !== "book"; notFound.hidden = view !== "notFound"; }
 function announce(message: string): void { live.textContent = ""; requestAnimationFrame(() => { live.textContent = message; }); }
+function startProcessing(state: ProcessingState, message: string): number { const sequence = ++processingSequence; processing.dataset.state = state; processingLabel.textContent = message; processing.hidden = false; return sequence; }
+function updateProcessing(sequence: number, state: ProcessingState, message: string): void { if (sequence !== processingSequence) return; processing.dataset.state = state; processingLabel.textContent = message; }
+function finishProcessing(sequence: number, state: "completed" | "error", message: string): void { if (sequence !== processingSequence) return; updateProcessing(sequence, state, message); requestAnimationFrame(() => setTimeout(() => { if (sequence === processingSequence) processing.hidden = true; }, state === "error" ? 2200 : 500)); }
+async function cachedJson(url: string, init: RequestInit = {}): Promise<unknown> {
+  const cached = jsonRequests.get(url); if (cached) return cached;
+  const request = fetch(url, { credentials: "same-origin", ...init }).then(async (response) => { if (!response.ok || !(response.headers.get("content-type") || "").includes("application/json")) throw new Error("JSON indisponível"); return response.json() as Promise<unknown>; });
+  jsonRequests.set(url, request); request.catch(() => jsonRequests.delete(url)); return request;
+}
 function validHashes(value: unknown): value is Hashes {
   if (!value || typeof value !== "object") return false;
   const hashes = value as Record<string, unknown>;
@@ -54,17 +71,13 @@ function metadataPath(data: Metadata): string {
   return `/d/${segment(data.book.language)}/${segment(data.book.primary_category)}/${words[0] || segment(data.book.id)}/${words[1] || remainder}/${remainder}/metadata.json`;
 }
 function formatBytes(value: number): string { const divisor = value >= 1_000_000 ? 1_000_000 : 1_000; return `${(value / divisor).toFixed(1)} ${divisor === 1_000_000 ? "MB" : "kB"}`; }
-function icon(definition: IconDefinition): Node {
-  const [width, height, , , path] = definition.icon;
-  const paths = Array.isArray(path) ? path : [path];
-  return <svg aria-hidden="true" width="1em" height="1em" viewBox={`0 0 ${width} ${height}`} className="fa-icon" focusable="false">{paths.map((value) => <path d={value} fill="currentColor" />)}</svg>;
-}
+function icon(source: IconSource, fallback: string): Node { return renderIcon(source, fallback); }
 async function copyValue(value: string): Promise<void> {
   if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(value);
   const field = document.createElement("textarea"); field.value = value; field.className = "sr-only"; document.body.append(field); field.select(); const copied = document.execCommand("copy"); field.remove(); if (!copied) throw new Error("Cópia indisponível");
 }
 function copyButton(value: string, label: string): HTMLButtonElement {
-  const button = <button type="button" className="icon-button" aria-label={label} title={label}>{icon(faCopy)}</button> as HTMLButtonElement;
+  const button = <button type="button" className="icon-button" aria-label={label} title={label}>{icon(faCopy, "⧉")}</button> as HTMLButtonElement;
   button.addEventListener("click", async () => { try { await copyValue(value); announce("Valor integral copiado."); } catch { announce("Não foi possível copiar; selecione o valor integral."); } });
   return button;
 }
@@ -79,7 +92,7 @@ function compactValue(value: string, kind: "hash" | "url", label: string, linked
 }
 function assetFormat(format: string): Node {
   const normalized = format.toLowerCase();
-  if (normalized === "7z" || normalized === "zip") return <span className="asset-format" title={`.${normalized}`} aria-label={`Arquivo .${normalized}`}>{icon(faFileZipper)}<span className="sr-only">.{normalized}</span></span>;
+  if (normalized === "7z" || normalized === "zip") return <span className="asset-format" title={`.${normalized}`} aria-label={`Arquivo .${normalized}`}>{icon(faFileZipper, "▣")}<span className="sr-only">.{normalized}</span></span>;
   return <span className="asset-format-fallback">.{normalized}</span>;
 }
 function titleIdentity(data: Metadata): { title: string; qualifier: string | null } {
@@ -99,7 +112,7 @@ function renderBook(data: Metadata, metadataUrl: string): void {
     const sourceHost = source.title || new URL(href).hostname; const provider = source.provider === sourceHost ? null : source.provider;
     return <article className="source-item" role="listitem" aria-label={`Fonte ${index + 1}`}>
       <div className="source-primary"><span className="source-index">{index + 1}</span><div className="source-field source-host"><span className="field-label">Fonte</span><strong>{sourceHost}</strong></div><div className="source-field source-url"><span className="field-label">URL</span>{compactValue(href, "url", "Copiar URL integral", true)}</div><div className="source-field source-reading"><span className="field-label">Formato</span><span className="format-badge">{source.format.toUpperCase()}</span></div><div className="source-field source-asset"><span className="field-label">Asset</span>{asset ? assetFormat(asset.format) : <span className="asset-format-fallback">.remoto</span>}</div></div>
-      <div className="source-secondary"><div className="source-field source-hash"><span className="field-label">Hash do asset</span>{assetHash ? <code className="hash">{compactValue(assetHash, "hash", "Copiar SHA-256 integral do asset")}</code> : <span>Não comparável</span>}</div><div className="source-field source-provider"><span className="field-label">Provedor</span><span>{provider || <span title="Mesmo domínio da Fonte">—</span>}</span></div><div className="source-field source-size"><span className="field-label">Tamanho</span><span>{asset ? formatBytes(asset.size) : "Externa"}</span></div><a className="download-button" href={href} download aria-label={`Baixar ${source.format.toUpperCase()} em ${asset?.format.toUpperCase() || "asset remoto"}`} title="Baixar asset">{icon(faDownload)}</a></div>
+      <div className="source-secondary"><div className="source-field source-hash"><span className="field-label">Hash do asset</span>{assetHash ? <code className="hash">{compactValue(assetHash, "hash", "Copiar SHA-256 integral do asset")}</code> : <span>Não comparável</span>}</div><div className="source-field source-provider"><span className="field-label">Provedor</span><span>{provider || <span title="Mesmo domínio da Fonte">—</span>}</span></div><div className="source-field source-size"><span className="field-label">Tamanho</span><span>{asset ? formatBytes(asset.size) : "Externa"}</span></div><a className="download-button" href={href} download aria-label={`Baixar ${source.format.toUpperCase()} em ${asset?.format.toUpperCase() || "asset remoto"}`} title="Baixar asset">{icon(faDownload, "↓")}</a></div>
     </article>;
   });
   bookView.replaceChildren(
@@ -116,9 +129,7 @@ function canonicalMetadataFromPath(): string | null {
   return rootUrl(`${decoded.replace(/^\/+|\/+$/g, "")}/metadata.json`);
 }
 async function routeFromMap(mapName: "short" | "legacy", key: string): Promise<string | null> {
-  const response = await fetch(rootUrl(`d/_index/${mapName}.json`), { credentials: "same-origin" });
-  if (!response.ok) return null;
-  const routes = await response.json() as Record<string, string>; const route = routes[key];
+  const routes = await cachedJson(rootUrl(`d/_index/${mapName}.json`)) as Record<string, string>; const route = routes[key];
   return typeof route === "string" && /^d\/[a-z0-9/-]+\/$/.test(route) ? rootUrl(`${route}metadata.json`) : null;
 }
 async function resolveMetadataUrl(): Promise<string | null> {
@@ -129,28 +140,29 @@ async function resolveMetadataUrl(): Promise<string | null> {
   return null;
 }
 async function loadRoute(): Promise<void> {
+  const isDirectRoute = /^\/(?:d\/|_\/|data\/)/.test(location.pathname); const activity = isDirectRoute ? startProcessing("loading", "Analisando a referência…") : 0;
   try {
     const metadataUrl = await resolveMetadataUrl();
-    if (!metadataUrl) { setView(location.pathname === "/" || /\/(?:index|404)\.html$/.test(location.pathname) ? "landing" : "notFound"); return; }
-    const response = await fetch(metadataUrl, { credentials: "same-origin", redirect: "error" });
-    if (!response.ok || !(response.headers.get("content-type") || "").includes("application/json")) throw new Error("Metadado indisponível");
-    const data: unknown = await response.json(); if (!validMetadata(data)) throw new Error("Metadado schema 5 inválido");
+    if (!metadataUrl) { setView(location.pathname === "/" || /\/(?:index|404)\.html$/.test(location.pathname) ? "landing" : "notFound"); if (activity) finishProcessing(activity, "error", "Referência não encontrada."); return; }
+    if (activity) updateProcessing(activity, "partial", "Referência localizada; carregando dados…");
+    const data = await cachedJson(metadataUrl, { redirect: "error" }); if (!validMetadata(data)) throw new Error("Metadado schema 5 inválido");
     if (new URL(metadataUrl).pathname !== metadataPath(data)) throw new Error("Rota canônica diverge do metadado");
-    renderBook(data, metadataUrl);
-  } catch (error) { /* FIX-BUG: rota inválida termina no 404 real sem sondagem aproximada. */ console.error(error); setView("notFound"); }
+    if (activity) updateProcessing(activity, "content-partial", "Dados validados; montando a página…"); renderBook(data, metadataUrl); if (activity) finishProcessing(activity, "completed", "Referência carregada.");
+  } catch (error) { /* FIX-BUG: rota inválida termina no 404 real sem sondagem aproximada. */ console.error(error); setView("notFound"); if (activity) finishProcessing(activity, "error", "Não foi possível carregar a referência."); }
 }
-async function ensureSearchIndex(signal: AbortSignal): Promise<Array<[string, string]>> {
+async function ensureSearchIndex(): Promise<Array<[string, string]>> {
   if (searchIndex) return searchIndex;
-  const response = await fetch(rootUrl("d/_index/search.json"), { signal, credentials: "same-origin" }); const data: unknown = await response.json();
-  if (!Array.isArray(data) || !data.every((item) => Array.isArray(item) && item.length === 2 && item.every((value) => typeof value === "string"))) throw new Error("Índice de busca inválido");
-  searchIndex = data as Array<[string, string]>; return searchIndex;
+  if (searchIndexPromise) return searchIndexPromise;
+  searchIndexPromise = cachedJson(rootUrl("d/_index/search.json")).then((data) => { if (!Array.isArray(data) || !data.every((item) => Array.isArray(item) && item.length === 2 && item.every((value) => typeof value === "string"))) throw new Error("Índice de busca inválido"); searchIndex = data as Array<[string, string]>; return searchIndex; }).catch((error) => { searchIndexPromise = null; throw error; });
+  return searchIndexPromise;
 }
 function normalizeSearch(value: string): string { return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase(); }
 async function searchTitle(): Promise<void> {
   searchAbort?.abort(); searchAbort = new AbortController(); const query = normalizeSearch(input.value.trim()); if (!query) return;
-  try { const index = await ensureSearchIndex(searchAbort.signal); const result = index.find(([title]) => normalizeSearch(title).includes(query)); if (!result) { input.setCustomValidity("Livro não encontrado"); input.reportValidity(); return; } input.setCustomValidity(""); location.assign(rootUrl(`_/${encodeURIComponent(result[1])}`)); }
-  catch (error) { if ((error as Error).name !== "AbortError") announce("A busca não pôde ser carregada."); }
+  const signal = searchAbort.signal; const activity = startProcessing(searchIndex ? "updating" : "loading", searchIndex ? "Atualizando a consulta…" : "Preparando o índice de títulos…");
+  try { const index = await ensureSearchIndex(); if (signal.aborted) return; const result = index.find(([title]) => normalizeSearch(title).includes(query)); if (!result) { input.setCustomValidity("Livro não encontrado"); input.reportValidity(); finishProcessing(activity, "error", "Livro não encontrado."); return; } input.setCustomValidity(""); updateProcessing(activity, "partial", "Livro localizado; abrindo a referência…"); location.assign(rootUrl(`_/${encodeURIComponent(result[1])}`)); }
+  catch (error) { if ((error as Error).name !== "AbortError") { announce("A busca não pôde ser carregada."); finishProcessing(activity, "error", "Busca indisponível."); } }
 }
 form.addEventListener("submit", (event) => { event.preventDefault(); void searchTitle(); });
-input.addEventListener("focus", () => { const controller = new AbortController(); void ensureSearchIndex(controller.signal).catch(() => undefined); }, { once: true });
+input.addEventListener("focus", () => { const activity = startProcessing("updating", "Preparando a busca em segundo plano…"); void ensureSearchIndex().then(() => finishProcessing(activity, "completed", "Busca pronta.")).catch(() => finishProcessing(activity, "error", "Busca indisponível.")); }, { once: true });
 void loadRoute();
