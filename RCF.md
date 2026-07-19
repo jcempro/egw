@@ -189,10 +189,12 @@
 - `RCF-IF-UX-002` A composição DEVE ser elegante, profissional, limpa, sóbria, moderna e atemporal, priorizando leitura, consulta e rastreabilidade.
 - `RCF-IF-UX-003` A edição de dados NÃO DEVE ser oferecida na interface pública.
 - `RCF-IF-UX-004` A tipografia DEVE usar Noto Sans; Google Fonts DEVE atuar somente como fallback carregável, seguido de família sans-serif do sistema.
-- `RCF-IF-UX-005` Ícone DEVE possuir significado textual acessível; Font Awesome DEVE integrar somente ícones efetivamente referenciados pela versão publicada e DEVE representar formato de asset quando houver glifo inequívoco. Extensão sem associação inequívoca DEVE ser exibida como texto iniciado por ponto.
+- `RCF-IF-UX-005` Ícone DEVE possuir significado textual acessível e ser renderizado pelo provider já configurado. Font Awesome, quando disponível, DEVE integrar somente ícones efetivamente referenciados pela versão publicada, usar o glifo Copy `f0c5` para cópia e representar formato de asset quando houver glifo inequívoco; indisponibilidade do provider DEVE degradar para glifo local semanticamente equivalente, sem dependência rígida. Extensão sem associação inequívoca DEVE ser exibida como texto iniciado por ponto.
 - `RCF-IF-UX-006` Interface, dados e controles DEVEM adaptar-se ao viewport sem breakpoint contratual, sem perda funcional, overflow não intencional, hierarquia ilegível ou dependência de ponteiro preciso.
 - `RCF-IF-UX-027` Superfície clara ou escura NÃO DEVE usar fundo monolítico opaco: planos DEVEM preservar leveza e hierarquia por gradiente suave, transparência, borda translúcida e desfoque de fundo quando suportado, com fallback legível sem `backdrop-filter`.
 - `RCF-IF-UX-028` Em viewport amplo, inclusive 2K ou superior, largura, padding, gaps e colunas DEVEM crescer de modo limitado e harmônico, sem esmagamento horizontal nem dispersão excessiva.
+- `RCF-IF-UX-030` A página institucional DEVE usar superfície global clara por padrão e manter escuros somente Top Bar e rodapé. Tema escuro, quando implementado, somente PODE ser ativado por seleção explícita e persistível do usuário; preferência automática do sistema NÃO DEVE substituir o padrão institucional claro.
+- `RCF-IF-UX-031` Ajuste de densidade desktop DEVE preservar forma, composição, componentes, arquitetura e responsividade existentes, reduzindo proporcionalmente tipografia, alturas, paddings, margens, gaps, ícones e dimensões mínimas excessivas sem comprometer conforto, toque ou leitura.
 
 ### 5.2 Estrutura de página de livro
 
