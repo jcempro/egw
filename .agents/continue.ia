@@ -95,7 +95,7 @@ FT-006|nome=Convergir e publicar schema 5|objetivo=Validar a aplicação complet
   2/4 Convergir dev e main [concluído]
   3/4 Acionar e acompanhar GitHub Actions [concluído]
   4/4 Verificar destino publicado [concluído]
-FT-007|nome=Reparar publicação e página de livros|objetivo=Eliminar originais crus da publicação, recuperar autoria editorial e tornar hashes e assets compactos, claros e acionáveis.|escopo=tecnico|status=em andamento
+FT-007|nome=Reparar publicação e página de livros|objetivo=Eliminar originais crus da publicação, recuperar autoria editorial e tornar hashes e assets compactos, claros e acionáveis.|escopo=tecnico|status=concluído
 1/6 Corrigir contrato e planejar reparo [concluído]
   1/3 Reavaliar regressões e anexos [concluído]
   2/3 Evoluir RCF e documentação [concluído]
@@ -117,20 +117,21 @@ FT-007|nome=Reparar publicação e página de livros|objetivo=Eliminar originais
   1/3 Validar dados, pacotes e ausência de crus [concluído]
   2/3 Validar responsividade, temas e clipboard [concluído]
   3/3 Comprovar não regressão de rotas e busca [concluído]
-6/6 Encerrar e publicar [em andamento]
+6/6 Encerrar e publicar [concluído]
   1/3 Atualizar memória e handoff [concluído]
-  2/3 Convergir dev e main [em andamento]
-  3/3 Publicar e verificar GitHub Pages [pendente]
+  2/3 Convergir dev e main [concluído]
+  3/3 Publicar e verificar GitHub Pages [concluído]
 
 ## FT-007 — Reparar publicação e página de livros
 
 - Escopo: Técnico — causa raiz normativa, pipeline editorial, interface e publicação.
 - Prioridade: crítica.
-- Status: em andamento.
+- Status: concluído.
 - Início: `20260719.1448.21`.
-- Atualização: `20260719.1540.05`.
-- Etapa atual: `6/6` — encerrar e publicar.
-- Tarefa atual: `2/3` — convergir `dev` e `main`.
+- Atualização: `20260719.1635.00`.
+- Conclusão: `20260719.1635.00`.
+- Etapa atual: `6/6` — concluída.
+- Tarefa atual: nenhuma; publicação validada no destino real.
 
 ### Decisões e evidências
 
@@ -142,6 +143,8 @@ FT-007|nome=Reparar publicação e página de livros|objetivo=Eliminar originais
 - Pacote agregado foi removido por duplicar conteúdo e elevar `dist/` a `1501992897` bytes; os contêineres individuais preservam todos os downloads sem redundância.
 - Página homologada em navegador real, desktop, modo escuro e viewport estreito: título principal/qualificador/autoria separados, métricas coerentes, hashes truncados visualmente, cópia integral, URL compacta, nove colunas, hash do asset e download explícito.
 - Aceite local: `npm run check`, `npm run build`, `npm run check:dist`, `npm run test:ui` e `npm run typecheck` concluídos; `UI_OK`, `DEV_LIVE_OK` e rotas canônica, curta e legada comprovadas.
+- `dev` e `main` convergiram em `d73d45b`; o GitHub Actions `29699215471` concluiu build e deploy em GitHub Pages.
+- Aceite remoto: `/` respondeu HTTP 200; a rota canônica `/d/pt-br/livros/o/grande/conflito-condensado/` respondeu o 404 esperado contendo o shell da aplicação; `metadata.json` e `source-epub.7z` responderam HTTP 200. O metadado publicado conserva Ellen G. White, o qualificador separado, duas fontes `.7z` e zero URL pública terminada em PDF/EPUB.
 
 ## FT-001 — RCF, superfície inicial e importação do Índice de Fontes
 
