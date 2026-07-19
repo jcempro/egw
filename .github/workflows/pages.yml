@@ -24,6 +24,12 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - uses: actions/cache@v4
+        with:
+          path: .agents/cache/packages
+          key: egw-packages-${{ runner.os }}-${{ hashFiles('src/data/books/**/metadata.json', 'src/assets/books/**/source.pdf', 'src/assets/books/**/source.epub', 'src/config/build.json') }}
+          restore-keys: |
+            egw-packages-${{ runner.os }}-
       - run: sudo apt-get update && sudo apt-get install -y poppler-utils p7zip-full
       - run: npm ci
       - run: npm run build

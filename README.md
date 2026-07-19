@@ -2,7 +2,9 @@
 
 Índice estático de obras e fontes preservadas. O contrato está em [RCF.md](RCF.md) e o estado técnico em [handoff.md](handoff.md).
 
-`src/` contém os insumos da aplicação e `dist/` é o artefato estático publicado. `npm run egw:import` importa o acervo privado `src/egw/`; `npm run egw:update` regenera metadados e capas de trabalho; `npm run egw:maintain` procura equivalentes confiáveis dentro das cotas; `npm run egw:maintain -- --timeout-ms=840000` reproduz o limite do workflow localmente. `npm run egw:validate` verifica os insumos, `npm run build` materializa somente `data/<s1>/<s2>/<slug>/metadata.json`, `cover.webp` e `<slug>.7z`, e `npm run dev-live` serve `dist/` com recarga local.
+`src/` contém os insumos da aplicação e `dist/` é o artefato estático publicado. `npm run egw:import` importa o acervo privado `src/egw/`; `npm run egw:update` regenera metadados e capas de trabalho; `npm run egw:maintain` procura equivalentes confiáveis dentro das cotas; `npm run egw:maintain -- --timeout-ms=840000` reproduz o limite do workflow localmente. `npm run egw:validate` verifica os insumos, `npm run build` materializa `/d/<idioma>/<categoria>/<título>/` com `metadata.json` schema 5, capa PNG, PDF/EPUB e pacote 7z, `npm run check:dist` valida o artefato e `npm run test:ui` valida página inicial, rotas e 404. `npm run dev-live` serve exclusivamente `dist/` com recarga local.
+
+Pacotes 7z validados são armazenados em cache local ignorado, identificado pelos hashes dos originais e pela configuração de compressão. Build local e GitHub Actions reutilizam o pacote enquanto conteúdo e parâmetros forem idênticos; nenhuma reconstrução limpa recomprime um pacote já confirmado.
 
 O acervo de entrada não é versionado. A manutenção só adiciona URL cujo SHA-512 seja idêntico ao asset já aceito. Não há vínculo com editoras e fontes de terceiros podem ficar indisponíveis.
 
