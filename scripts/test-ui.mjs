@@ -5,17 +5,21 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { JSDOM } from "jsdom";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist");
 const html = await readFile(path.join(DIST, "index.html"), "utf8");
 const script = await readFile(path.join(DIST, "assets", "app.js"), "utf8");
+const stylesheet = await readFile(path.join(DIST, "assets", "app.css"), "utf8");
 const short = JSON.parse(await readFile(path.join(DIST, "d", "_index", "short.json"), "utf8"));
 const legacy = JSON.parse(await readFile(path.join(DIST, "d", "_index", "legacy.json"), "utf8"));
 const [token, canonical] = Object.entries(short)[0];
 const legacyPath = Object.entries(legacy).find(([, value]) => value === canonical)?.[0];
 if (!legacyPath) throw new Error("Alias de teste ausente");
+if (faCopy.icon[3] !== "f0c5") throw new Error("Provider de ícones não expõe o glifo Copy f0c5");
+if (/prefers-color-scheme:\s*dark/.test(stylesheet) || !/color-scheme:\s*light/.test(stylesheet) || !/\.site-header\{[^}]*linear-gradient/.test(stylesheet) || !/\.site-footer\{[^}]*linear-gradient/.test(stylesheet)) throw new Error("Contrato de tema institucional claro divergente");
 
 function response(body, contentType = "application/json") {
   return { ok: true, status: 200, headers: { get: (name) => name.toLowerCase() === "content-type" ? contentType : null }, json: async () => JSON.parse(body), text: async () => body };
@@ -47,7 +51,7 @@ const copy = canonicalResult.dom.window.document.querySelector('.hash-panel .ico
 const firstHash = canonicalResult.dom.window.document.querySelector('.hash-panel .compact-hash .compact-text');
 const sourceItems = canonicalResult.dom.window.document.querySelectorAll('.source-item');
 const firstSource = sourceItems[0];
-if (canonicalResult.copied() !== metadata.global_hashes[0].sha1 || firstHash?.textContent !== metadata.global_hashes[0].sha1.slice(-7) || firstHash?.getAttribute('aria-label') !== metadata.global_hashes[0].sha1 || !canonicalResult.dom.window.document.querySelector('.compact-url .icon-button') || sourceItems.length !== metadata.sources.length || !firstSource?.querySelector('.asset-format .fa-icon') || !firstSource?.querySelector('.download-button .fa-icon')) throw new Error("UI de hashes, URLs, ícones ou assets divergente");
+if (canonicalResult.copied() !== metadata.global_hashes[0].sha1 || firstHash?.textContent !== metadata.global_hashes[0].sha1.slice(-7) || firstHash?.getAttribute('aria-label') !== metadata.global_hashes[0].sha1 || !canonicalResult.dom.window.document.querySelector('.compact-url .icon-button .fa-icon[width="1em"][height="1em"]') || sourceItems.length !== metadata.sources.length || !firstSource?.querySelector('.asset-format .fa-icon') || !firstSource?.querySelector('.download-button .fa-icon')) throw new Error("UI de hashes, URLs, ícones ou assets divergente");
 if (canonicalResult.dom.window.document.querySelector('.source-table-wrap, table') || !firstSource?.querySelector('.source-host') || !firstSource?.querySelector('.source-provider')) throw new Error("Grid ou proveniência divergente");
 const shortResult = await render(`/_/${token}/`);
 if (!shortResult.state.book) throw new Error("Rota curta não renderizou Livro");

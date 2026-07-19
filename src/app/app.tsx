@@ -57,7 +57,7 @@ function formatBytes(value: number): string { const divisor = value >= 1_000_000
 function icon(definition: IconDefinition): Node {
   const [width, height, , , path] = definition.icon;
   const paths = Array.isArray(path) ? path : [path];
-  return <svg aria-hidden="true" viewBox={`0 0 ${width} ${height}`} className="fa-icon">{paths.map((value) => <path d={value} fill="currentColor" />)}</svg>;
+  return <svg aria-hidden="true" width="1em" height="1em" viewBox={`0 0 ${width} ${height}`} className="fa-icon" focusable="false">{paths.map((value) => <path d={value} fill="currentColor" />)}</svg>;
 }
 async function copyValue(value: string): Promise<void> {
   if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(value);
