@@ -49,6 +49,52 @@ FT-002|nome=Normalizar artefato estático|objetivo=Materializar livros públicos
   1/3 Atualizar memória e handoff [concluído]
   2/3 Comitar em etapas [concluído]
   3/3 Convergir e publicar [concluído]
+FT-004|nome=Migrar base pública para schema 5|objetivo=Gerar a árvore canônica /d/ com assets colocalizados, hashes normatizados e compatibilidade histórica.|escopo=tecnico|status=em andamento
+1/4 Planejar migração segura [em andamento]
+  1/3 Inventariar implementação e contratos [em andamento]
+  2/3 Definir mapa de rotas e tokens [pendente]
+  3/3 Definir checkpoint e rollback [pendente]
+2/4 Implementar dados schema 5 [pendente]
+  1/4 Fatorar caminhos, hashes e identidades [pendente]
+  2/4 Materializar diretórios canônicos [pendente]
+  3/4 Gerar assets, pacotes e capas [pendente]
+  4/4 Gerar índices e mapas mínimos [pendente]
+3/4 Validar migração integral [pendente]
+  1/3 Comprovar equivalência e retomada [pendente]
+  2/3 Comprovar limites e determinismo [pendente]
+  3/3 Preservar rotas históricas [pendente]
+4/4 Encerrar base pública [pendente]
+  1/3 Atualizar documentação e memória [pendente]
+  2/3 Validar build e dados [pendente]
+  3/3 Comitar entrega funcional [pendente]
+FT-005|nome=Atualizar interface e roteamento|objetivo=Implementar interface TypeScript/TSX, busca mínima por título e front controller canônico, curto e legado.|escopo=tecnico|status=pendente
+1/3 Implementar fonte de interface [pendente]
+  1/3 Estruturar TypeScript, TSX e Sass [pendente]
+  2/3 Implementar busca assíncrona mínima [pendente]
+  3/3 Implementar renderização do livro [pendente]
+2/3 Implementar roteamento universal [pendente]
+  1/4 Resolver rota /d/ diretamente [pendente]
+  2/4 Resolver token /_/ [pendente]
+  3/4 Resolver alias histórico [pendente]
+  4/4 Preservar 404 e noscript [pendente]
+3/3 Validar superfície real [pendente]
+  1/3 Validar contratos no DOM [pendente]
+  2/3 Validar navegador responsivo [pendente]
+  3/3 Comitar entrega funcional [pendente]
+FT-006|nome=Convergir e publicar schema 5|objetivo=Validar a aplicação completa, convergir dev para main e publicar exclusivamente dist pelo GitHub Actions.|escopo=tecnico|status=pendente
+1/3 Integrar pipeline local e CI [pendente]
+  1/3 Sincronizar comandos locais [pendente]
+  2/3 Atualizar workflows e timeouts [pendente]
+  3/3 Validar cabeçalhos e artefato [pendente]
+2/3 Executar aceitação completa [pendente]
+  1/3 Validar dados, interface e compatibilidade [pendente]
+  2/3 Executar build reproduzível [pendente]
+  3/3 Confirmar limite real de publicação [pendente]
+3/3 Publicar e verificar [pendente]
+  1/4 Atualizar memória e handoff [pendente]
+  2/4 Convergir dev e main [pendente]
+  3/4 Acionar e acompanhar GitHub Actions [pendente]
+  4/4 Verificar destino publicado [pendente]
 
 ## FT-001 — RCF, superfície inicial e importação do Índice de Fontes
 
@@ -232,3 +278,72 @@ Restabelecer `agents:update` com a fonte homologada `https://github.com/jcempro/
 - `MACHINE_ID`: `codex-desktop`.
 - `DATA_REF`: `20260718.000000`.
 - Cache: release `v0.0.17` confirmada; revalidar somente diante de nova release ou mudança local nos paths normativos.
+
+## FT-004 — Migrar base pública para schema 5
+
+- Escopo: Técnico — migração evolutiva dos dados e assets públicos.
+- Prioridade: alta.
+- Status: em andamento.
+- Início: `20260719.000000`.
+- Atualização: `20260719.000000`.
+- Etapa atual: `1/4` — planejar migração segura.
+- Tarefa atual: `1/3` — inventariar implementação e contratos.
+
+### Objetivo
+
+Gerar a árvore canônica `/d/` com um diretório atômico por Livro, `metadata.json` schema 5, PDF/EPUB, capa PNG, pacote compacto, Hash Global e Hash da Fonte normatizados, preservando identidades e rotas publicadas.
+
+### Plano
+
+| Etapa | Objetivo | Dependência | Tarefas | Estado |
+| --- | --- | --- | --- | --- |
+| 1/4 | Planejar migração segura | RCF aprimorado | 1. inventariar implementação; 2. definir rotas e tokens; 3. definir checkpoint e rollback | em andamento |
+| 2/4 | Implementar dados schema 5 | etapa 1 | 1. fatorar módulos; 2. materializar diretórios; 3. gerar assets; 4. gerar índices e mapas | pendente |
+| 3/4 | Validar migração integral | etapa 2 | 1. equivalência e retomada; 2. limites e determinismo; 3. rotas históricas | pendente |
+| 4/4 | Encerrar base pública | etapa 3 | 1. documentação e memória; 2. build e dados; 3. commit funcional | pendente |
+
+### Decisões e evidências
+
+- A árvore inicial está limpa em `dev`; `dev` contém o commit normativo `182bf52` e está um commit à frente de `main`.
+- A direção humana confirmou continuidade após ciência da projeção conservadora de tamanho; o limite configurado permanece gate obrigatório e será medido sobre o artefato final real.
+- A migração DEVE manter mapa de aliases para as URLs schema 4 já publicadas e não remover estado anterior antes da equivalência integral.
+
+### Dados de execução
+
+- `MACHINE_ID`: `codex-desktop`.
+- `DATA_REF`: `20260719.000000`.
+- Cache: governança, RCF e estrutura relidos; revalidar após qualquer alteração em fonte, gerador, configuração ou workflow.
+
+## FT-005 — Atualizar interface e roteamento
+
+- Escopo: Técnico — aplicação Web Page Like e front controller.
+- Prioridade: alta.
+- Status: pendente.
+- Início: `20260719.000000`.
+- Etapa atual: `1/3` — aguardando FT-004.
+- Tarefa atual: nenhuma; dependência ativa.
+
+### Objetivo
+
+Implementar a interface em TypeScript/TSX, busca assíncrona estritamente por título com índice mínimo e resolução segura de rotas canônicas `/d/`, curtas `/_/`, históricas e 404 real no documento único publicado.
+
+### Dependência
+
+FT-004 concluída e schema 5 materializado de forma determinística.
+
+## FT-006 — Convergir e publicar schema 5
+
+- Escopo: Técnico — validação, integração e GitHub Pages.
+- Prioridade: alta.
+- Status: pendente.
+- Início: `20260719.000000`.
+- Etapa atual: `1/3` — aguardando FT-004 e FT-005.
+- Tarefa atual: nenhuma; dependências ativas.
+
+### Objetivo
+
+Validar integralmente dados, interface, compatibilidade, artefato e workflows; convergir `dev` para `main`, publicar exclusivamente `dist/` pelo GitHub Actions e verificar o destino real.
+
+### Dependências
+
+FT-004 e FT-005 concluídas, sistema global funcional e artefato dentro dos limites configurados.
