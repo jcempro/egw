@@ -182,33 +182,34 @@ FT-011|nome=Segmentar indicadores de assets|objetivo=Distinguir arquivos da publ
   1/3 Derivar quatro indicadores no cliente [concluído]
   2/3 Validar correlações e não regressão visual [concluído]
   3/3 Atualizar memória e concluir FT [concluído]
-FT-012|nome=Completar fontes por provedor|objetivo=Descobrir e incorporar com integridade comprovada a publicação equivalente no provedor editorial ainda ausente como fonte.|escopo=tecnico|status=em andamento
-1/4 Normatizar descoberta orientada por lacuna [em andamento]
+FT-012|nome=Completar fontes por provedor|objetivo=Descobrir e incorporar com integridade comprovada a publicação equivalente no provedor editorial ainda ausente como fonte.|escopo=tecnico|status=concluído
+1/4 Normatizar descoberta orientada por lacuna [concluído]
   1/3 Auditar mantenedor e workflow [concluído]
   2/3 Evoluir RCF e registrar modos [concluído]
-  3/3 Comitar contrato antes do código [em andamento]
-2/4 Implementar manutenção blindada [pendente]
-  1/3 Detectar lacuna Fonte-Provedor [pendente]
-  2/3 Validar PDF EPUB ZIP e 7Z [pendente]
-  3/3 Persistir fonte e checkpoint atomicamente [pendente]
-3/4 Integrar execução [pendente]
-  1/3 Expor modos completo metadado e fonte-provedor [pendente]
-  2/3 Integrar importação atualização e workflow diário [pendente]
-  3/3 Documentar nome e uso no README [pendente]
-4/4 Homologar e encerrar [pendente]
-  1/3 Testar seleção integridade e fail-safe [pendente]
-  2/3 Validar dados build e workflow [pendente]
-  3/3 Atualizar memória convergir e publicar [pendente]
+  3/3 Comitar contrato antes do código [concluído]
+2/4 Implementar manutenção blindada [concluído]
+  1/3 Detectar lacuna Fonte-Provedor [concluído]
+  2/3 Validar PDF EPUB ZIP e 7Z [concluído]
+  3/3 Persistir fonte e checkpoint atomicamente [concluído]
+3/4 Integrar execução [concluído]
+  1/3 Expor modos completo metadado e fonte-provedor [concluído]
+  2/3 Integrar importação atualização e workflow diário [concluído]
+  3/3 Documentar nome e uso no README [concluído]
+4/4 Homologar e encerrar [concluído]
+  1/3 Testar seleção integridade e fail-safe [concluído]
+  2/3 Validar dados build e workflow [concluído]
+  3/3 Atualizar memória convergir e publicar [concluído]
 
 ## FT-012 — Completar fontes por provedor
 
 - Escopo: Técnico — descoberta de equivalentes, integridade, CLI, checkpoint e workflow diário.
 - Prioridade: alta.
-- Status: em andamento.
+- Status: concluído.
 - Início: `20260719.2100.00`.
-- Atualização: `20260719.2100.00`.
-- Etapa atual: `1/4` — normatização.
-- Tarefa atual: `3/3` — commit normativo anterior ao código.
+- Atualização: `20260719.2200.00`.
+- Conclusão: `20260719.2200.00`.
+- Etapa atual: `4/4` — concluída.
+- Tarefa atual: nenhuma.
 
 ### Diagnóstico e preservações
 
@@ -216,7 +217,12 @@ FT-012|nome=Completar fontes por provedor|objetivo=Descobrir e incorporar com in
 - A Fonte armazenadora será derivada da URL efetivamente disponibilizada; o Provedor editorial será derivado do campo explícito ou da origem registrada. A busca ocorrerá somente quando o domínio do Provedor ainda não estiver representado como Fonte do Livro.
 - PDF/EPUB direto será comparado à matriz Hash Global correspondente; ZIP/7Z será extraído em diretório temporário isolado, com limites de tamanho, quantidade e path, e somente produto PDF/EPUB integralmente correspondente poderá autorizar inclusão.
 - `/d/`, `/_/`, aliases, segmentação de slug, schema público 5, busca somente por título, assets existentes e identidade visual permanecem invariantes.
-- O workflow já possui teto de job de 20 minutos; o limite interno de 14 minutos será alinhado para reservar encerramento fail-safe dentro desse teto.
+- O workflow já possuía teto de job de 20 minutos; o limite interno foi alinhado de 14 para 18 minutos, reservando encerramento fail-safe dentro desse teto.
+- `scripts/maintain-egw.mjs` expõe os modos completo, por `--book`/`--metadata` e por `--source`/`--provider`; seleção ambígua falha antes de escrita e execução local sem parâmetro não recebe timeout global.
+- Provedor `origin-only` valida a própria origem; adaptador White Estate descobre PDF, EPUB, ZIP e 7Z. Redirecionamento fora do domínio, excesso de bytes/entradas, path traversal, link de arquivo e matriz divergente são rejeitados.
+- Checkpoint schema 2 debita cota e registra Livro/Fonte/Provedor antes da rede; cada fonte confirmada é escrita atomicamente, permitindo retomada sem duplicação após timeout.
+- Workflow diário mantém `timeout-minutes: 20`, instala `p7zip-full` e fornece 18 minutos internos; README nomeia e documenta o script especializado.
+- Homologação aprovou os três modos, PDF/EPUB direto, ZIP/7Z extraído, SHA-1/SHA-256/SHA-512, idempotência, build de 527 livros/1.051 assets/881.694.978 bytes, `check:dist`, `test:ui`, `test-dev-live`, `typecheck` e `git diff --check`.
 
 ## FT-011 — Segmentar indicadores de assets
 

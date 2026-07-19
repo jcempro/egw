@@ -2,10 +2,16 @@
 // JeanCarloEM — https://www.jeancarloem.com — https://github.com/jcempro/egw
 // MPL-2.0 — https://www.mozilla.org/MPL/2.0/ — uso sob a Mozilla Public License 2.0.
 
+import { createHash } from "node:crypto";
+import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { runMaintenance } from "./lib/egw-maintenance.mjs";
+import { promisify } from "node:util";
+import { runMaintenance, verifyCandidate } from "./lib/egw-maintenance.mjs";
+
+const execute = promisify(execFile);
+const sevenZip = process.env.SEVEN_ZIP_BIN || (process.platform === "win32" ? "C:\\Program Files\\7-Zip\\7z.exe" : "7z");
 
 const temporary = await mkdtemp(path.join(tmpdir(), "egw-maintenance-test-"));
 const root = path.join(temporary, "src");
@@ -31,8 +37,18 @@ try {
   if (second.added !== 0 || JSON.parse(await readFile(metadataPath, "utf8")).sources.length !== 2) throw new Error("Retomada idempotente divergente");
   const complete = await runMaintenance({ root, stateRoot: temporary, reportRoot: temporary, fetchImpl });
   if (complete.mode !== "all" || complete.added !== 0) throw new Error("Modo completo divergente");
+  const archiveRoot = path.join(temporary, "archive"); await mkdir(archiveRoot); await writeFile(path.join(archiveRoot, "source.epub"), product);
+  const expected = { epub: { sha1: createHash("sha1").update(product).digest("hex"), sha256: createHash("sha256").update(product).digest("hex"), sha512: createHash("sha512").update(product).digest("hex") } };
+  for (const extension of ["zip", "7z"]) {
+    const archivePath = path.join(temporary, `candidate.${extension}`); await execute(sevenZip, ["a", `-t${extension}`, archivePath, "source.epub"], { cwd: archiveRoot });
+    const archiveBytes = await readFile(archivePath);
+    const archiveUrl = `https://media.example.org/book.${extension}`;
+    const archiveFetch = async () => ({ ok: true, url: archiveUrl, headers: new Headers({ "content-length": String(archiveBytes.length) }), arrayBuffer: async () => archiveBytes });
+    const products = await verifyCandidate({ url: archiveUrl, provider: { domains: ["media.example.org"] }, expected, limits: { max_candidate_bytes: 4096, max_archive_entries: 8, request_timeout_ms: 1000 }, fetchImpl: archiveFetch });
+    if (products.length !== 1 || products[0].format !== "epub") throw new Error(`Validação de contêiner ${extension.toUpperCase()} divergente`);
+  }
   let rejected = false;
   try { await runMaintenance({ root, stateRoot: temporary, reportRoot: temporary, sourceId: "epub", fetchImpl }); } catch { rejected = true; }
   if (!rejected) throw new Error("Seleção ambígua não foi rejeitada");
-  process.stdout.write("MAINTENANCE_OK modos=3 integridade=sha1,sha256,sha512 idempotente=true\n");
+  process.stdout.write("MAINTENANCE_OK modos=3 formatos=pdf,epub,zip,7z integridade=sha1,sha256,sha512 idempotente=true\n");
 } finally { await rm(temporary, { recursive: true, force: true }); }
