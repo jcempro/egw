@@ -81,7 +81,7 @@ FT-005|nome=Atualizar interface e roteamento|objetivo=Implementar interface Type
   1/3 Validar contratos no DOM [concluído]
   2/3 Validar navegador responsivo [concluído]
   3/3 Comitar entrega funcional [concluído]
-FT-006|nome=Convergir e publicar schema 5|objetivo=Validar a aplicação completa, convergir dev para main e publicar exclusivamente dist pelo GitHub Actions.|escopo=tecnico|status=em andamento
+FT-006|nome=Convergir e publicar schema 5|objetivo=Validar a aplicação completa, convergir dev para main e publicar exclusivamente dist pelo GitHub Actions.|escopo=tecnico|status=concluído
 1/3 Integrar pipeline local e CI [concluído]
   1/3 Sincronizar comandos locais [concluído]
   2/3 Atualizar workflows e timeouts [concluído]
@@ -90,11 +90,11 @@ FT-006|nome=Convergir e publicar schema 5|objetivo=Validar a aplicação complet
   1/3 Validar dados, interface e compatibilidade [concluído]
   2/3 Executar build reproduzível [concluído]
   3/3 Confirmar limite real de publicação [concluído]
-3/3 Publicar e verificar [em andamento]
-  1/4 Atualizar memória e handoff [pendente]
-  2/4 Convergir dev e main [pendente]
-  3/4 Acionar e acompanhar GitHub Actions [pendente]
-  4/4 Verificar destino publicado [pendente]
+3/3 Publicar e verificar [concluído]
+  1/4 Atualizar memória e handoff [concluído]
+  2/4 Convergir dev e main [concluído]
+  3/4 Acionar e acompanhar GitHub Actions [concluído]
+  4/4 Verificar destino publicado [concluído]
 
 ## FT-001 — RCF, superfície inicial e importação do Índice de Fontes
 
@@ -339,11 +339,12 @@ FT-004 concluída e schema 5 materializado de forma determinística. `npm run ty
 
 - Escopo: Técnico — validação, integração e GitHub Pages.
 - Prioridade: alta.
-- Status: em andamento.
+- Status: concluído.
 - Início: `20260719.000000`.
-- Atualização: `20260719.000000`.
-- Etapa atual: `3/3` — publicar e verificar.
-- Tarefa atual: `1/4` — atualizar memória e handoff.
+- Atualização: `20260719.1422.19`.
+- Conclusão: `20260719.1422.19`.
+- Etapa atual: `3/3` — concluída.
+- Tarefa atual: nenhuma; aplicação publicada e verificada no destino real.
 
 ### Objetivo
 
@@ -362,4 +363,6 @@ FT-004 e FT-005 concluídas, sistema global funcional e artefato dentro dos limi
 - Artefato real: `1.519.763.204` bytes, abaixo do limite versionado de `2.000.000.000` bytes.
 - `agent:lint`, `agent:rcf -- --check` e `agent:agents -- --check` aprovados. `agent:verify` genérico permanece degradado por exigir `dist/AGENTS.md`, incompatível com a proibição de publicar governança no artefato Web; os gates específicos substitutivos foram executados sem criar arquivo fictício.
 - `agent:compress` está reconhecido porém degradado e não gera projeção; a memória canônica foi atualizada diretamente sem apagar FT retida.
-- Pendência desta FT: gates finais, convergência `dev` → `main`, GitHub Actions e verificação remota.
+- `dev` e `main` convergiram no commit `b2a66da`; o GitHub Actions `29674231486` concluiu build e deploy com sucesso.
+- Verificação remota em `20260719.1422.19`: `/`, o metadado schema 5 e `/assets/app.js` responderam HTTP 200; `/_/0/` respondeu o HTTP 404 próprio do GitHub Pages com o shell da aplicação, `#root`, `noscript` e carregamento de `/assets/app.js`, permitindo a resolução client-side prevista.
+- Pendência desta FT: nenhuma.
