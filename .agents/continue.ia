@@ -173,6 +173,32 @@ FT-010|nome=Corrigir ícones e feedback assíncrono|objetivo=Eliminar a causa ra
   1/3 Validar providers, fallback, rotas e cache [concluído]
   2/3 Auditar navegador desktop e mobile [concluído]
   3/3 Atualizar memória e concluir FT [concluído]
+FT-011|nome=Segmentar indicadores de assets|objetivo=Distinguir arquivos da publicação, assets rastreáveis e fontes sem alterar schema ou estilo.|escopo=tecnico|status=em andamento
+1/2 Definir correlação semântica [em andamento]
+  1/3 Auditar schema e contagens [concluído]
+  2/3 Evoluir RCF sem redundância [concluído]
+  3/3 Comitar contrato antes do código [em andamento]
+2/2 Implementar e homologar [pendente]
+  1/3 Derivar quatro indicadores no cliente [pendente]
+  2/3 Validar correlações e não regressão visual [pendente]
+  3/3 Atualizar memória e concluir FT [pendente]
+
+## FT-011 — Segmentar indicadores de assets
+
+- Escopo: Técnico — semântica e cálculo dos indicadores resumidos.
+- Prioridade: média.
+- Status: em andamento.
+- Início: `20260719.2000.00`.
+- Atualização: `20260719.2000.00`.
+- Etapa atual: `1/2` — definição semântica.
+- Tarefa atual: `3/3` — comitar contrato antes do código.
+
+### Decisões e preservações
+
+- `assets` contém capa e contêineres locais, enquanto `sources` descreve proveniência; `metadata.json` é arquivo publicado, mas não integra `assets`. O valor anterior era correto no schema e ambíguo na UI.
+- `Arquivos da publicação` contará `metadata.json` mais todas as entradas locais de `assets`; `Assets rastreáveis` contará `asset_id` distintos e válidos referenciados por `sources`; `Fontes preservadas` continuará contando registros de `sources`.
+- A derivação no renderer evita campos redundantes e regeneração desnecessária dos 527 metadados.
+- Estilo, grid responsivo, componentes, rotas, providers, carregamento progressivo, schema 5 e demais contratos permanecem inalterados.
 
 ## FT-010 — Corrigir ícones e feedback assíncrono
 
