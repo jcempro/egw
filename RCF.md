@@ -23,7 +23,8 @@
 | --- | --- |
 | Livro | Referência bibliográfica identificada por um `book_id` público e por um único `metadata.json` canônico. |
 | Artefato editorial | Arquivo concreto que constitui a referência principal de uma edição e formato determinados. |
-| Fonte | Recurso concreto que foi obtido, consultado ou vinculado para a referência; possui URL integral e pode possuir hash próprio. |
+| Fonte | Site ou domínio que armazena e entrega diretamente o arquivo apontado pela URL pública exibida; NÃO É sinônimo de Provedor. |
+| Provedor | Entidade ou site que gerou, produziu ou publicou originalmente o artefato redistribuído; PODE coincidir com a Fonte, sem autorizar duplicação visual. |
 | Hash Global | Matriz SHA-1/SHA-256/SHA-512 calculada exclusivamente sobre os bytes originais de um PDF ou EPUB editorial. |
 | Hash da Fonte | Matriz calculada sobre os bytes efetivamente entregues por uma URL, qualquer que seja seu invólucro; NÃO DEVE substituir Hash Global. |
 | Validação | Tentativa cliente de obter a fonte, calcular sua matriz de hashes e compará-la ao Hash da Fonte. |
@@ -188,8 +189,10 @@
 - `RCF-IF-UX-002` A composição DEVE ser elegante, profissional, limpa, sóbria, moderna e atemporal, priorizando leitura, consulta e rastreabilidade.
 - `RCF-IF-UX-003` A edição de dados NÃO DEVE ser oferecida na interface pública.
 - `RCF-IF-UX-004` A tipografia DEVE usar Noto Sans; Google Fonts DEVE atuar somente como fallback carregável, seguido de família sans-serif do sistema.
-- `RCF-IF-UX-005` Ícone DEVE possuir significado textual acessível; Font Awesome DEVE integrar somente ícones efetivamente referenciados pela versão publicada.
+- `RCF-IF-UX-005` Ícone DEVE possuir significado textual acessível; Font Awesome DEVE integrar somente ícones efetivamente referenciados pela versão publicada e DEVE representar formato de asset quando houver glifo inequívoco. Extensão sem associação inequívoca DEVE ser exibida como texto iniciado por ponto.
 - `RCF-IF-UX-006` Interface, dados e controles DEVEM adaptar-se ao viewport sem breakpoint contratual, sem perda funcional, overflow não intencional, hierarquia ilegível ou dependência de ponteiro preciso.
+- `RCF-IF-UX-027` Superfície clara ou escura NÃO DEVE usar fundo monolítico opaco: planos DEVEM preservar leveza e hierarquia por gradiente suave, transparência, borda translúcida e desfoque de fundo quando suportado, com fallback legível sem `backdrop-filter`.
+- `RCF-IF-UX-028` Em viewport amplo, inclusive 2K ou superior, largura, padding, gaps e colunas DEVEM crescer de modo limitado e harmônico, sem esmagamento horizontal nem dispersão excessiva.
 
 ### 5.2 Estrutura de página de livro
 
@@ -198,11 +201,11 @@
 - `RCF-IF-UX-009` Fatos editoriais DEVEM conter edição, idioma e instante de atualização derivado da revisão publicada; ausência de dado DEVE ser exibida como indisponível, nunca estimada.
 - `RCF-IF-UX-010` Indicadores resumidos DEVEM conter fontes cadastradas, fontes alcançáveis na sessão, hashes verificados e atualização; todos DEVEM derivar de metadado ou Estados públicos.
 - `RCF-IF-UX-011` A seção Fontes DEVE conter introdução, link direto ao `metadata.json` do livro e tabela ou representação responsiva equivalente.
-- `RCF-IF-UX-012` Cada fonte DEVE apresentar, nesta ordem lógica, posição, fonte armazenadora, URL integral, formato de leitura, formato do asset, Hash da Fonte do asset transferido, provedor, tamanho, Estado público e ação final explícita de download.
+- `RCF-IF-UX-012` Cada fonte DEVE apresentar, nesta ordem lógica, posição, Fonte armazenadora, URL integral, formato de leitura, formato do asset, Hash da Fonte do asset transferido, Provedor, tamanho, Estado público e ação final explícita de download. Fonte DEVE derivar do domínio que entrega a URL exibida; Provedor DEVE identificar a origem editorial. Quando coincidirem, o valor DEVE aparecer somente no campo semanticamente correto e o outro DEVE ser omitido como redundante.
 - `RCF-IF-UX-013` URL DEVE permanecer integralmente disponível para leitura, cópia e abertura; elipse visual NÃO DEVE ocultar o valor copiado nem o texto acessível.
 - `RCF-IF-UX-014` Hash DEVE possuir ação de cópia por teclado e toque, confirmação não intrusiva e alternativa textual quando a cópia falhar.
 - `RCF-IF-UX-015` Lista extensa DEVE mostrar subconjunto inicial estável e controle explícito para revelar itens adicionais; ocultação NÃO DEVE alterar contagens nem impedir acesso aos dados.
-- `RCF-IF-UX-016` Em largura insuficiente, tabela DEVE preservar todos os campos mediante cartões equivalentes, rolagem horizontal acessível ou ambos; informação NÃO DEVE ser removida.
+- `RCF-IF-UX-016` Em qualquer largura, a listagem de fontes DEVE preservar todos os campos por grid fluido ou cartões equivalentes, sem barra de rolagem local horizontal ou vertical. Cada item PODE usar subgrupos empilhados para separar metadados, integridade, links e ações sem remover informação.
 - `RCF-IF-UX-017` A página DEVE conter seção de verificações com metodologia concisa, seção Como citar, acesso ao repositório e acesso aos dados abertos.
 - `RCF-IF-UX-018` Rodapé DEVE identificar o livro quando aplicável, GitHub Pages, dados abertos, transparência, integridade e link ao repositório.
 
@@ -210,7 +213,8 @@
 
 - `RCF-IF-UX-019` HTML DEVE entregar estrutura e conteúdo essencial; CSS/Sass DEVE controlar apresentação e estados; TypeScript DEVE apenas aprimorar consulta, cópia e validação.
 - `RCF-IF-UX-020` Todo controle interativo DEVE possuir nome acessível, foco visível, ativação por teclado e toque, ordem de foco coerente e contraste suficiente.
-- `RCF-IF-UX-026` URLs e hashes em painéis ou tabelas DEVEM usar elipse visual em área flexível limitada e botão de ícone adjacente para copiar o valor integral; controle, texto e coluna NÃO DEVEM colidir, quebrar letra por letra nem ampliar a página em viewport estreito. Claro e escuro DEVEM manter contraste, estados e elevação equivalentes.
+- `RCF-IF-UX-026` Hashes em painéis ou listagens DEVEM exibir estritamente seus 7 últimos caracteres; URLs DEVEM usar recorte visual agressivo e homogêneo. Valor integral DEVE permanecer no nome acessível, `title` e ação de cópia. Botão de cópia adjacente DEVE permanecer visível, contrastado e dimensionalmente estável; controle, texto e coluna NÃO DEVEM colidir, quebrar letra por letra nem ampliar a página. Claro e escuro DEVEM manter contraste, transparência, estados e elevação equivalentes.
+- `RCF-IF-UX-029` A ação final de download DEVE possuir contraste e área de toque superiores às ações auxiliares de cópia, permanecer na extremidade lógica do item e usar ícone Font Awesome com nome acessível.
 - `RCF-IF-UX-021` Atualização assíncrona de Estado público DEVE ser anunciada de modo não intrusivo e NÃO DEVE deslocar foco nem reordenar fonte lida.
 - `RCF-IF-UX-022` Conteúdo decorativo DEVE ser ignorável por tecnologia assistiva; capa DEVE possuir alternativa textual que identifique livro e edição quando a imagem trouxer informação.
 - `RCF-IF-UX-023` Movimento, animação e transição DEVEM respeitar preferência de redução de movimento e NÃO DEVEM ocultar conteúdo ou resultado.
