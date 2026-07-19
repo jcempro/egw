@@ -160,29 +160,30 @@ FT-009|nome=Refinar tema claro e escala desktop|objetivo=Fixar superfície insti
   1/3 Validar build, tipo e interface [concluído]
   2/3 Auditar desktop, mobile, foco e contraste [concluído]
   3/3 Atualizar memória e concluir FT [concluído]
-FT-010|nome=Corrigir ícones e feedback assíncrono|objetivo=Eliminar a causa raiz dos ícones vazios e informar carregamentos progressivos sem bloquear conteúdo.|escopo=tecnico|status=em andamento
-1/3 Corrigir contrato e plano [em andamento]
+FT-010|nome=Corrigir ícones e feedback assíncrono|objetivo=Eliminar a causa raiz dos ícones vazios e informar carregamentos progressivos sem bloquear conteúdo.|escopo=tecnico|status=concluído
+1/3 Corrigir contrato e plano [concluído]
   1/3 Reproduzir causa raiz no namespace SVG [concluído]
   2/3 Normatizar providers, fallback e estados [concluído]
-  3/3 Comitar contrato antes do código [em andamento]
-2/3 Implementar evolução focada [pendente]
-  1/3 Corrigir renderer SVG e fallback neutro [pendente]
-  2/3 Implementar indicador e estados progressivos [pendente]
-  3/3 Reutilizar índices e requisições em voo [pendente]
-3/3 Homologar e encerrar [pendente]
-  1/3 Validar providers, fallback, rotas e cache [pendente]
-  2/3 Auditar navegador desktop e mobile [pendente]
-  3/3 Atualizar memória e concluir FT [pendente]
+  3/3 Comitar contrato antes do código [concluído]
+2/3 Implementar evolução focada [concluído]
+  1/3 Corrigir renderer SVG e fallback neutro [concluído]
+  2/3 Implementar indicador e estados progressivos [concluído]
+  3/3 Reutilizar índices e requisições em voo [concluído]
+3/3 Homologar e encerrar [concluído]
+  1/3 Validar providers, fallback, rotas e cache [concluído]
+  2/3 Auditar navegador desktop e mobile [concluído]
+  3/3 Atualizar memória e concluir FT [concluído]
 
 ## FT-010 — Corrigir ícones e feedback assíncrono
 
 - Escopo: Técnico — renderer de ícones, indicador linear e cache efêmero de requisições.
 - Prioridade: crítica.
-- Status: em andamento.
+- Status: concluído.
 - Início: `20260719.1900.00`.
-- Atualização: `20260719.1900.00`.
-- Etapa atual: `1/3` — contrato e plano.
-- Tarefa atual: `3/3` — comitar contrato antes do código.
+- Atualização: `20260719.1945.00`.
+- Conclusão: `20260719.1945.00`.
+- Etapa atual: `3/3` — concluída.
+- Tarefa atual: nenhuma.
 
 ### Diagnóstico e preservações
 
@@ -191,6 +192,11 @@ FT-010|nome=Corrigir ícones e feedback assíncrono|objetivo=Eliminar a causa ra
 - A rota curta exige mapa e depois metadado; será exibido progresso indeterminado desde a resolução inicial, com transição parcial entre as etapas e encerramento após renderização, sem overlay ou bloqueio.
 - Promessas de índice e metadado serão compartilhadas em memória durante a sessão; falhas removem cache. Não haverá streaming, suspense ou hidratação, pois o artefato estático entrega JSON pequeno e esses mecanismos seriam redundantes.
 - Identidade, composição, componentes existentes, temas, animações preexistentes, `/d/`, `/_/`, aliases, slugs, schema 5, busca por título, APIs e contratos de dados permanecem invariantes.
+- `icon-provider.ts` cria SVG e paths por `createElementNS`, aceita Font Awesome, Node WebAwesome/customizado, função customizada e ausência de provider; teste isolado comprova `f0c5`, ambos os namespaces e fallback local não vazio.
+- O indicador superior cobre estados inicial, carregando, parcial, conteúdo parcial, concluído, erro e atualização; não captura ponteiro, não oculta conteúdo, respeita redução de movimento e desaparece 500 ms após sucesso.
+- Cache efêmero compartilha promessas JSON em voo, conserva resultado válido durante a sessão e remove falha para retomada; busca compartilha sua promessa entre prefetch por foco e envio.
+- Navegador real em 1440×900 e 390×844 comprovou 14 ícones com dimensão e paths visíveis, 10 cópias e 2 downloads, namespace SVG integral, progresso concluído e ocultação automática, zero overflow e zero scroll local.
+- Build integral aprovado com 527 livros, 1.051 assets, 881.694.743 bytes e `cache_semeado=0`; `check:dist`, `test:ui`, `test-dev-live`, `typecheck` e `git diff --check` foram aprovados.
 
 ## FT-009 — Refinar tema claro e escala desktop
 
