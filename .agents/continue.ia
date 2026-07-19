@@ -182,6 +182,41 @@ FT-011|nome=Segmentar indicadores de assets|objetivo=Distinguir arquivos da publ
   1/3 Derivar quatro indicadores no cliente [concluído]
   2/3 Validar correlações e não regressão visual [concluído]
   3/3 Atualizar memória e concluir FT [concluído]
+FT-012|nome=Completar fontes por provedor|objetivo=Descobrir e incorporar com integridade comprovada a publicação equivalente no provedor editorial ainda ausente como fonte.|escopo=tecnico|status=em andamento
+1/4 Normatizar descoberta orientada por lacuna [em andamento]
+  1/3 Auditar mantenedor e workflow [concluído]
+  2/3 Evoluir RCF e registrar modos [concluído]
+  3/3 Comitar contrato antes do código [em andamento]
+2/4 Implementar manutenção blindada [pendente]
+  1/3 Detectar lacuna Fonte-Provedor [pendente]
+  2/3 Validar PDF EPUB ZIP e 7Z [pendente]
+  3/3 Persistir fonte e checkpoint atomicamente [pendente]
+3/4 Integrar execução [pendente]
+  1/3 Expor modos completo metadado e fonte-provedor [pendente]
+  2/3 Integrar importação atualização e workflow diário [pendente]
+  3/3 Documentar nome e uso no README [pendente]
+4/4 Homologar e encerrar [pendente]
+  1/3 Testar seleção integridade e fail-safe [pendente]
+  2/3 Validar dados build e workflow [pendente]
+  3/3 Atualizar memória convergir e publicar [pendente]
+
+## FT-012 — Completar fontes por provedor
+
+- Escopo: Técnico — descoberta de equivalentes, integridade, CLI, checkpoint e workflow diário.
+- Prioridade: alta.
+- Status: em andamento.
+- Início: `20260719.2100.00`.
+- Atualização: `20260719.2100.00`.
+- Etapa atual: `1/4` — normatização.
+- Tarefa atual: `3/3` — commit normativo anterior ao código.
+
+### Diagnóstico e preservações
+
+- O mantenedor existente está preso ao schema interno 2, filtra somente IDs literais `pdf`/`epub`, compara apenas SHA-512 e procura somente links PDF/EPUB do mesmo formato em um adaptador White Estate; portanto não satisfaz a lacuna Fonte-Provedor nem os três modos solicitados.
+- A Fonte armazenadora será derivada da URL efetivamente disponibilizada; o Provedor editorial será derivado do campo explícito ou da origem registrada. A busca ocorrerá somente quando o domínio do Provedor ainda não estiver representado como Fonte do Livro.
+- PDF/EPUB direto será comparado à matriz Hash Global correspondente; ZIP/7Z será extraído em diretório temporário isolado, com limites de tamanho, quantidade e path, e somente produto PDF/EPUB integralmente correspondente poderá autorizar inclusão.
+- `/d/`, `/_/`, aliases, segmentação de slug, schema público 5, busca somente por título, assets existentes e identidade visual permanecem invariantes.
+- O workflow já possui teto de job de 20 minutos; o limite interno de 14 minutos será alinhado para reservar encerramento fail-safe dentro desse teto.
 
 ## FT-011 — Segmentar indicadores de assets
 
