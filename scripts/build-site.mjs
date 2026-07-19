@@ -57,7 +57,7 @@ async function main() {
   await esbuild({ entryPoints: [path.join(SOURCE_ROOT, "app", "app.tsx")], outfile: path.join(DIST_ROOT, "assets", "app.js"), bundle: true, minify: true, treeShaking: true, target: ["es2020"], jsxFactory: "h", jsxFragment: "Fragment", banner: { js: `/*! ${buildConfig.header} */` }, legalComments: "inline" });
   const compiledStyle = sass.compile(path.join(SOURCE_ROOT, "app", "app.scss"), { style: "compressed" }).css;
   await writeFile(path.join(DIST_ROOT, "assets", "app.css"), `/*! ${buildConfig.header} */\n${compiledStyle}`, "utf8");
-  const generated = await materializeBooks({ sourceRoot: SOURCE_ROOT, distRoot: DIST_ROOT, cacheRoot: PACKAGE_CACHE_ROOT });
+  const generated = await materializeBooks({ sourceRoot: SOURCE_ROOT, distRoot: DIST_ROOT, cacheRoot: PACKAGE_CACHE_ROOT, publicOrigin: buildConfig.public_origin });
   await writeFile(path.join(DIST_ROOT, ".nojekyll"), "", "utf8");
   const leaked = (await listFiles(DIST_ROOT)).find((file) => path.relative(DIST_ROOT, file).split(path.sep).includes("src"));
   if (leaked) throw new Error(`Prefixo src/ exposto no artefato: ${path.relative(DIST_ROOT, leaked)}`);

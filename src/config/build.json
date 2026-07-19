@@ -2,6 +2,7 @@
   "schema_version": 1,
   "public_root": "dist",
   "data_root": "d",
+  "public_origin": "https://fontes.jcem.pro",
   "page_limit_bytes": 2000000000,
   "package": { "format": "7z", "method": "LZMA2", "level": 9 },
   "header": "JeanCarloEM — https://www.jeancarloem.com — https://github.com/jcempro/egw | MPL-2.0 — https://www.mozilla.org/MPL/2.0/ — uso sob a Mozilla Public License 2.0."

@@ -207,11 +207,11 @@ function assetRecord(id, format, url, size, hashes, originUrl = null) {
   return { id, format, url, size, source_hashes: hashes, origin_url: originUrl };
 }
 
-function sourceRecord(source, assetId, format, hashes) {
+function sourceRecord(source, assetId, format, hashes, storageHost) {
   const provider = source.provider || (source.origin_url ? new URL(source.origin_url).hostname : "local-preserved");
   return {
     id: source.id,
-    title: provider,
+    title: storageHost,
     url: `./source-${format}.7z`,
     type: source.type || "preserved-asset",
     format,
@@ -221,7 +221,8 @@ function sourceRecord(source, assetId, format, hashes) {
   };
 }
 
-export async function materializeBooks({ sourceRoot, distRoot, cacheRoot }) {
+export async function materializeBooks({ sourceRoot, distRoot, cacheRoot, publicOrigin }) {
+  const storageHost = new URL(publicOrigin).hostname;
   const dataSource = path.join(sourceRoot, "data", "books");
   const assetsSource = path.join(sourceRoot, "assets", "books");
   const dRoot = path.join(distRoot, "d");
@@ -286,7 +287,7 @@ export async function materializeBooks({ sourceRoot, distRoot, cacheRoot }) {
       sources: input.sources.map((source) => {
         const format = path.extname(new URL(source.origin_url || source.url, "https://local.invalid").pathname).slice(1).toLowerCase() || source.id;
         const asset = assets.find((candidate) => candidate.id === `source-${format}`);
-        return sourceRecord(source, asset?.id || null, format, asset?.source_hashes || null);
+        return sourceRecord(source, asset?.id || null, format, asset?.source_hashes || null, storageHost);
       }),
     };
     await writeJson(path.join(directory, "metadata.json"), metadata);

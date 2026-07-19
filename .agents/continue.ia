@@ -122,29 +122,29 @@ FT-007|nome=Reparar publicação e página de livros|objetivo=Eliminar originais
   2/3 Convergir dev e main [concluído]
   3/3 Publicar e verificar GitHub Pages [concluído]
 FT-008|nome=Refatorar transparência e grid de fontes|objetivo=Restabelecer leveza institucional, eliminar overflow local e tornar hashes, URLs, formatos e proveniência inequívocos.|escopo=tecnico|status=em andamento
-1/6 Registrar evolução visual [em andamento]
+1/6 Registrar evolução visual [concluído]
   1/3 Reavaliar regressões e normas [concluído]
   2/3 Evoluir RCF sem regredir rotas [concluído]
-  3/3 Comitar contrato e plano [pendente]
-2/6 Refatorar superfícies e escala [pendente]
-  1/3 Aplicar transparência e blur [pendente]
-  2/3 Adaptar largura e espaçamento 2K+ [pendente]
-  3/3 Preservar contraste claro e escuro [pendente]
-3/6 Refatorar grid de fontes [pendente]
-  1/3 Substituir tabela rígida por itens fluidos [pendente]
-  2/3 Eliminar scroll local [pendente]
-  3/3 Preservar ordem e acessibilidade [pendente]
-4/6 Aprimorar valores e ações [pendente]
-  1/4 Exibir últimos 7 caracteres dos hashes [pendente]
-  2/4 Recortar URLs e copiar valor integral [pendente]
-  3/4 Integrar ícones Font Awesome mínimos [pendente]
-  4/4 Destacar download [pendente]
-5/6 Sanear proveniência [pendente]
-  1/3 Derivar Fonte armazenadora [pendente]
-  2/3 Separar Provedor editorial [pendente]
-  3/3 Suprimir redundância sem perda [pendente]
-6/6 Homologar e publicar [pendente]
-  1/3 Validar build, rotas e interface [pendente]
+  3/3 Comitar contrato e plano [concluído]
+2/6 Refatorar superfícies e escala [concluído]
+  1/3 Aplicar transparência e blur [concluído]
+  2/3 Adaptar largura e espaçamento 2K+ [concluído]
+  3/3 Preservar contraste claro e escuro [concluído]
+3/6 Refatorar grid de fontes [concluído]
+  1/3 Substituir tabela rígida por itens fluidos [concluído]
+  2/3 Eliminar scroll local [concluído]
+  3/3 Preservar ordem e acessibilidade [concluído]
+4/6 Aprimorar valores e ações [concluído]
+  1/4 Exibir últimos 7 caracteres dos hashes [concluído]
+  2/4 Recortar URLs e copiar valor integral [concluído]
+  3/4 Integrar ícones Font Awesome mínimos [concluído]
+  4/4 Destacar download [concluído]
+5/6 Sanear proveniência [concluído]
+  1/3 Derivar Fonte armazenadora [concluído]
+  2/3 Separar Provedor editorial [concluído]
+  3/3 Suprimir redundância sem perda [concluído]
+6/6 Homologar e publicar [em andamento]
+  1/3 Validar build, rotas e interface [concluído]
   2/3 Convergir dev e main [pendente]
   3/3 Publicar e verificar GitHub Pages [pendente]
 
@@ -154,9 +154,9 @@ FT-008|nome=Refatorar transparência e grid de fontes|objetivo=Restabelecer leve
 - Prioridade: alta.
 - Status: em andamento.
 - Início: `20260719.1601.34`.
-- Atualização: `20260719.1601.34`.
-- Etapa atual: `1/6` — registrar evolução visual.
-- Tarefa atual: `3/3` — comitar contrato e plano.
+- Atualização: `20260719.1620.00`.
+- Etapa atual: `6/6` — homologar e publicar.
+- Tarefa atual: `2/3` — convergir `dev` e `main`.
 
 ### Decisões e preservações
 
@@ -164,6 +164,8 @@ FT-008|nome=Refatorar transparência e grid de fontes|objetivo=Restabelecer leve
 - `/d/<idioma>/<categoria>/<primeira>/<segunda>/<restante>/`, `/_/<token>/`, aliases legados, schema 5 e índice mínimo exclusivamente por título permanecem invariantes.
 - Font Awesome será limitado aos glifos efetivamente usados e incorporado ao bundle; informação textual acessível permanece obrigatória.
 - Hash integral e URL integral permanecem disponíveis para cópia e tecnologia assistiva; o recorte de 7 caracteres é exclusivamente visual.
+- Build integral aprovado com 527 livros, 1.051 contêineres e índice de busca com dois campos. `check:dist`, `test:ui`, `test-dev-live` e `typecheck` foram aprovados.
+- Navegador real em 2560×1440 e 390×844 confirmou zero overflow de página ou scroll local, dois itens fluidos, hashes de sete caracteres, ícones visíveis, fonte `fontes.jcem.pro`, Provedor distinto e alvo de download ampliado. Claro/escuro usam gradientes, transparência e `backdrop-filter` com fallback.
 
 ## FT-007 — Reparar publicação e página de livros
 

@@ -23,6 +23,8 @@ async function metadataFiles(directory) {
 }
 
 async function main() {
+  const buildConfig = JSON.parse(await readFile(path.join(ROOT, "src", "config", "build.json"), "utf8"));
+  const storageHost = new URL(buildConfig.public_origin).hostname;
   const search = JSON.parse(await readFile(path.join(D, "_index", "search.json"), "utf8"));
   const short = JSON.parse(await readFile(path.join(D, "_index", "short.json"), "utf8"));
   const legacy = JSON.parse(await readFile(path.join(D, "_index", "legacy.json"), "utf8"));
@@ -53,6 +55,7 @@ async function main() {
     for (const source of data.sources) {
       const asset = data.assets.find((entry) => entry.id === source.asset_id);
       if (!asset || source.url !== asset.url || source.format === asset.format || JSON.stringify(source.hashes) !== JSON.stringify(asset.source_hashes)) throw new Error(`Fonte compactada divergente: ${data.book.id}/${source.id}`);
+      if (source.title !== storageHost || typeof source.provider !== "string" || !source.provider.trim()) throw new Error(`Fonte ou Provedor divergente: ${data.book.id}/${source.id}`);
     }
     expectedSearch.push([data.book.title, data.short_token]);
   }

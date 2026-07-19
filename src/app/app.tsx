@@ -1,6 +1,8 @@
 // JeanCarloEM — https://www.jeancarloem.com — https://github.com/jcempro/egw
 // MPL-2.0 — https://www.mozilla.org/MPL/2.0/ — uso sob a Mozilla Public License 2.0.
 
+import { faCopy, faDownload, faFileZipper, type IconDefinition } from "@fortawesome/free-solid-svg-icons";
+
 type Child = Node | string | number | null | undefined | false;
 type Hashes = { sha1: string; sha256: string; sha512: string };
 type Asset = { id: string; format: string; url: string; size: number; source_hashes: Hashes; origin_url: string | null };
@@ -52,17 +54,34 @@ function metadataPath(data: Metadata): string {
   return `/d/${segment(data.book.language)}/${segment(data.book.primary_category)}/${words[0] || segment(data.book.id)}/${words[1] || remainder}/${remainder}/metadata.json`;
 }
 function formatBytes(value: number): string { const divisor = value >= 1_000_000 ? 1_000_000 : 1_000; return `${(value / divisor).toFixed(1)} ${divisor === 1_000_000 ? "MB" : "kB"}`; }
-function icon(name: "copy" | "download"): Node { return name === "copy" ? <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 8h10v11H9zM5 4h10v3H8v8H5z" fill="currentColor" /></svg> : <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M11 4h2v9l3-3 1.4 1.4L12 17l-5.4-5.6L8 10l3 3zM5 19h14v2H5z" fill="currentColor" /></svg>; }
+function icon(definition: IconDefinition): Node {
+  const [width, height, , , path] = definition.icon;
+  const paths = Array.isArray(path) ? path : [path];
+  return <svg aria-hidden="true" viewBox={`0 0 ${width} ${height}`} className="fa-icon">{paths.map((value) => <path d={value} fill="currentColor" />)}</svg>;
+}
 async function copyValue(value: string): Promise<void> {
   if (navigator.clipboard?.writeText) return navigator.clipboard.writeText(value);
   const field = document.createElement("textarea"); field.value = value; field.className = "sr-only"; document.body.append(field); field.select(); const copied = document.execCommand("copy"); field.remove(); if (!copied) throw new Error("Cópia indisponível");
 }
 function copyButton(value: string, label: string): HTMLButtonElement {
-  const button = <button type="button" className="icon-button" aria-label={label} title={label}>{icon("copy")}</button> as HTMLButtonElement;
+  const button = <button type="button" className="icon-button" aria-label={label} title={label}>{icon(faCopy)}</button> as HTMLButtonElement;
   button.addEventListener("click", async () => { try { await copyValue(value); announce("Valor integral copiado."); } catch { announce("Não foi possível copiar; selecione o valor integral."); } });
   return button;
 }
-function compactValue(value: string, kind: "hash" | "url", label: string): Node { return <span className={`compact-value compact-${kind}`}><span className="compact-text" title={value}>{value}</span>{copyButton(value, label)}</span>; }
+function displayedValue(value: string, kind: "hash" | "url"): string {
+  if (kind === "hash") return value.slice(-7);
+  try { const parsed = new URL(value); const tail = `${parsed.pathname}${parsed.search}${parsed.hash}`; return `…${tail.slice(-18)}`; } catch { return `…${value.slice(-18)}`; }
+}
+function compactValue(value: string, kind: "hash" | "url", label: string, linked = false): Node {
+  const text = displayedValue(value, kind);
+  const visible = linked ? <a className="compact-text" href={value} target="_blank" rel="noopener noreferrer" title={value} aria-label={value}>{text}</a> : <span className="compact-text" title={value} aria-label={value}>{text}</span>;
+  return <span className={`compact-value compact-${kind}`}>{visible}{copyButton(value, label)}</span>;
+}
+function assetFormat(format: string): Node {
+  const normalized = format.toLowerCase();
+  if (normalized === "7z" || normalized === "zip") return <span className="asset-format" title={`.${normalized}`} aria-label={`Arquivo .${normalized}`}>{icon(faFileZipper)}<span className="sr-only">.{normalized}</span></span>;
+  return <span className="asset-format-fallback">.{normalized}</span>;
+}
 function titleIdentity(data: Metadata): { title: string; qualifier: string | null } {
   const configured = typeof data.book.edition?.qualifier === "string" ? data.book.edition.qualifier.trim() : ""; const match = /^(.*?)\s*\(([^()]+)\)\s*$/.exec(data.book.title);
   if (configured && match) return { title: match[1].trim(), qualifier: configured }; if (configured) return { title: data.book.title, qualifier: configured };
@@ -77,13 +96,17 @@ function renderBook(data: Metadata, metadataUrl: string): void {
     const asset = data.assets.find((candidate) => candidate.id === source.asset_id);
     const href = asset ? new URL(asset.url, base).href : source.url;
     const assetHash = asset?.source_hashes.sha256 || source.hashes?.sha256 || "";
-    return <tr><td>{index + 1}</td><td>{source.title}</td><td className="url-cell"><span className="compact-value compact-url"><a className="compact-text" href={href} target="_blank" rel="noopener noreferrer" title={href}>{href}</a>{copyButton(href, "Copiar URL integral")}</span></td><td><span className="format-badge">{source.format.toUpperCase()}</span></td><td>{asset?.format.toUpperCase() || "REMOTO"}</td><td>{assetHash ? <code className="hash">{compactValue(assetHash, "hash", "Copiar SHA-256 integral do asset")}</code> : "Não comparável"}</td><td>{source.provider}</td><td>{asset ? formatBytes(asset.size) : "Externa"}</td><td><a className="download-button" href={href} download aria-label={`Baixar ${source.format.toUpperCase()} em ${asset?.format.toUpperCase() || "asset remoto"}`} title="Baixar asset">{icon("download")}</a></td></tr>;
+    const sourceHost = source.title || new URL(href).hostname; const provider = source.provider === sourceHost ? null : source.provider;
+    return <article className="source-item" role="listitem" aria-label={`Fonte ${index + 1}`}>
+      <div className="source-primary"><span className="source-index">{index + 1}</span><div className="source-field source-host"><span className="field-label">Fonte</span><strong>{sourceHost}</strong></div><div className="source-field source-url"><span className="field-label">URL</span>{compactValue(href, "url", "Copiar URL integral", true)}</div><div className="source-field source-reading"><span className="field-label">Formato</span><span className="format-badge">{source.format.toUpperCase()}</span></div><div className="source-field source-asset"><span className="field-label">Asset</span>{asset ? assetFormat(asset.format) : <span className="asset-format-fallback">.remoto</span>}</div></div>
+      <div className="source-secondary"><div className="source-field source-hash"><span className="field-label">Hash do asset</span>{assetHash ? <code className="hash">{compactValue(assetHash, "hash", "Copiar SHA-256 integral do asset")}</code> : <span>Não comparável</span>}</div><div className="source-field source-provider"><span className="field-label">Provedor</span><span>{provider || <span title="Mesmo domínio da Fonte">—</span>}</span></div><div className="source-field source-size"><span className="field-label">Tamanho</span><span>{asset ? formatBytes(asset.size) : "Externa"}</span></div><a className="download-button" href={href} download aria-label={`Baixar ${source.format.toUpperCase()} em ${asset?.format.toUpperCase() || "asset remoto"}`} title="Baixar asset">{icon(faDownload)}</a></div>
+    </article>;
   });
   bookView.replaceChildren(
     <section className="book-hero"><div className="cover">{cover ? <img src={new URL(cover.url, base).href} alt={`Capa de ${data.book.title}`} /> : null}</div><div className="book-identity"><p className="eyebrow">Referência bibliográfica</p><h1 id="book-view-title">{identity.title}</h1>{identity.qualifier ? <p className="book-qualifier">{identity.qualifier}</p> : null}<p className="book-author">{authors}</p><dl className="book-facts"><div><dt>Idioma</dt><dd>{data.book.language}</dd></div><div><dt>Categoria</dt><dd>{data.book.primary_category}</dd></div></dl></div></section>,
     <section className="section"><div className="metric-grid"><article className="metric"><span>Fontes preservadas</span><strong>{data.sources.length}</strong></article><article className="metric"><span>Assets públicos</span><strong>{data.assets.length}</strong></article><article className="metric"><span>URL curta</span><strong>/_/{data.short_token}</strong></article></div></section>,
     <section className="section"><div className="section-heading"><div><p className="eyebrow">Integridade</p><h2>Hashes dos artefatos originais</h2></div></div><div className="metric-grid">{globalRows}</div></section>,
-    <section className="section"><div className="section-heading"><div><p className="eyebrow">Fontes</p><h2>Assets e proveniência</h2></div><div className="table-actions"><a className="button button-secondary" href={metadataUrl}>metadata.json</a></div></div><div className="source-table-wrap"><table><thead><tr><th>#</th><th>Fonte</th><th>URL</th><th>Formato</th><th>Asset</th><th>Hash do asset</th><th>Provedor</th><th>Tamanho</th><th><span className="sr-only">Download</span></th></tr></thead><tbody>{sourceRows}</tbody></table></div></section>
+    <section className="section"><div className="section-heading"><div><p className="eyebrow">Fontes</p><h2>Assets e proveniência</h2></div><div className="table-actions"><a className="button button-secondary" href={metadataUrl}>metadata.json</a></div></div><div className="source-grid" role="list">{sourceRows}</div></section>
   );
   setView("book"); document.title = `${data.book.title} — Índice de Fontes`;
 }
