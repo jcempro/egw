@@ -58,9 +58,12 @@ const copy = canonicalResult.dom.window.document.querySelector('.hash-panel .ico
 const firstHash = canonicalResult.dom.window.document.querySelector('.hash-panel .compact-hash .compact-text');
 const sourceItems = canonicalResult.dom.window.document.querySelectorAll('.source-item');
 const firstSource = sourceItems[0];
+const metrics = Object.fromEntries([...canonicalResult.dom.window.document.querySelectorAll('.metric')].map((node) => [node.querySelector('span')?.textContent, node.querySelector('strong')?.textContent]));
 const copySvg = canonicalResult.dom.window.document.querySelector('.compact-url .icon-button .fa-icon[width="1em"][height="1em"]');
 if (canonicalResult.copied() !== metadata.global_hashes[0].sha1 || firstHash?.textContent !== metadata.global_hashes[0].sha1.slice(-7) || firstHash?.getAttribute('aria-label') !== metadata.global_hashes[0].sha1 || copySvg?.namespaceURI !== "http://www.w3.org/2000/svg" || copySvg?.querySelector('path')?.namespaceURI !== "http://www.w3.org/2000/svg" || sourceItems.length !== metadata.sources.length || !firstSource?.querySelector('.asset-format .fa-icon') || !firstSource?.querySelector('.download-button .fa-icon')) throw new Error("UI de hashes, URLs, ícones ou assets divergente");
 if (!canonicalResult.dom.window.document.querySelector('#processing-indicator .processing-track') || canonicalResult.state.processing !== "completed") throw new Error("Estados progressivos da rota canônica divergentes");
+const traceableAssetCount = new Set(metadata.sources.map((source) => source.asset_id).filter((assetId) => assetId && metadata.assets.some((asset) => asset.id === assetId))).size;
+if (metrics["Fontes preservadas"] !== String(metadata.sources.length) || metrics["Arquivos da publicação"] !== String(metadata.assets.length + 1) || metrics["Assets rastreáveis"] !== String(traceableAssetCount) || metrics["URL curta"] !== `/_/${metadata.short_token}` || Object.keys(metrics).length !== 4) throw new Error("Indicadores de publicação, assets e proveniência divergentes");
 if (canonicalResult.dom.window.document.querySelector('.source-table-wrap, table') || !firstSource?.querySelector('.source-host') || !firstSource?.querySelector('.source-provider')) throw new Error("Grid ou proveniência divergente");
 const shortResult = await render(`/_/${token}/`);
 if (!shortResult.state.book || shortResult.state.processing !== "completed") throw new Error("Rota curta não renderizou Livro progressivamente");

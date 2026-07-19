@@ -8,7 +8,7 @@ Pacotes 7z validados são armazenados em cache local ignorado, identificado pelo
 
 O acervo de entrada não é versionado. A manutenção só adiciona URL cujo SHA-512 seja idêntico ao asset já aceito. Não há vínculo com editoras e fontes de terceiros podem ficar indisponíveis.
 
-A interface pública mantém rotas canônicas `/d/`, aliases curtos `/_/` e busca estritamente por título. Rotas diretas e busca exibem progresso linear não bloqueante, publicam estados parciais e reutilizam índices já carregados na sessão. A página institucional usa fundo claro, com Top Bar e rodapé escuros, superfícies translúcidas, densidade desktop refinada, grid de fontes sem rolagem local, hashes abreviados aos sete caracteres finais com cópia integral e separação entre a Fonte que hospeda o download e o Provedor editorial original. Ícones usam adaptador neutro com provider opcional e fallback local.
+A interface pública mantém rotas canônicas `/d/`, aliases curtos `/_/` e busca estritamente por título. Rotas diretas e busca exibem progresso linear não bloqueante, publicam estados parciais e reutilizam índices já carregados na sessão. A página institucional usa fundo claro, com Top Bar e rodapé escuros, superfícies translúcidas, densidade desktop refinada, grid de fontes sem rolagem local, hashes abreviados aos sete caracteres finais com cópia integral e separação entre Fonte, arquivos da publicação, assets rastreáveis e Provedor editorial. Ícones usam adaptador neutro com provider opcional e fallback local.
 
 Autoria: [JeanCarloEM](https://www.jeancarloem.com)<br>
 Repositório: [jcempro/egw](https://github.com/jcempro/egw)<br>
