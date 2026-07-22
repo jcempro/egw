@@ -19,23 +19,23 @@
 
 ### 1.3 Termos estáveis
 
-| Termo | Contrato |
-| --- | --- |
-| Livro | Referência bibliográfica identificada por um `book_id` público e por um único `metadata.json` canônico. |
-| Artefato editorial | Arquivo concreto que constitui a referência principal de uma edição e formato determinados. |
-| Fonte | Site ou domínio que armazena e entrega diretamente o arquivo apontado pela URL pública exibida; NÃO É sinônimo de Provedor. |
-| Provedor | Entidade ou site que gerou, produziu ou publicou originalmente o artefato redistribuído; PODE coincidir com a Fonte, sem autorizar duplicação visual. |
-| Hash Global | Matriz SHA-1/SHA-256/SHA-512 calculada exclusivamente sobre os bytes originais de um PDF ou EPUB editorial. |
-| Hash da Fonte | Matriz calculada sobre os bytes efetivamente entregues por uma URL, qualquer que seja seu invólucro; NÃO DEVE substituir Hash Global. |
-| Validação | Tentativa cliente de obter a fonte, calcular sua matriz de hashes e compará-la ao Hash da Fonte. |
-| Estado persistido | Resultado de validação armazenado somente no dispositivo, associado à revisão do metadado e sem autoridade editorial. |
-| URL canônica | Caminho público principal do Livro, coincidente com seu diretório atômico sob `/d/`. |
-| URL curta | Alias case-sensitive sob `/_/`, resolvido por mapa estático para uma única URL canônica. |
-| Acervo de entrada | Diretório privado ignorado pelo Git, usado exclusivamente pelo build editorial e nunca servido diretamente. |
-| Asset preservado | Cópia publicada, identificada por hash, de artefato aceito no Acervo de entrada; preserva sua origem remota no metadado. |
-| Root do repositório | Diretório de governança, automação transversal, documentação e configuração do projeto; NÃO É root da aplicação nem do artefato publicado. |
-| Root da aplicação | Raiz conceitual percebida no domínio `/`; no fonte, é espelhada por `src/`; no resultado, é materializada por `dist/`. |
-| Root do artefato publicado | Diretório `dist/`, único conteúdo elegível à publicação estática; sua estrutura interna DEVE corresponder ao domínio `/`. |
+| Termo                      | Contrato                                                                                                                                              |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Livro                      | Referência bibliográfica identificada por um `book_id` público e por um único `metadata.json` canônico.                                               |
+| Artefato editorial         | Arquivo concreto que constitui a referência principal de uma edição e formato determinados.                                                           |
+| Fonte                      | Site ou domínio que armazena e entrega diretamente o arquivo apontado pela URL pública exibida; NÃO É sinônimo de Provedor.                           |
+| Provedor                   | Entidade ou site que gerou, produziu ou publicou originalmente o artefato redistribuído; PODE coincidir com a Fonte, sem autorizar duplicação visual. |
+| Hash Global                | Matriz SHA-1/SHA-256/SHA-512 calculada exclusivamente sobre os bytes originais de um PDF ou EPUB editorial.                                           |
+| Hash da Fonte              | Matriz calculada sobre os bytes efetivamente entregues por uma URL, qualquer que seja seu invólucro; NÃO DEVE substituir Hash Global.                 |
+| Validação                  | Tentativa cliente de obter a fonte, calcular sua matriz de hashes e compará-la ao Hash da Fonte.                                                      |
+| Estado persistido          | Resultado de validação armazenado somente no dispositivo, associado à revisão do metadado e sem autoridade editorial.                                 |
+| URL canônica               | Caminho público principal do Livro, coincidente com seu diretório atômico sob `/d/`.                                                                  |
+| URL curta                  | Alias case-sensitive sob `/`, resolvido por mapa estático para uma única URL canônica.                                                                |
+| Acervo de entrada          | Diretório privado ignorado pelo Git, usado exclusivamente pelo build editorial e nunca servido diretamente.                                           |
+| Asset preservado           | Cópia publicada, identificada por hash, de artefato aceito no Acervo de entrada; preserva sua origem remota no metadado.                              |
+| Root do repositório        | Diretório de governança, automação transversal, documentação e configuração do projeto; NÃO É root da aplicação nem do artefato publicado.            |
+| Root da aplicação          | Raiz conceitual percebida no domínio `/`; no fonte, é espelhada por `src/`; no resultado, é materializada por `dist/`.                                |
+| Root do artefato publicado | Diretório `dist/`, único conteúdo elegível à publicação estática; sua estrutura interna DEVE corresponder ao domínio `/`.                             |
 
 ## 2. Arquitetura pública e publicação
 
@@ -66,7 +66,7 @@
 - `RCF-IF-ROUTE-004` Fragmento, consulta, barra final e codificação equivalente NÃO DEVEM criar identificadores distintos para o mesmo livro.
 - `RCF-IF-ROUTE-005` Segmento inválido, caminho ambíguo, traversal, barra codificada, metadado ausente ou schema inválido DEVE produzir o estado 404, sem tentativa de resolver caminho alternativo.
 - `RCF-IF-ROUTE-006` Cada segmento editorial DEVE usar somente `a-z`, `0-9` e `-`, resultar de normalização Unicode, remoção de diacríticos, minúsculas e colapso de separadores. `palavra_1` e `palavra_2` DEVEM corresponder às duas primeiras palavras normalizadas; `resto` DEVE conter as palavras remanescentes. Quando o resto for vazio, o segmento final DEVE usar o `book_id` estável; em título de uma palavra, `resto_do_identificador` DEVE usar o `book_id`, impedindo segmento vazio e colisão silenciosa.
-- `RCF-IF-ROUTE-007` Cada Livro DEVE possuir também URL curta case-sensitive `<base>/_/<token>`, onde `token` atende a `[A-Za-z0-9_-]+`; a URL curta DEVE resolver somente para a URL canônica registrada e NÃO DEVE tornar-se segunda localização física dos dados.
+- `RCF-IF-ROUTE-007` Cada Livro DEVE possuir também URL curta case-sensitive `<base>/<token>`, onde `token` atende a `[A-Za-z0-9_-]+`; a URL curta DEVE resolver somente para a URL canônica registrada e NÃO DEVE tornar-se segunda localização física dos dados.
 - `RCF-IF-ROUTE-008` URL pública previamente publicada DEVE permanecer resolvível por mapa de migração ou redirecionamento para a nova URL canônica. Migração NÃO DEVE reutilizar rota, token ou identificador histórico para outro Livro.
 
 ## 3. Dados canônicos
@@ -130,13 +130,13 @@
 ### 4.1 Front controller
 
 - `RCF-IF-FC-001` `404.html` DEVE atuar como Front Controller universal para URL pública não resolvida fisicamente pelo GitHub Pages.
-- `RCF-IF-FC-002` O Front Controller DEVE reconhecer separadamente a URL canônica `/d/*`, a URL curta `/_/*`, as rotas legadas registradas e o 404 real; entrada DEVE ser validada antes de formar caminho, carregar índice ou solicitar metadado.
+- `RCF-IF-FC-002` O Front Controller DEVE reconhecer separadamente a URL canônica `/d/*`, a URL curta `/*`, as rotas legadas registradas e o 404 real; entrada DEVE ser validada antes de formar caminho, carregar índice ou solicitar metadado.
 - `RCF-IF-FC-003` Após carregar metadado válido, o cliente DEVE renderizar imediatamente identidade bibliográfica, Hashes Globais, fontes e estrutura de consulta disponíveis.
 - `RCF-IF-FC-004` O cliente DEVE restaurar, quando existir, somente o Estado persistido cuja chave contenha `book_id`, revisão do metadado e identidade do hash da fonte.
 - `RCF-IF-FC-005` Estado persistido incompatível, corrompido, vencido ou ausente DEVE ser descartado sem afetar a renderização do metadado canônico.
 - `RCF-IF-FC-006` Sem livro resolvido, `404.html` DEVE renderizar página 404 completa, elegante, acessível e visualmente coerente com o produto.
 - `RCF-IF-FC-007` A página 404 NÃO DEVE carregar analytics, consentimento, cookie, API privada, recurso remoto indispensável ou estado persistido de outro livro.
-- `RCF-IF-FC-008` Requisição `/_/<token>` válida DEVE carregar o mapa curto ultra-minificado, resolver exatamente um destino canônico e substituir o histórico pelo destino. Token ausente, desconhecido, ambíguo ou com caixa divergente DEVE permanecer no estado 404 e NÃO DEVE produzir redirecionamento aproximado ou externo.
+- `RCF-IF-FC-008` Requisição `/<token>` válida DEVE carregar o mapa curto ultra-minificado, resolver exatamente um destino canônico e substituir o histórico pelo destino. Token ausente, desconhecido, ambíguo ou com caixa divergente DEVE permanecer no estado 404 e NÃO DEVE produzir redirecionamento aproximado ou externo.
 - `RCF-IF-FC-009` Tokens sequenciais DEVEM resultar da conversão bidirecional de inteiros positivos para Base64 URL-safe com alfabeto canônico `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_`, sem padding nem dígito zero à esquerda. Para token `c[0..k-1]`, a decodificação DEVE ser `Σ índice(c[i]) × 64^(k-1-i)`; a codificação DEVE aplicar divisões sucessivas por `64`. Contador global persistente DEVE iniciar em `1`, avançar monotonicamente no build e nunca reutilizar inteiro ou token atribuído, reservado ou removido.
 - `RCF-IF-FC-010` Livro cuja categoria primária seja Livro ou Devocional DEVERIA receber token preferencial pela sigla reconhecida e declarada no registro central ou, sem ela, pela sigla normalizada do título: iniciais de palavras significativas em minúsculas, numerais preservados e artigos, ligações gramaticais e designadores de volume, incluindo `o`, `a`, `the`, `para`, `com`, `e`, `de`, `volume` e `vol`, ignorados. São resultados normativos: `Caminho a Cristo` → `cc`, `Testemunhos Seletos Volume 1` → `ts1` e `Mensagens Escolhidas Volume 2` → `ms2`. Demais categorias DEVEM usar token sequencial.
 - `RCF-IF-FC-011` Colisão de sigla DEVE tentar, nesta ordem, prefixar o artigo inicial original, acrescentar `-<idioma ISO>` e, persistindo, usar token sequencial. Resultado NÃO DEVE depender da ordem de arquivos nem substituir token já publicado.
@@ -167,16 +167,16 @@
 
 ### 4.4 Estados públicos
 
-| Estado | Condição exclusiva |
-| --- | --- |
-| Aguardando | Fonte elegível sem tentativa ativa nem resultado restaurado. |
-| Verificando | Requisição iniciada e não encerrada. |
-| Verificado | Bytes recebidos e os três hashes calculados exatamente iguais ao Hash da Fonte. |
-| Divergente | Ao menos um hash calculado diferente do Hash da Fonte. |
-| Disponível sem comparação | Recurso alcançável, mas sem Hash da Fonte comparável. |
-| Não comparável | `file:`, algoritmo sem suporte ou condição que impede cálculo local lícito. |
-| Indisponível | Recurso não obtido por erro HTTP, rede, CORS, timeout ou corpo inacessível. |
-| Cancelado | Usuário, navegação ou ciclo de vida cancelou a tentativa antes de resultado. |
+| Estado                    | Condição exclusiva                                                              |
+| ------------------------- | ------------------------------------------------------------------------------- |
+| Aguardando                | Fonte elegível sem tentativa ativa nem resultado restaurado.                    |
+| Verificando               | Requisição iniciada e não encerrada.                                            |
+| Verificado                | Bytes recebidos e os três hashes calculados exatamente iguais ao Hash da Fonte. |
+| Divergente                | Ao menos um hash calculado diferente do Hash da Fonte.                          |
+| Disponível sem comparação | Recurso alcançável, mas sem Hash da Fonte comparável.                           |
+| Não comparável            | `file:`, algoritmo sem suporte ou condição que impede cálculo local lícito.     |
+| Indisponível              | Recurso não obtido por erro HTTP, rede, CORS, timeout ou corpo inacessível.     |
+| Cancelado                 | Usuário, navegação ou ciclo de vida cancelou a tentativa antes de resultado.    |
 
 - `RCF-IF-VAL-011` Cada Estado público DEVE usar rótulo textual, ícone e contraste que permaneçam inteligíveis sem cor.
 - `RCF-IF-VAL-012` Indicadores agregados DEVEM ser derivados dos Estados públicos atuais; resultado persistido DEVE ser distinguível de resultado da sessão atual.
@@ -341,7 +341,7 @@
 
 ## 10. Critérios de aceitação e rastreabilidade
 
-- `RCF-IF-ACC-001` Entrega publicável DEVE validar ao menos página inicial, URL canônica `/d/` válida, URL curta `/_/` válida, token desconhecido, rota legada, URL desconhecida, `404.html`, metadado inválido, fonte disponível, fonte indisponível, hash verificado, hash divergente, sem hash e sem JavaScript.
+- `RCF-IF-ACC-001` Entrega publicável DEVE validar ao menos página inicial, URL canônica `/d/` válida, URL curta `/` válida, token desconhecido, rota legada, URL desconhecida, `404.html`, metadado inválido, fonte disponível, fonte indisponível, hash verificado, hash divergente, sem hash e sem JavaScript.
 - `RCF-IF-ACC-002` Validação visual DEVE comprovar cabeçalho, identidade do livro, indicadores, fontes, verificações, cartões informativos, rodapé, foco, contraste, viewport estreito e viewport amplo.
 - `RCF-IF-ACC-003` Validação de dados DEVE comprovar que cada Livro possui somente um `metadata.json` schema 5, que não há JSON central duplicando Livros e que IDs, tokens, matrizes de hashes, referências e rotas são únicos, válidos e coerentes.
 - `RCF-IF-ACC-007` Validação de importação DEVE comprovar que `src/egw/` permanece ignorado, todo artefato aceito possui origem e hash de entrada válidos ou proveniência local explicitamente registrada, PDF e EPUB equivalentes resultam em um único Livro, cada asset publicado existe no diretório canônico e possui matriz Hash da Fonte, cada PDF/EPUB possui matriz Hash Global própria e índices cobrem exatamente os metadados gerados sem duplicá-los.
