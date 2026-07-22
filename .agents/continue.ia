@@ -237,6 +237,46 @@ FT-014|nome=Implementar URL curta busca QR e descoberta|objetivo=Implementar con
   2/3 Atualizar memória e handoff [concluído]
   3/3 Comitar, convergir e push [concluído]
 
+FT-015|nome=Corrigir painel de busca e QR|objetivo=Eliminar distorção visual da desambiguação e recompor a proporção do QR Code no cabeçalho do Livro.|escopo=tecnico|status=em andamento
+1/4 Conciliar contrato visual [concluído]
+  1/3 Registrar FT e origem visual [concluído]
+  2/3 Evoluir RCF de desambiguação [concluído]
+  3/3 Evoluir RCF de QR no cabeçalho [concluído]
+2/4 Implementar layout [em andamento]
+  1/3 Transformar resultados múltiplos em painel amplo fechável [em andamento]
+  2/3 Reposicionar QR no espaço lateral do cabeçalho [pendente]
+  3/3 Remover texto redundante do botão de download [pendente]
+3/4 Validar interface [pendente]
+  1/3 Atualizar teste DOM de desambiguação [pendente]
+  2/3 Validar build e dist [pendente]
+  3/3 Validar captura renderizada desktop e mobile [pendente]
+4/4 Encerrar [pendente]
+  1/3 Atualizar memória e handoff [pendente]
+  2/3 Comitar em etapas [pendente]
+  3/3 Publicar dev e main [pendente]
+
+## FT-015 — Corrigir painel de busca e QR
+
+- Escopo: Técnico — ajuste visual e de interação na interface publicada.
+- Prioridade: alta.
+- Status: em andamento.
+- Criado em: `2026-07-22T01:55:03-03:00`.
+- Atualização: `2026-07-22T01:55:03-03:00`.
+- Etapa atual: `2/4` — em andamento.
+- Tarefa atual: transformar resultados múltiplos em painel amplo fechável.
+- Origem: feedback visual humano com capturas de tela em 2026-07-22.
+
+### Objetivo
+
+Corrigir a desambiguação para não ficar confinada à coluna estreita do formulário e recompor o QR Code do Livro como elemento proporcional, útil e discreto no espaço lateral disponível, sem rótulo textual redundante no botão de download.
+
+### Diagnóstico inicial
+
+- A lista de desambiguação é criada por `src/app/app.tsx` logo após `lookup-form`, dentro do card estreito da consulta; por isso ocupa somente a coluna do formulário e cria rolagem visual pobre.
+- O QR Code é renderizado dentro de `.book-identity`, abaixo dos fatos do Livro, com `4.25rem`; o botão de download com texto `SVG` fica visualmente grande demais em relação ao QR e deixa espaço lateral do cabeçalho subutilizado.
+- A correção preserva busca por título, seleção explícita, paginação, rota curta, QR SVG baixável e acessibilidade.
+- RCF evoluído com `RCF-IF-SEARCH-009` para painel amplo, fechável e responsivo de desambiguação, e `RCF-IF-UX-036` para QR proporcional no cabeçalho, usando espaço lateral disponível e sem texto redundante `SVG` no botão.
+
 ## FT-014 — Implementar URL curta busca QR e descoberta
 
 - Escopo: Técnico — implementação, testes, validação, commits e publicação.
