@@ -7,6 +7,7 @@ import path from "node:path";
 import { promisify } from "node:util";
 import { execFile } from "node:child_process";
 import sharp from "sharp";
+import QRCode from "qrcode";
 
 const execute = promisify(execFile);
 const BASE64URL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
@@ -86,6 +87,14 @@ function assignTokens(inputs) {
 
 async function hashFile(target) {
   const bytes = await readFile(target);
+  return {
+    sha1: createHash("sha1").update(bytes).digest("hex"),
+    sha256: createHash("sha256").update(bytes).digest("hex"),
+    sha512: createHash("sha512").update(bytes).digest("hex"),
+  };
+}
+
+function hashBytes(bytes) {
   return {
     sha1: createHash("sha1").update(bytes).digest("hex"),
     sha256: createHash("sha256").update(bytes).digest("hex"),
@@ -203,6 +212,76 @@ async function writeJson(target, value) {
   await rename(temporary, target);
 }
 
+function shortUrl(origin, token) {
+  const normalized = String(origin || "").replace(/\/+$/g, "");
+  if (!/^https:\/\/[^/?#]+$/i.test(normalized)) throw new Error("short_url_origin inválido");
+  return `${normalized}/${encodeURIComponent(token)}`;
+}
+
+function qrOptions(configuration) {
+  const qr = configuration.qr_code || {};
+  return {
+    assetName: qr.asset_name || "short-url.svg",
+    generatorVersion: Number.isSafeInteger(qr.generator_version) ? qr.generator_version : 1,
+    errorCorrectionLevel: qr.error_correction_level || "Q",
+    margin: Number.isSafeInteger(qr.margin) ? qr.margin : 4,
+    scale: Number.isSafeInteger(qr.scale) ? qr.scale : 8,
+    width: Number.isSafeInteger(qr.width) ? qr.width : 256,
+    darkColor: qr.dark_color || "#0f1c2b",
+    lightColor: qr.light_color || "#ffffff",
+  };
+}
+
+function validQrSvg(svg) {
+  return /^<svg\b/i.test(svg) && /\bviewBox="/i.test(svg) && /<path\b/i.test(svg) && !/<image\b/i.test(svg);
+}
+
+async function materializeQrCode({ destination, cacheRoot, url, options }) {
+  await mkdir(cacheRoot, { recursive: true });
+  const identity = {
+    schema_version: 1,
+    generator: "qrcode",
+    generator_version: options.generatorVersion,
+    url,
+    error_correction_level: options.errorCorrectionLevel,
+    margin: options.margin,
+    scale: options.scale,
+    width: options.width,
+    dark_color: options.darkColor,
+    light_color: options.lightColor,
+  };
+  const key = createHash("sha256").update(JSON.stringify(identity)).digest("hex");
+  const cached = path.join(cacheRoot, `${key}.svg`);
+  const marker = path.join(cacheRoot, `${key}.json`);
+  let svg = "";
+  let markerState = null;
+  if (await exists(cached) && await exists(marker)) {
+    markerState = JSON.parse(await readFile(marker, "utf8"));
+    svg = await readFile(cached, "utf8");
+    const hashes = hashBytes(Buffer.from(svg, "utf8"));
+    if (markerState.schema_version !== 1 || markerState.url !== url || markerState.sha256 !== hashes.sha256 || !validQrSvg(svg)) {
+      markerState = null;
+    }
+  }
+  if (!markerState) {
+    svg = await QRCode.toString(url, {
+      type: "svg",
+      errorCorrectionLevel: options.errorCorrectionLevel,
+      margin: options.margin,
+      scale: options.scale,
+      width: options.width,
+      color: { dark: options.darkColor, light: options.lightColor },
+    });
+    if (!validQrSvg(svg)) throw new Error(`QR Code SVG inválido: ${url}`);
+    const hashes = hashBytes(Buffer.from(svg, "utf8"));
+    markerState = { ...identity, size: Buffer.byteLength(svg, "utf8"), ...hashes };
+    await writeFile(cached, svg, "utf8");
+    await writeJson(marker, markerState);
+  }
+  await writeFile(destination, svg, "utf8");
+  return { size: Buffer.byteLength(svg, "utf8"), hashes: hashBytes(Buffer.from(svg, "utf8")), url };
+}
+
 function assetRecord(id, format, url, size, hashes, originUrl = null) {
   return { id, format, url, size, source_hashes: hashes, origin_url: originUrl };
 }
@@ -222,8 +301,10 @@ function sourceRecord(source, assetId, format, hashes, storageHost) {
   };
 }
 
-export async function materializeBooks({ sourceRoot, distRoot, cacheRoot, publicOrigin }) {
-  const storageHost = new URL(publicOrigin).hostname;
+export async function materializeBooks({ sourceRoot, distRoot, cacheRoot, qrCacheRoot, publicOrigin, buildConfig = null }) {
+  const configuration = buildConfig || { public_origin: publicOrigin };
+  const storageHost = new URL(configuration.public_origin).hostname;
+  const qr = qrOptions(configuration);
   const dataSource = path.join(sourceRoot, "data", "books");
   const assetsSource = path.join(sourceRoot, "assets", "books");
   const dRoot = path.join(distRoot, "d");
@@ -271,6 +352,10 @@ export async function materializeBooks({ sourceRoot, distRoot, cacheRoot, public
     assets.push(assetRecord("cover", "png", "./cover.png", (await stat(coverPath)).size, await hashFile(coverPath)));
 
     const token = assignments.get(book.id);
+    const qrUrl = shortUrl(configuration.short_url_origin, token);
+    const qrPath = path.join(directory, qr.assetName);
+    const qrAsset = await materializeQrCode({ destination: qrPath, cacheRoot: qrCacheRoot || cacheRoot, url: qrUrl, options: qr });
+    assets.push(assetRecord("short-url-qr", "svg", `./${qr.assetName}`, qrAsset.size, qrAsset.hashes, qrAsset.url));
     const metadata = {
       schema_version: 5,
       book: {
@@ -296,6 +381,7 @@ export async function materializeBooks({ sourceRoot, distRoot, cacheRoot, public
     shortRoutes[token] = canonicalPath;
     const [legacyFirst, legacySecond] = legacyBookSegments(book.id);
     legacyRoutes[`data/${legacyFirst}/${legacySecond}/${book.id}/`] = canonicalPath;
+    legacyRoutes[`_/${token}/`] = canonicalPath;
   }
 
   const indexRoot = path.join(dRoot, "_index");

@@ -3,6 +3,18 @@
   "public_root": "dist",
   "data_root": "d",
   "public_origin": "https://fontes.jcem.pro",
+  "short_url_origin": "https://f.jcem.pro",
+  "search": { "min_query_chars": 3, "results_per_page": 8 },
+  "qr_code": {
+    "asset_name": "short-url.svg",
+    "generator_version": 1,
+    "error_correction_level": "Q",
+    "margin": 4,
+    "scale": 8,
+    "width": 256,
+    "dark_color": "#0f1c2b",
+    "light_color": "#ffffff"
+  },
   "page_limit_bytes": 2000000000,
   "package": { "format": "7z", "method": "LZMA2", "level": 9 },
   "header": "JeanCarloEM — https://www.jeancarloem.com — https://github.com/jcempro/egw | MPL-2.0 — https://www.mozilla.org/MPL/2.0/ — uso sob a Mozilla Public License 2.0."

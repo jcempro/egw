@@ -13,6 +13,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SOURCE_ROOT = path.join(ROOT, "src");
 const DIST_ROOT = path.join(ROOT, "dist");
 const PACKAGE_CACHE_ROOT = path.join(ROOT, ".agents", "cache", "packages");
+const QR_CACHE_ROOT = path.join(ROOT, ".agents", "cache", "qr");
 const BUILD_CONFIG_PATH = path.join(SOURCE_ROOT, "config", "build.json");
 
 async function exists(target) {
@@ -57,7 +58,17 @@ async function main() {
   await esbuild({ entryPoints: [path.join(SOURCE_ROOT, "app", "app.tsx")], outfile: path.join(DIST_ROOT, "assets", "app.js"), bundle: true, minify: true, treeShaking: true, target: ["es2020"], jsxFactory: "h", jsxFragment: "Fragment", banner: { js: `/*! ${buildConfig.header} */` }, legalComments: "inline" });
   const compiledStyle = sass.compile(path.join(SOURCE_ROOT, "app", "app.scss"), { style: "compressed" }).css;
   await writeFile(path.join(DIST_ROOT, "assets", "app.css"), `/*! ${buildConfig.header} */\n${compiledStyle}`, "utf8");
-  const generated = await materializeBooks({ sourceRoot: SOURCE_ROOT, distRoot: DIST_ROOT, cacheRoot: PACKAGE_CACHE_ROOT, publicOrigin: buildConfig.public_origin });
+  await mkdir(path.join(DIST_ROOT, "d", "_index"), { recursive: true });
+  await writeFile(path.join(DIST_ROOT, "d", "_index", "config.json"), `${JSON.stringify({
+    schema_version: 1,
+    short_url_origin: buildConfig.short_url_origin,
+    search: buildConfig.search,
+    qr_code: {
+      asset_name: buildConfig.qr_code?.asset_name,
+      error_correction_level: buildConfig.qr_code?.error_correction_level,
+    },
+  })}\n`, "utf8");
+  const generated = await materializeBooks({ sourceRoot: SOURCE_ROOT, distRoot: DIST_ROOT, cacheRoot: PACKAGE_CACHE_ROOT, qrCacheRoot: QR_CACHE_ROOT, buildConfig });
   await writeFile(path.join(DIST_ROOT, ".nojekyll"), "", "utf8");
   const leaked = (await listFiles(DIST_ROOT)).find((file) => path.relative(DIST_ROOT, file).split(path.sep).includes("src"));
   if (leaked) throw new Error(`Prefixo src/ exposto no artefato: ${path.relative(DIST_ROOT, leaked)}`);

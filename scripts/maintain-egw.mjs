@@ -17,7 +17,8 @@ async function main() {
     root: path.join(ROOT, "src"), stateRoot: ROOT, reportRoot: ROOT, timeoutMs: timeout,
     bookId: argument("book"), metadataPath: argument("metadata"), sourceId: argument("source"), providerId: argument("provider"),
   });
-  process.stdout.write(`MANUTENCAO: modo=${report.mode} verificados=${report.checked} adicionados=${report.added} pendentes=${report.pending} timeout=${report.timeout}\n`);
+  process.stdout.write(`MANUTENCAO: modo=${report.mode} verificados=${report.checked} adicionados=${report.added} pendentes=${report.pending} timeout=${report.timeout} razao=${report.reason}\n`);
   if (report.timeout) process.exitCode = 2;
+  else if (report.reason === "partial-failure") process.exitCode = 2;
 }
 main().catch((error) => { process.stderr.write(`ERRO: ${error.message}\n`); process.exitCode = 1; });

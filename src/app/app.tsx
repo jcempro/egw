@@ -1,7 +1,7 @@
 // JeanCarloEM — https://www.jeancarloem.com — https://github.com/jcempro/egw
 // MPL-2.0 — https://www.mozilla.org/MPL/2.0/ — uso sob a Mozilla Public License 2.0.
 
-import { faCopy, faDownload, faFileZipper } from "@fortawesome/free-solid-svg-icons";
+import { faCopy, faDownload, faFileZipper, faQrcode } from "@fortawesome/free-solid-svg-icons";
 import { renderIcon, type IconSource } from "./icon-provider";
 
 type Child = Node | string | number | null | undefined | false;
@@ -10,6 +10,7 @@ type Asset = { id: string; format: string; url: string; size: number; source_has
 type Source = { id: string; title: string; url: string; type: string; format: string; provider: string; asset_id: string | null; hashes: Hashes | null };
 type Metadata = { schema_version: 5; book: { id: string; title: string; contributors: Array<{ name: string; role: string }>; edition: Record<string, unknown>; language: string; primary_category: string; tags: string[] }; short_token: string; global_hashes: Array<{ artifact_id: string; format: string } & Hashes>; assets: Asset[]; sources: Source[] };
 type ProcessingState = "initial" | "loading" | "partial" | "content-partial" | "completed" | "error" | "updating";
+type RuntimeConfig = { schema_version: 1; short_url_origin: string; search: { min_query_chars: number; results_per_page: number }; qr_code: { asset_name: string; error_correction_level: string } };
 
 export {};
 declare global { namespace JSX { interface IntrinsicElements { [element: string]: Record<string, unknown>; } } }
@@ -41,10 +42,18 @@ const input = required("book-id") as HTMLInputElement;
 let searchAbort: AbortController | null = null;
 let searchIndex: Array<[string, string]> | null = null;
 let searchIndexPromise: Promise<Array<[string, string]>> | null = null;
+let runtimeConfig: RuntimeConfig | null = null;
+let runtimeConfigPromise: Promise<RuntimeConfig> | null = null;
 let processingSequence = 0;
 const jsonRequests = new Map<string, Promise<unknown>>();
+const searchResults = document.createElement("div");
+searchResults.id = "search-results";
+searchResults.className = "search-results";
+searchResults.setAttribute("aria-live", "polite");
+form.after(searchResults);
 
 function rootUrl(relative: string): string { return new URL(relative.replace(/^\/+/, ""), `${location.origin}/`).href; }
+function shortUrl(config: RuntimeConfig, token: string): string { return `${config.short_url_origin.replace(/\/+$/g, "")}/${encodeURIComponent(token)}`; }
 function setView(view: "landing" | "book" | "notFound"): void { landing.hidden = view !== "landing"; bookView.hidden = view !== "book"; notFound.hidden = view !== "notFound"; }
 function announce(message: string): void { live.textContent = ""; requestAnimationFrame(() => { live.textContent = message; }); }
 function startProcessing(state: ProcessingState, message: string): number { const sequence = ++processingSequence; processing.dataset.state = state; processingLabel.textContent = message; processing.hidden = false; return sequence; }
@@ -54,6 +63,17 @@ async function cachedJson(url: string, init: RequestInit = {}): Promise<unknown>
   const cached = jsonRequests.get(url); if (cached) return cached;
   const request = fetch(url, { credentials: "same-origin", ...init }).then(async (response) => { if (!response.ok || !(response.headers.get("content-type") || "").includes("application/json")) throw new Error("JSON indisponível"); return response.json() as Promise<unknown>; });
   jsonRequests.set(url, request); request.catch(() => jsonRequests.delete(url)); return request;
+}
+async function ensureRuntimeConfig(): Promise<RuntimeConfig> {
+  if (runtimeConfig) return runtimeConfig;
+  if (runtimeConfigPromise) return runtimeConfigPromise;
+  runtimeConfigPromise = cachedJson(rootUrl("d/_index/config.json")).then((data) => {
+    const value = data as RuntimeConfig;
+    if (value?.schema_version !== 1 || !/^https:\/\/[^/?#]+$/i.test(value.short_url_origin) || !Number.isSafeInteger(value.search?.min_query_chars) || !Number.isSafeInteger(value.search?.results_per_page) || !value.qr_code?.asset_name) throw new Error("Configuração pública inválida");
+    runtimeConfig = value;
+    return value;
+  }).catch((error) => { runtimeConfigPromise = null; throw error; });
+  return runtimeConfigPromise;
 }
 function validHashes(value: unknown): value is Hashes {
   if (!value || typeof value !== "object") return false;
@@ -100,9 +120,12 @@ function titleIdentity(data: Metadata): { title: string; qualifier: string | nul
   if (configured && match) return { title: match[1].trim(), qualifier: configured }; if (configured) return { title: data.book.title, qualifier: configured };
   return match && /condensad|abridg|adaptad|resum|edi[cç][aã]o|edition|vers[aã]o|version/i.test(match[2]) ? { title: match[1].trim(), qualifier: match[2].trim() } : { title: data.book.title, qualifier: null };
 }
-function renderBook(data: Metadata, metadataUrl: string): void {
+function renderBook(data: Metadata, metadataUrl: string, config: RuntimeConfig): void {
   const base = new URL("./", metadataUrl);
   const cover = data.assets.find((asset) => asset.id === "cover");
+  const qrAsset = data.assets.find((asset) => asset.id === "short-url-qr" && asset.format === "svg");
+  const qrHref = qrAsset ? new URL(qrAsset.url, base).href : "";
+  const absoluteShortUrl = shortUrl(config, data.short_token);
   const localAssetIds = new Set(data.assets.map((asset) => asset.id)); const publicationFiles = data.assets.length + 1; const traceableAssets = new Set(data.sources.map((source) => source.asset_id).filter((assetId): assetId is string => Boolean(assetId && localAssetIds.has(assetId)))).size;
   const authors = data.book.contributors.filter((person) => person.role === "author").map((person) => person.name).join(", "); const identity = titleIdentity(data);
   const globalRows = data.global_hashes.map((hash) => <article className="panel hash-panel"><header><span className="format-badge">{hash.format.toUpperCase()}</span><h3>Hash global</h3></header><dl>{(["sha1", "sha256", "sha512"] as const).map((algorithm) => <div className="hash-row"><dt>{algorithm.toUpperCase()}</dt><dd><code className="hash">{compactValue(hash[algorithm], "hash", `Copiar ${algorithm.toUpperCase()} integral`)}</code></dd></div>)}</dl></article>);
@@ -117,8 +140,8 @@ function renderBook(data: Metadata, metadataUrl: string): void {
     </article>;
   });
   bookView.replaceChildren(
-    <section className="book-hero"><div className="cover">{cover ? <img src={new URL(cover.url, base).href} alt={`Capa de ${data.book.title}`} /> : null}</div><div className="book-identity"><p className="eyebrow">Referência bibliográfica</p><h1 id="book-view-title">{identity.title}</h1>{identity.qualifier ? <p className="book-qualifier">{identity.qualifier}</p> : null}<p className="book-author">{authors}</p><dl className="book-facts"><div><dt>Idioma</dt><dd>{data.book.language}</dd></div><div><dt>Categoria</dt><dd>{data.book.primary_category}</dd></div></dl></div></section>,
-    <section className="section"><div className="metric-grid"><article className="metric"><span>Fontes preservadas</span><strong>{data.sources.length}</strong></article><article className="metric"><span>Arquivos da publicação</span><strong>{publicationFiles}</strong></article><article className="metric"><span>Assets rastreáveis</span><strong>{traceableAssets}</strong></article><article className="metric"><span>URL curta</span><strong>/_/{data.short_token}</strong></article></div></section>,
+    <section className="book-hero"><div className="cover">{cover ? <img src={new URL(cover.url, base).href} alt={`Capa de ${data.book.title}`} /> : null}</div><div className="book-identity"><p className="eyebrow">Referência bibliográfica</p><h1 id="book-view-title">{identity.title}</h1>{identity.qualifier ? <p className="book-qualifier">{identity.qualifier}</p> : null}<p className="book-author">{authors}</p><dl className="book-facts"><div><dt>Idioma</dt><dd>{data.book.language}</dd></div><div><dt>Categoria</dt><dd>{data.book.primary_category}</dd></div></dl>{qrAsset ? <div className="qr-download"><img src={qrHref} alt={`QR Code para ${absoluteShortUrl}`} /><div><span>QR Code</span><a href={qrHref} download={`${data.book.id}-short-url.svg`} aria-label={`Baixar QR Code SVG de ${absoluteShortUrl}`}>{icon(faDownload, "↓")}<span>SVG</span></a></div></div> : null}</div></section>,
+    <section className="section"><div className="metric-grid"><article className="metric"><span>Fontes preservadas</span><strong>{data.sources.length}</strong></article><article className="metric"><span>Arquivos da publicação</span><strong>{publicationFiles}</strong></article><article className="metric"><span>Assets rastreáveis</span><strong>{traceableAssets}</strong></article><article className="metric"><span>URL curta</span><strong><a href={absoluteShortUrl}>{absoluteShortUrl.replace(/^https:\/\//, "")}</a></strong></article></div></section>,
     <section className="section"><div className="section-heading"><div><p className="eyebrow">Integridade</p><h2>Hashes dos artefatos originais</h2></div></div><div className="metric-grid">{globalRows}</div></section>,
     <section className="section"><div className="section-heading"><div><p className="eyebrow">Fontes</p><h2>Assets e proveniência</h2></div><div className="table-actions"><a className="button button-secondary" href={metadataUrl}>metadata.json</a></div></div><div className="source-grid" role="list">{sourceRows}</div></section>
   );
@@ -135,20 +158,21 @@ async function routeFromMap(mapName: "short" | "legacy", key: string): Promise<s
 }
 async function resolveMetadataUrl(): Promise<string | null> {
   const canonical = canonicalMetadataFromPath(); if (canonical) return canonical;
-  const short = /^\/_\/([A-Za-z0-9_-]+)\/?$/.exec(location.pathname); if (short) return routeFromMap("short", short[1]);
+  const short = /^\/([A-Za-z0-9_-]+)\/?$/.exec(location.pathname); if (short) return routeFromMap("short", short[1]);
   const legacy = location.pathname.replace(/^\/+|\/+$/g, "") + "/";
-  if (/^data\/[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+\/$/.test(legacy)) return routeFromMap("legacy", legacy);
+  if (/^(?:_\/[A-Za-z0-9_-]+|data\/[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+)\/$/.test(legacy)) return routeFromMap("legacy", legacy);
   return null;
 }
 async function loadRoute(): Promise<void> {
-  const isDirectRoute = /^\/(?:d\/|_\/|data\/)/.test(location.pathname); const activity = isDirectRoute ? startProcessing("loading", "Analisando a referência…") : 0;
+  const isDirectRoute = location.pathname !== "/" && !/\/(?:index|404)\.html$/.test(location.pathname); const activity = isDirectRoute ? startProcessing("loading", "Analisando a referência…") : 0;
   try {
+    const config = await ensureRuntimeConfig();
     const metadataUrl = await resolveMetadataUrl();
     if (!metadataUrl) { setView(location.pathname === "/" || /\/(?:index|404)\.html$/.test(location.pathname) ? "landing" : "notFound"); if (activity) finishProcessing(activity, "error", "Referência não encontrada."); return; }
     if (activity) updateProcessing(activity, "partial", "Referência localizada; carregando dados…");
     const data = await cachedJson(metadataUrl, { redirect: "error" }); if (!validMetadata(data)) throw new Error("Metadado schema 5 inválido");
     if (new URL(metadataUrl).pathname !== metadataPath(data)) throw new Error("Rota canônica diverge do metadado");
-    if (activity) updateProcessing(activity, "content-partial", "Dados validados; montando a página…"); renderBook(data, metadataUrl); if (activity) finishProcessing(activity, "completed", "Referência carregada.");
+    if (activity) updateProcessing(activity, "content-partial", "Dados validados; montando a página…"); renderBook(data, metadataUrl, config); if (activity) finishProcessing(activity, "completed", "Referência carregada.");
   } catch (error) { /* FIX-BUG: rota inválida termina no 404 real sem sondagem aproximada. */ console.error(error); setView("notFound"); if (activity) finishProcessing(activity, "error", "Não foi possível carregar a referência."); }
 }
 async function ensureSearchIndex(): Promise<Array<[string, string]>> {
@@ -158,10 +182,63 @@ async function ensureSearchIndex(): Promise<Array<[string, string]>> {
   return searchIndexPromise;
 }
 function normalizeSearch(value: string): string { return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase(); }
+function searchableLength(value: string): number { return normalizeSearch(value).replace(/[^a-z0-9]/g, "").length; }
+function clearSearchResults(): void { searchResults.replaceChildren(); searchResults.hidden = true; }
+async function metadataForToken(token: string): Promise<Metadata | null> {
+  const metadataUrl = await routeFromMap("short", token);
+  if (!metadataUrl) return null;
+  const data = await cachedJson(metadataUrl, { redirect: "error" });
+  return validMetadata(data) ? data : null;
+}
+async function renderDisambiguation(matches: Array<[string, string]>, config: RuntimeConfig, page = 0): Promise<void> {
+  const perPage = config.search.results_per_page;
+  const pages = Math.max(1, Math.ceil(matches.length / perPage));
+  const current = Math.min(Math.max(page, 0), pages - 1);
+  const slice = matches.slice(current * perPage, current * perPage + perPage);
+  const summaries = await Promise.all(slice.map(async ([title, token]) => ({ title, token, metadata: await metadataForToken(token) })));
+  const list = <div className="search-panel"><div className="section-heading"><div><p className="eyebrow">Resultados</p><h2>Selecione a publicação</h2></div><span className="result-count">{matches.length} resultados</span></div><div className="result-list" role="list"></div><div className="pagination"></div></div> as HTMLElement;
+  const resultList = list.querySelector(".result-list") as HTMLElement;
+  for (const item of summaries) {
+    const metadata = item.metadata;
+    const authors = metadata?.book.contributors.filter((person) => person.role === "author").map((person) => person.name).join(", ") || "";
+    const qualifier = metadata && titleIdentity(metadata).qualifier;
+    const href = rootUrl(item.token);
+    resultList.append(<a className="result-item" role="listitem" href={href}><strong>{metadata?.book.title || item.title}</strong><span>{[metadata?.book.language, metadata?.book.primary_category, qualifier, authors, metadata?.book.id, shortUrl(config, item.token)].filter(Boolean).join(" · ")}</span></a>);
+  }
+  const pagination = list.querySelector(".pagination") as HTMLElement;
+  if (pages > 1) {
+    const previous = <button type="button" className="button button-secondary">Anterior</button> as HTMLButtonElement;
+    const next = <button type="button" className="button button-secondary">Próxima</button> as HTMLButtonElement;
+    previous.disabled = current === 0; next.disabled = current === pages - 1;
+    previous.addEventListener("click", () => { void renderDisambiguation(matches, config, current - 1); });
+    next.addEventListener("click", () => { void renderDisambiguation(matches, config, current + 1); });
+    pagination.append(previous, <span>Página {current + 1} de {pages}</span>, next);
+  }
+  searchResults.hidden = false;
+  searchResults.replaceChildren(list);
+}
 async function searchTitle(): Promise<void> {
-  searchAbort?.abort(); searchAbort = new AbortController(); const query = normalizeSearch(input.value.trim()); if (!query) return;
+  searchAbort?.abort(); searchAbort = new AbortController(); clearSearchResults(); const raw = input.value.trim(); const query = normalizeSearch(raw); if (!query) return;
   const signal = searchAbort.signal; const activity = startProcessing(searchIndex ? "updating" : "loading", searchIndex ? "Atualizando a consulta…" : "Preparando o índice de títulos…");
-  try { const index = await ensureSearchIndex(); if (signal.aborted) return; const result = index.find(([title]) => normalizeSearch(title).includes(query)); if (!result) { input.setCustomValidity("Livro não encontrado"); input.reportValidity(); finishProcessing(activity, "error", "Livro não encontrado."); return; } input.setCustomValidity(""); updateProcessing(activity, "partial", "Livro localizado; abrindo a referência…"); location.assign(rootUrl(`_/${encodeURIComponent(result[1])}`)); }
+  try {
+    const config = await ensureRuntimeConfig();
+    if (searchableLength(raw) < config.search.min_query_chars) {
+      input.setCustomValidity(`Informe pelo menos ${config.search.min_query_chars} caracteres pesquisáveis.`);
+      input.reportValidity();
+      searchResults.hidden = false;
+      searchResults.replaceChildren(<div className="notice" role="status">{icon(faQrcode, "i")}<p>Informe pelo menos {config.search.min_query_chars} caracteres para buscar.</p></div>);
+      finishProcessing(activity, "error", "Busca não executada.");
+      return;
+    }
+    const index = await ensureSearchIndex(); if (signal.aborted) return;
+    const matches = index.filter(([title]) => normalizeSearch(title).includes(query)).sort((left, right) => normalizeSearch(left[0]).localeCompare(normalizeSearch(right[0]), "pt-BR") || left[1].localeCompare(right[1], "en"));
+    if (!matches.length) { input.setCustomValidity("Livro não encontrado"); input.reportValidity(); finishProcessing(activity, "error", "Livro não encontrado."); return; }
+    input.setCustomValidity("");
+    if (matches.length === 1) { updateProcessing(activity, "partial", "Livro localizado; abrindo a referência…"); location.assign(rootUrl(encodeURIComponent(matches[0][1]))); return; }
+    updateProcessing(activity, "partial", "Resultados encontrados; exibindo opções…");
+    await renderDisambiguation(matches, config);
+    finishProcessing(activity, "completed", "Escolha a publicação desejada.");
+  }
   catch (error) { if ((error as Error).name !== "AbortError") { announce("A busca não pôde ser carregada."); finishProcessing(activity, "error", "Busca indisponível."); } }
 }
 form.addEventListener("submit", (event) => { event.preventDefault(); void searchTitle(); });

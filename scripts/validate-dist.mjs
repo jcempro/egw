@@ -28,6 +28,8 @@ async function main() {
   const search = JSON.parse(await readFile(path.join(D, "_index", "search.json"), "utf8"));
   const short = JSON.parse(await readFile(path.join(D, "_index", "short.json"), "utf8"));
   const legacy = JSON.parse(await readFile(path.join(D, "_index", "legacy.json"), "utf8"));
+  const runtimeConfig = JSON.parse(await readFile(path.join(D, "_index", "config.json"), "utf8"));
+  if (runtimeConfig.schema_version !== 1 || runtimeConfig.short_url_origin !== buildConfig.short_url_origin || runtimeConfig.search?.min_query_chars !== buildConfig.search?.min_query_chars || runtimeConfig.search?.results_per_page !== buildConfig.search?.results_per_page) throw new Error("Configuração pública divergente");
   const files = await metadataFiles(D);
   const expectedSearch = [];
   const seenTokens = new Set();
@@ -40,6 +42,9 @@ async function main() {
     if (short[data.short_token] !== canonical) throw new Error(`Mapa curto divergente: ${data.book.id}`);
     const padded = `${data.book.id}----`;
     if (legacy[`data/${padded.slice(0, 2)}/${padded.slice(2, 4)}/${data.book.id}/`] !== canonical) throw new Error(`Alias histórico ausente: ${data.book.id}`);
+    if (legacy[`_/${data.short_token}/`] !== canonical) throw new Error(`Alias curto legado ausente: ${data.book.id}`);
+    const qrAsset = data.assets.find((entry) => entry.id === "short-url-qr");
+    if (!qrAsset || qrAsset.format !== "svg" || qrAsset.url !== `./${buildConfig.qr_code.asset_name}` || qrAsset.origin_url !== `${buildConfig.short_url_origin}/${encodeURIComponent(data.short_token)}` || !hashes(qrAsset.source_hashes)) throw new Error(`QR Code inválido: ${data.book.id}`);
     if (!data.global_hashes.length || !data.global_hashes.every((entry) => ["pdf", "epub"].includes(entry.format) && hashes(entry))) throw new Error(`Hash Global inválido: ${data.book.id}`);
     if (!Array.isArray(data.book.contributors) || !data.book.contributors.some((entry) => entry.role === "author" && typeof entry.name === "string" && entry.name.trim())) throw new Error(`Autoria editorial ausente: ${data.book.id}`);
     for (const asset of data.assets) {
@@ -63,10 +68,10 @@ async function main() {
     expectedSearch.push([data.book.title, data.short_token]);
   }
   if (JSON.stringify(search) !== JSON.stringify(expectedSearch)) throw new Error("Índice de busca contém dado extra, ausente ou fora de ordem");
-  if (Object.keys(short).length !== files.length || Object.keys(legacy).length !== files.length) throw new Error("Cobertura dos mapas divergente");
+  if (Object.keys(short).length !== files.length || Object.keys(legacy).length !== files.length * 2) throw new Error("Cobertura dos mapas divergente");
   async function assertNoRaw(directory) { for (const entry of await readdir(directory, { withFileTypes: true })) { const target = path.join(directory, entry.name); if (entry.isDirectory()) await assertNoRaw(target); else if (/\.(?:pdf|epub)$/i.test(entry.name)) throw new Error(`Original cru publicado: ${target}`); } }
   await assertNoRaw(DIST);
-  process.stdout.write(`DIST_OK livros=${files.length} busca_campos=2 tokens=${seenTokens.size}\n`);
+  process.stdout.write(`DIST_OK livros=${files.length} busca_campos=2 tokens=${seenTokens.size} qr=${files.length}\n`);
 }
 
 main().catch((error) => { process.stderr.write(`ERRO: ${error.message}\n`); process.exitCode = 1; });

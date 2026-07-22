@@ -1,10 +1,46 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "limits": { "default_daily_limit": 6, "max_candidate_bytes": 12582912, "max_archive_entries": 32, "request_timeout_ms": 15000 },
   "providers": [
-    { "id": "white-estate-ebooks", "enabled": true, "kind": "white-estate-ebook", "domains": ["whiteestate.org"], "daily_limit": 6 },
-    { "id": "egw-writings", "enabled": true, "kind": "origin-only", "domains": ["media2.egwwritings.org", "media4.egwwritings.org"], "daily_limit": 1 },
-    { "id": "ellen-white-audio", "enabled": false, "kind": "catalog-only", "domains": ["ellenwhiteaudio.org"], "daily_limit": 1 },
-    { "id": "centro-white", "enabled": false, "kind": "catalog-only", "domains": ["centrowhite.org.br"], "daily_limit": 1 }
+    { "id": "white-estate-ebooks", "enabled": true, "kind": "white-estate-ebook", "domains": ["whiteestate.org"], "daily_limit": 6, "formats": ["pdf", "epub", "zip", "7z"] },
+    {
+      "id": "egw-writings",
+      "enabled": true,
+      "kind": "catalog-pattern",
+      "domains": ["egwwritings.org"],
+      "media_hosts": ["media2.egwwritings.org", "media4.egwwritings.org"],
+      "formats": ["pdf"],
+      "daily_limit": 3,
+      "templates": [
+        "https://media4.egwwritings.org/pdf/{lang}_{aliasUpper}({aliasUpper}).pdf",
+        "https://media4.egwwritings.org/pdf/{lang}_{aliasUpper}.pdf",
+        "https://media2.egwwritings.org/pdf/{lang}_{aliasUpper}({aliasUpper}).pdf",
+        "https://media2.egwwritings.org/pdf/{lang}_{aliasUpper}.pdf"
+      ]
+    },
+    {
+      "id": "ellen-white-audio",
+      "enabled": true,
+      "kind": "catalog-pattern",
+      "domains": ["ellenwhiteaudio.org"],
+      "formats": ["pdf", "epub"],
+      "daily_limit": 3,
+      "templates": [
+        "https://ellenwhiteaudio.org/audio/{lang}/{aliasLower}/{titleEncoded}.{format}"
+      ]
+    },
+    {
+      "id": "centro-white",
+      "enabled": true,
+      "kind": "catalog-pattern",
+      "domains": ["centrowhite.org.br"],
+      "media_hosts": ["cdn.centrowhite.org.br"],
+      "formats": ["pdf"],
+      "daily_limit": 3,
+      "seed_urls": ["https://centrowhite.org.br/"],
+      "templates": [
+        "https://cdn.centrowhite.org.br/home/uploads/2022/11/{titleSlugTitleCase}.pdf"
+      ]
+    }
   ]
 }

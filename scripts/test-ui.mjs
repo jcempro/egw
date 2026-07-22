@@ -14,6 +14,7 @@ const DIST = path.join(ROOT, "dist");
 const html = await readFile(path.join(DIST, "index.html"), "utf8");
 const script = await readFile(path.join(DIST, "assets", "app.js"), "utf8");
 const stylesheet = await readFile(path.join(DIST, "assets", "app.css"), "utf8");
+const config = JSON.parse(await readFile(path.join(DIST, "d", "_index", "config.json"), "utf8"));
 const short = JSON.parse(await readFile(path.join(DIST, "d", "_index", "short.json"), "utf8"));
 const legacy = JSON.parse(await readFile(path.join(DIST, "d", "_index", "legacy.json"), "utf8"));
 const [token, canonical] = Object.entries(short)[0];
@@ -41,16 +42,32 @@ async function fetchLocal(url) {
 
 async function render(pathname) {
   const dom = new JSDOM(html, { url: `https://example.test${pathname}`, runScripts: "outside-only", pretendToBeVisual: true });
-  dom.window.fetch = fetchLocal;
+  const requests = [];
+  dom.window.fetch = async (url) => { requests.push(String(url)); return fetchLocal(url); };
   let copied = null; Object.defineProperty(dom.window.navigator, "clipboard", { value: { writeText: async (value) => { copied = value; } } });
   dom.window.console.error = () => undefined;
   dom.window.eval(script);
   await new Promise((resolve) => setTimeout(resolve, 40));
-  return { dom, copied: () => copied, state: { landing: !dom.window.document.getElementById("landing-view").hidden, book: !dom.window.document.getElementById("book-view").hidden, notFound: !dom.window.document.getElementById("not-found-view").hidden, title: dom.window.document.title, processing: dom.window.document.getElementById("processing-indicator").dataset.state } };
+  return { dom, copied: () => copied, requests, state: { landing: !dom.window.document.getElementById("landing-view").hidden, book: !dom.window.document.getElementById("book-view").hidden, notFound: !dom.window.document.getElementById("not-found-view").hidden, title: dom.window.document.title, processing: dom.window.document.getElementById("processing-indicator").dataset.state } };
+}
+
+async function submitSearch(rendered, value) {
+  const inputNode = rendered.dom.window.document.getElementById("book-id");
+  const formNode = inputNode.closest("form");
+  inputNode.value = value;
+  formNode.dispatchEvent(new rendered.dom.window.Event("submit", { bubbles: true, cancelable: true }));
+  await new Promise((resolve) => setTimeout(resolve, 120));
 }
 
 const home = await render("/");
 if (!home.state.landing || home.state.book || home.state.notFound || !home.dom.window.document.querySelector("noscript") || !home.dom.window.document.querySelector('link[href="/assets/app.css"]')) throw new Error("Página inicial ou noscript divergente");
+const shortQuery = await render("/");
+await submitSearch(shortQuery, "ab");
+if (shortQuery.requests.some((request) => request.includes("/d/_index/search.json")) || !shortQuery.dom.window.document.querySelector('#search-results .notice')?.textContent.includes(`${config.search.min_query_chars} caracteres`)) throw new Error("Busca curta não bloqueou antes do índice");
+const disambiguatedQuery = await render("/");
+await submitSearch(disambiguatedQuery, "testimonies");
+const resultItems = disambiguatedQuery.dom.window.document.querySelectorAll("#search-results .result-item");
+if (resultItems.length !== config.search.results_per_page || !disambiguatedQuery.requests.some((request) => request.includes("/d/_index/search.json")) || !disambiguatedQuery.dom.window.document.querySelector("#search-results .pagination")?.textContent.includes("Página 1 de") || !resultItems[0].getAttribute("href")?.startsWith("https://example.test/") || !resultItems[0].textContent.includes(config.short_url_origin.replace(/^https:\/\//, ""))) throw new Error("Desambiguação ou paginação da busca divergente");
 const canonicalResult = await render(`/${canonical}`);
 if (!canonicalResult.state.book || canonicalResult.state.notFound || !canonicalResult.dom.window.document.querySelector("#book-view-title")) throw new Error("Rota canônica não renderizou Livro");
 const metadata = JSON.parse(await readFile(path.join(DIST, ...canonical.split("/"), "metadata.json"), "utf8"));
@@ -63,12 +80,17 @@ const copySvg = canonicalResult.dom.window.document.querySelector('.compact-url 
 if (canonicalResult.copied() !== metadata.global_hashes[0].sha1 || firstHash?.textContent !== metadata.global_hashes[0].sha1.slice(-7) || firstHash?.getAttribute('aria-label') !== metadata.global_hashes[0].sha1 || copySvg?.namespaceURI !== "http://www.w3.org/2000/svg" || copySvg?.querySelector('path')?.namespaceURI !== "http://www.w3.org/2000/svg" || sourceItems.length !== metadata.sources.length || !firstSource?.querySelector('.asset-format .fa-icon') || !firstSource?.querySelector('.download-button .fa-icon')) throw new Error("UI de hashes, URLs, ícones ou assets divergente");
 if (!canonicalResult.dom.window.document.querySelector('#processing-indicator .processing-track') || canonicalResult.state.processing !== "completed") throw new Error("Estados progressivos da rota canônica divergentes");
 const traceableAssetCount = new Set(metadata.sources.map((source) => source.asset_id).filter((assetId) => assetId && metadata.assets.some((asset) => asset.id === assetId))).size;
-if (metrics["Fontes preservadas"] !== String(metadata.sources.length) || metrics["Arquivos da publicação"] !== String(metadata.assets.length + 1) || metrics["Assets rastreáveis"] !== String(traceableAssetCount) || metrics["URL curta"] !== `/_/${metadata.short_token}` || Object.keys(metrics).length !== 4) throw new Error("Indicadores de publicação, assets e proveniência divergentes");
+const qrAsset = metadata.assets.find((asset) => asset.id === "short-url-qr");
+const qrImage = canonicalResult.dom.window.document.querySelector('.qr-download img');
+const qrDownload = canonicalResult.dom.window.document.querySelector('.qr-download a[download$="-short-url.svg"] .fa-icon');
+if (metrics["Fontes preservadas"] !== String(metadata.sources.length) || metrics["Arquivos da publicação"] !== String(metadata.assets.length + 1) || metrics["Assets rastreáveis"] !== String(traceableAssetCount) || metrics["URL curta"] !== `${config.short_url_origin.replace(/^https:\/\//, "")}/${metadata.short_token}` || Object.keys(metrics).length !== 4 || !qrAsset || qrAsset.origin_url !== `${config.short_url_origin}/${metadata.short_token}` || !qrImage || !qrDownload) throw new Error("Indicadores, QR Code ou proveniência divergentes");
 if (canonicalResult.dom.window.document.querySelector('.source-table-wrap, table') || !firstSource?.querySelector('.source-host') || !firstSource?.querySelector('.source-provider')) throw new Error("Grid ou proveniência divergente");
-const shortResult = await render(`/_/${token}/`);
+const shortResult = await render(`/${token}/`);
 if (!shortResult.state.book || shortResult.state.processing !== "completed") throw new Error("Rota curta não renderizou Livro progressivamente");
+const shortLegacyResult = await render(`/_/${token}/`);
+if (!shortLegacyResult.state.book) throw new Error("Alias curto legado não renderizou Livro");
 const legacyResult = await render(`/${legacyPath}`);
 if (!legacyResult.state.book) throw new Error("Alias histórico não renderizou Livro");
 const missing = await render("/rota-inexistente/");
 if (!missing.state.notFound || missing.state.book) throw new Error("404 real divergente");
-process.stdout.write(`UI_OK canonical=/${canonical} short=/_/${token}/ legacy=/${legacyPath}\n`);
+process.stdout.write(`UI_OK canonical=/${canonical} short=/${token}/ legacy=/${legacyPath} qr=${qrAsset.url}\n`);

@@ -9,6 +9,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
 import { runMaintenance, verifyCandidate } from "./lib/egw-maintenance.mjs";
+import { discoverProviderCandidates } from "./lib/egw-providers.mjs";
 
 const execute = promisify(execFile);
 const sevenZip = process.env.SEVEN_ZIP_BIN || (process.platform === "win32" ? "C:\\Program Files\\7-Zip\\7z.exe" : "7z");
@@ -47,6 +48,32 @@ try {
     const products = await verifyCandidate({ url: archiveUrl, provider: { domains: ["media.example.org"] }, expected, limits: { max_candidate_bytes: 4096, max_archive_entries: 8, request_timeout_ms: 1000 }, fetchImpl: archiveFetch });
     if (products.length !== 1 || products[0].format !== "epub") throw new Error(`Validação de contêiner ${extension.toUpperCase()} divergente`);
   }
+  const fixtureLimits = { max_candidate_bytes: 4096, max_archive_entries: 8, request_timeout_ms: 1000 };
+  const gcMetadata = { book: { id: "pt-br-livros-o-grande-conflito", title: "O Grande Conflito", language: "pt-BR" }, short_token: "gc" };
+  const egwCandidates = await discoverProviderCandidates({
+    provider: { id: "egw-writings", kind: "catalog-pattern", domains: ["egwwritings.org"], media_hosts: ["media4.egwwritings.org"], formats: ["pdf"], templates: ["https://media4.egwwritings.org/pdf/{lang}_{aliasUpper}({aliasUpper}).pdf", "https://media4.egwwritings.org/pdf/{lang}_{aliasUpper}.pdf"] },
+    metadata: gcMetadata,
+    source: { id: "pdf" },
+    limits: fixtureLimits,
+    fetchImpl,
+  });
+  if (!egwCandidates.includes("https://media4.egwwritings.org/pdf/pt_GC(GC).pdf") || !egwCandidates.includes("https://media4.egwwritings.org/pdf/pt_GC.pdf")) throw new Error("Relação EGW Writings/media host ou sigla entre parênteses divergente");
+  const audioCandidates = await discoverProviderCandidates({
+    provider: { id: "ellen-white-audio", kind: "catalog-pattern", domains: ["ellenwhiteaudio.org"], formats: ["pdf", "epub"], templates: ["https://ellenwhiteaudio.org/audio/{lang}/{aliasLower}/{titleEncoded}.{format}"] },
+    metadata: { book: { id: "pt-br-livros-caminho-a-cristo", title: "Caminho a Cristo", language: "pt-BR" }, short_token: "cc" },
+    source: { id: "sc", aliases: ["sc"] },
+    limits: fixtureLimits,
+    fetchImpl,
+  });
+  if (!audioCandidates.includes("https://ellenwhiteaudio.org/audio/pt/sc/Caminho%20a%20Cristo.pdf") || !audioCandidates.includes("https://ellenwhiteaudio.org/audio/pt/sc/Caminho%20a%20Cristo.epub")) throw new Error("Fixture Ellen White Audio com acento/percent-encoding divergente");
+  const centroCandidates = await discoverProviderCandidates({
+    provider: { id: "centro-white", kind: "catalog-pattern", domains: ["centrowhite.org.br"], media_hosts: ["cdn.centrowhite.org.br"], formats: ["pdf"], templates: ["https://cdn.centrowhite.org.br/home/uploads/2022/11/{titleSlugTitleCase}.pdf"] },
+    metadata: { book: { id: "pt-br-livros-a-ciencia-do-bom-viver", title: "A Ciência do Bom Viver", language: "pt-BR" }, short_token: "cbv" },
+    source: { id: "pdf" },
+    limits: fixtureLimits,
+    fetchImpl,
+  });
+  if (!centroCandidates.includes("https://cdn.centrowhite.org.br/home/uploads/2022/11/A-Ciencia-do-Bom-Viver.pdf")) throw new Error("Fixture Centro White/CDN divergente");
   let rejected = false;
   try { await runMaintenance({ root, stateRoot: temporary, reportRoot: temporary, sourceId: "epub", fetchImpl }); } catch { rejected = true; }
   if (!rejected) throw new Error("Seleção ambígua não foi rejeitada");
