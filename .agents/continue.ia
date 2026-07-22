@@ -254,6 +254,27 @@ FT-015|nome=Corrigir painel de busca e QR|objetivo=Eliminar distorção visual d
   1/3 Atualizar memória e handoff [concluído]
   2/3 Comitar em etapas [concluído]
   3/3 Publicar dev e main [concluído]
+FT-016|nome=Receber URLs por issue com modelo simples|objetivo=Aceitar indicação humana de URLs de publicações em texto livre, Markdown, JSON e YAML simples, normalizar para modelo canônico e encaminhar somente associações seguras.|escopo=tecnico|status=em andamento
+1/5 Registrar e normatizar [em andamento]
+  1/3 Registrar FT e origem [concluído]
+  2/3 Evoluir RCF de recepção [pendente]
+  3/3 Atualizar documentação e template [pendente]
+2/5 Implementar interpretação [pendente]
+  1/3 Criar parser em camadas [pendente]
+  2/3 Produzir modelo canônico e relatório [pendente]
+  3/3 Blindar limites e entrada não confiável [pendente]
+3/5 Integrar workflow [pendente]
+  1/3 Expor CLI local idempotente [pendente]
+  2/3 Adicionar workflow de issue [pendente]
+  3/3 Registrar artefato de diagnóstico [pendente]
+4/5 Testar e validar [pendente]
+  1/3 Cobrir formatos e recuperações [pendente]
+  2/3 Cobrir ambiguidades e segurança [pendente]
+  3/3 Executar validações do projeto [pendente]
+5/5 Encerrar e publicar [pendente]
+  1/3 Atualizar memória e handoff [pendente]
+  2/3 Comitar em etapas [pendente]
+  3/3 Convergir dev e main [pendente]
 
 ## FT-015 — Corrigir painel de busca e QR
 
@@ -282,6 +303,27 @@ Corrigir a desambiguação para não ficar confinada à coluna estreita do formu
 - `scripts/test-ui.mjs` valida notice inline, painel fechável, foco inicial, backdrop, paginação, resultado com URL curta, QR sem rótulo visual redundante e rotas anteriores.
 - Validações finais: `npm run typecheck`; `npm run build` (`BUILD: livros=527 assets=1051 busca=527 cache_semeado=0 bytes=882765419 arquivos=2642 root=dist/`); `npm run test:ui`; `npm run check:dist`; `npm run agent:rcf -- --check`; `git diff --check`.
 - Validação renderizada via navegador local temporário: desktop `1200x760` com painel de resultados `1089px` contra formulário `374px`, oito itens paginados e foco no fechar; QR lateral `192px` de largura, imagem `152px`, botão `40px`, sem texto visível. Mobile `390x760` sem overflow horizontal (`scrollWidth=376`, `innerWidth=391`) e painel `344px`.
+
+## FT-016 — Receber URLs por issue com modelo simples
+
+- Escopo: Técnico — recepção automatizada de indicações humanas de URLs de publicações.
+- Prioridade: alta.
+- Status: em andamento.
+- Criado em: `2026-07-22T02:34:00-03:00`.
+- Atualização: `2026-07-22T02:34:00-03:00`.
+- Etapa atual: `1/5` — registrar e normatizar.
+- Tarefa atual: evoluir RCF de recepção.
+- Origem: prompt anexado em 2026-07-22 sobre recepção resiliente de issues para indicação de URLs e direção humana de manter modelos JSON/YAML simples, diretos e fáceis para inexperientes.
+
+### Objetivo
+
+Normatizar e implementar a entrada de URLs por Issue para aceitar texto livre, Markdown, JSON e YAML simples, tolerar defeitos humanos recuperáveis, produzir modelo canônico com publicações, URLs, ambiguidades, recuperações e avisos, e encaminhar apenas entradas seguras para a validação existente de fontes.
+
+### Preservações
+
+- Tolerância de parser NÃO reduz validação de segurança, procedência, integridade ou associação exigida para fontes.
+- JSON/YAML recomendados DEVEM permanecer modelos simples de preencher, não schemas rígidos para usuários técnicos.
+- O workflow de Issue NÃO DEVE alterar `metadata.json` diretamente sem passar pelas salvaguardas existentes.
 
 ## FT-014 — Implementar URL curta busca QR e descoberta
 
