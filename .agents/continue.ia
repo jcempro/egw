@@ -199,23 +199,23 @@ FT-012|nome=Completar fontes por provedor|objetivo=Descobrir e incorporar com in
   1/3 Testar seleção integridade e fail-safe [concluído]
   2/3 Validar dados build e workflow [concluído]
   3/3 Atualizar memória convergir e publicar [concluído]
-FT-013|nome=Normatizar URL curta busca QR e descoberta|objetivo=Conciliar o RCF e a documentação para URL curta sem /_/, busca desambiguada, QR Code por publicação e descoberta contínua de fontes confiáveis.|escopo=tecnico|status=em andamento
-1/3 Conciliar demanda e contratos [em andamento]
+FT-013|nome=Normatizar URL curta busca QR e descoberta|objetivo=Conciliar o RCF e a documentação para URL curta sem /_/, busca desambiguada, QR Code por publicação e descoberta contínua de fontes confiáveis.|escopo=tecnico|status=concluído
+1/3 Conciliar demanda e contratos [concluído]
   1/3 Registrar FT normativa e FT de código [concluído]
-  2/3 Auditar divergências entre norma e implementação [pendente]
-  3/3 Evoluir RCF e README [pendente]
-2/3 Validar norma [pendente]
-  1/3 Validar modalidades e rastreabilidade [pendente]
-  2/3 Confirmar preservação de compatibilidade histórica [pendente]
-  3/3 Comitar contrato normativo [pendente]
-3/3 Autorizar execução técnica [pendente]
+  2/3 Auditar divergências entre norma e implementação [concluído]
+  3/3 Evoluir RCF e README [concluído]
+2/3 Validar norma [concluído]
+  1/3 Validar modalidades e rastreabilidade [concluído]
+  2/3 Confirmar preservação de compatibilidade histórica [concluído]
+  3/3 Comitar contrato normativo [concluído]
+3/3 Autorizar execução técnica [concluído]
   1/2 Registrar autorização humana recebida [concluído]
-  2/2 Liberar FT-014 conforme dependência [pendente]
-FT-014|nome=Implementar URL curta busca QR e descoberta|objetivo=Implementar configuração central, short URL canônico, busca com desambiguação, QR SVG incremental e manutenção de fontes com observabilidade e cache coerentes.|escopo=tecnico|status=pendente
-1/6 Diagnosticar arquitetura e pontos afetados [pendente]
-  1/3 Mapear geração e resolução de rotas curtas [pendente]
-  2/3 Mapear busca, índice e renderização [pendente]
-  3/3 Mapear mantenedor, cache e workflow [pendente]
+  2/2 Liberar FT-014 conforme dependência [concluído]
+FT-014|nome=Implementar URL curta busca QR e descoberta|objetivo=Implementar configuração central, short URL canônico, busca com desambiguação, QR SVG incremental e manutenção de fontes com observabilidade e cache coerentes.|escopo=tecnico|status=em andamento
+1/6 Diagnosticar arquitetura e pontos afetados [em andamento]
+  1/3 Mapear geração e resolução de rotas curtas [concluído]
+  2/3 Mapear busca, índice e renderização [concluído]
+  3/3 Mapear mantenedor, cache e workflow [concluído]
 2/6 Centralizar configuração e short URL [pendente]
   1/3 Criar configuração global tipada [pendente]
   2/3 Remover dependência funcional de /_/ [pendente]
@@ -243,8 +243,9 @@ FT-014|nome=Implementar URL curta busca QR e descoberta|objetivo=Implementar con
 - Prioridade: crítica.
 - Status: pendente.
 - Criado em: `2026-07-22T00:00:00-03:00`.
-- Etapa atual: `1/6` — pendente.
-- Tarefa atual: aguardar fechamento normativo da FT-013.
+- Atualização: `2026-07-22T00:00:00-03:00`.
+- Etapa atual: `1/6` — em andamento.
+- Tarefa atual: centralizar configuração e short URL.
 - Dependência: FT-013 concluída e contrato validado.
 
 ### Objetivo
@@ -256,15 +257,18 @@ Implementar a solicitação humana de 2026-07-22: configuração central para do
 - `INIT-REPO.md` já estava não rastreado no início da retomada e não integra esta FT sem autorização específica.
 - `.ia.rules` é a raiz normativa vigente, mas `.agents/continue.ia` permanece o estado operacional canônico deste checkout porque `handoff.md` é derivado dela e não há outro `continue.ia` versionado.
 - Compatibilidade histórica só será preservada onde o RCF vigente exigir explicitamente; rota curta operacional nova deve usar `https://f.jcem.pro/<short-uri>`.
+- FT-013 concluída com `npm run agent:rcf -- --check` retornando `exit 0` e `RCF_DEGRADED` apenas por tamanho do arquivo.
 
 ## FT-013 — Normatizar URL curta busca QR e descoberta
 
 - Escopo: Técnico — contrato, documentação e rastreabilidade antes da implementação.
 - Prioridade: crítica.
-- Status: em andamento.
+- Status: concluído.
 - Criado em: `2026-07-22T00:00:00-03:00`.
-- Etapa atual: `1/3` — conciliar demanda e contratos.
-- Tarefa atual: auditar divergências entre norma e implementação.
+- Atualização: `2026-07-22T00:00:00-03:00`.
+- Conclusão: `2026-07-22T00:00:00-03:00`.
+- Etapa atual: `3/3` — concluída.
+- Tarefa atual: nenhuma.
 - Origem: prompt anexado em 2026-07-22, com autorização humana subsequente para conciliar e executar.
 
 ### Objetivo
@@ -276,6 +280,10 @@ Conciliar no RCF e na documentação o comportamento exigido para URL curta sem 
 - A solicitação exige mudança comportamental e, portanto, usa FT normativa separada da FT de código.
 - A fala humana "sim, conciliar e fazer o prompt anexo" registra autorização para criar a conciliação e prosseguir após o contrato normativo.
 - O diagnóstico deve usar a implementação real, não inferência do README ou RCF.
+- Diagnóstico confirmou que `src/app/app.tsx` ainda exibe e navega por `/_/`, usa `find()` na busca e seleciona o primeiro resultado; `src/config/build.json` não centraliza domínio curto, busca nem QR Code; `scripts/lib/egw-providers.mjs` possui apenas adaptador White Estate efetivo e `origin-only`; `src/config/egw-sources.json` desabilita Ellen White Audio e Centro White e não modela hosts associados/CDN.
+- `RCF.md` passou a normatizar `short_url_origin`, parâmetros de busca, QR Code SVG `short-url.svg`, biblioteca `qrcode`, busca com múltiplos resultados, compatibilidade legada restrita de `/_/`, descoberta contínua por hosts associados, cache versionado e critérios de aceitação adicionais.
+- `README.md` passou a descrever domínio curto `https://f.jcem.pro/<token>`, QR Code SVG, busca desambiguada e justificativa sucinta da dependência `qrcode`.
+- Validação normativa: `npm run agent:rcf -- --check` retornou `exit 0`; o resumo informou `RCF_DEGRADED` por tamanho do arquivo, sem erro bloqueante.
 
 ## FT-012 — Completar fontes por provedor
 

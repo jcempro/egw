@@ -3,51 +3,6 @@
 
 Resumo operacional gerado de `.agents/continue.ia`.
 
-## FT-013 - Normatizar URL curta busca QR e descoberta
-
-Objetivo: Conciliar o RCF e a documentação para URL curta sem /_/, busca desambiguada, QR Code por publicação e descoberta contínua de fontes confiáveis.
-
-<table>
-<thead><tr><th>Etapa</th><th>Tarefa</th><th>Status</th></tr></thead>
-<tbody>
-<tr>
-<td rowspan="3">Conciliar demanda e contratos</td>
-<td>Registrar FT normativa e FT de código</td>
-<td><span style="color:#15803d">&#9679;</span> concluído</td>
-</tr>
-<tr>
-<td>Auditar divergências entre norma e implementação</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Evoluir RCF e README</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td rowspan="3">Validar norma</td>
-<td>Validar modalidades e rastreabilidade</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Confirmar preservação de compatibilidade histórica</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td>Comitar contrato normativo</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-<tr>
-<td rowspan="2">Autorizar execução técnica</td>
-<td>Registrar autorização humana recebida</td>
-<td><span style="color:#15803d">&#9679;</span> concluído</td>
-</tr>
-<tr>
-<td>Liberar FT-014 conforme dependência</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
-</tr>
-</tbody>
-</table>
-
 ## FT-014 - Implementar URL curta busca QR e descoberta
 
 Objetivo: Implementar configuração central, short URL canônico, busca com desambiguação, QR SVG incremental e manutenção de fontes com observabilidade e cache coerentes.
@@ -58,15 +13,15 @@ Objetivo: Implementar configuração central, short URL canônico, busca com des
 <tr>
 <td rowspan="3">Diagnosticar arquitetura e pontos afetados</td>
 <td>Mapear geração e resolução de rotas curtas</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Mapear busca, índice e renderização</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Mapear mantenedor, cache e workflow</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Centralizar configuração e short URL</td>
