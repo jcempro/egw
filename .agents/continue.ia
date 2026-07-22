@@ -268,8 +268,9 @@ Implementar a solicitação humana de 2026-07-22: configuração central para do
 - `src/app/app.tsx` resolve rota curta operacional em `/<token>/`, mantém `/_/<token>/` como legado, exibe URL curta sem `/_/`, renderiza QR e download SVG, bloqueia busca curta antes do índice e lista múltiplos resultados paginados e ordenados.
 - `scripts/lib/egw-providers.mjs`, `scripts/lib/egw-maintenance.mjs` e `src/config/egw-sources.json` passaram a modelar hosts associados, padrões de catálogo, normalização, deduplicação, cache schema 3, relatório detalhado e códigos de saída coerentes.
 - Dependência adotada: `qrcode`/node-qrcode, verificada em fonte oficial pública antes da implementação, com geração SVG e licença MIT.
-- Commit de implementação: `0431bff Implementa URL curta QR`.
-- Validações: `npm run typecheck`; `npm run test:maintenance`; `npm run build` (`BUILD: livros=527 assets=1051 busca=527 cache_semeado=0 bytes=882762506 arquivos=2642 root=dist/`); `npm run check:dist` (`DIST_OK livros=527 busca_campos=2 tokens=527 qr=527`); `npm run test:ui` (`UI_OK ... short=/0/ ... qr=./short-url.svg` e `DEV_LIVE_OK ... status=404`); `git diff --check`.
+- Commits de implementação e encerramento: `0431bff Implementa URL curta QR`; `30e8e13 Encerra FT URL curta`.
+- Conciliação com `origin/main`: merge `c1a8f2d` preservou os metadados publicados e a configuração central passou a usar `search.min_query_chars=5`, mantendo o RCF como mínimo configurado.
+- Validações finais após merge: `npm run typecheck`; `npm run test:maintenance`; `npm run build` (`BUILD: livros=527 assets=1051 busca=527 cache_semeado=0 bytes=882763480 arquivos=2642 root=dist/`); `npm run check:dist` (`DIST_OK livros=527 busca_campos=2 tokens=527 qr=527`); `npm run test:ui` (`UI_OK ... short=/0/ ... qr=./short-url.svg` e `DEV_LIVE_OK ... status=404`); `git diff --check`.
 - Artefato local validado com 527 arquivos `short-url.svg` em `dist/` e 527 SVGs no cache incremental de QR.
 
 ## FT-013 — Normatizar URL curta busca QR e descoberta

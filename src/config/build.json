@@ -4,7 +4,7 @@
   "data_root": "d",
   "public_origin": "https://fontes.jcem.pro",
   "short_url_origin": "https://f.jcem.pro",
-  "search": { "min_query_chars": 3, "results_per_page": 8 },
+  "search": { "min_query_chars": 5, "results_per_page": 8 },
   "qr_code": {
     "asset_name": "short-url.svg",
     "generator_version": 1,
