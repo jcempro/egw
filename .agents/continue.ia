@@ -211,41 +211,42 @@ FT-013|nome=Normatizar URL curta busca QR e descoberta|objetivo=Conciliar o RCF 
 3/3 Autorizar execução técnica [concluído]
   1/2 Registrar autorização humana recebida [concluído]
   2/2 Liberar FT-014 conforme dependência [concluído]
-FT-014|nome=Implementar URL curta busca QR e descoberta|objetivo=Implementar configuração central, short URL canônico, busca com desambiguação, QR SVG incremental e manutenção de fontes com observabilidade e cache coerentes.|escopo=tecnico|status=em andamento
-1/6 Diagnosticar arquitetura e pontos afetados [em andamento]
+FT-014|nome=Implementar URL curta busca QR e descoberta|objetivo=Implementar configuração central, short URL canônico, busca com desambiguação, QR SVG incremental e manutenção de fontes com observabilidade e cache coerentes.|escopo=tecnico|status=concluído
+1/6 Diagnosticar arquitetura e pontos afetados [concluído]
   1/3 Mapear geração e resolução de rotas curtas [concluído]
   2/3 Mapear busca, índice e renderização [concluído]
   3/3 Mapear mantenedor, cache e workflow [concluído]
-2/6 Centralizar configuração e short URL [pendente]
-  1/3 Criar configuração global tipada [pendente]
-  2/3 Remover dependência funcional de /_/ [pendente]
-  3/3 Atualizar validações e fixtures [pendente]
-3/6 Busca e desambiguação [pendente]
-  1/3 Aplicar mínimo configurado somente em comando explícito [pendente]
-  2/3 Abrir diretamente somente resultado único [pendente]
-  3/3 Exibir lista paginada e ordenada para múltiplos [pendente]
-4/6 QR Code por publicação [pendente]
-  1/3 Escolher dependência validada em fonte oficial [pendente]
-  2/3 Gerar SVG incremental e validável no build [pendente]
-  3/3 Integrar miniatura e download acessível no layout [pendente]
-5/6 Descoberta de fontes e URLs [pendente]
-  1/3 Modelar hosts associados por fonte confiável [pendente]
-  2/3 Corrigir normalização, correspondência, deduplicação e cache [pendente]
-  3/3 Implementar relatório e códigos de saída coerentes [pendente]
-6/6 Validar, registrar e publicar [pendente]
-  1/3 Executar testes e build [pendente]
-  2/3 Atualizar memória e handoff [pendente]
-  3/3 Comitar, convergir e push [pendente]
+2/6 Centralizar configuração e short URL [concluído]
+  1/3 Criar configuração global tipada [concluído]
+  2/3 Remover dependência funcional de /_/ [concluído]
+  3/3 Atualizar validações e fixtures [concluído]
+3/6 Busca e desambiguação [concluído]
+  1/3 Aplicar mínimo configurado somente em comando explícito [concluído]
+  2/3 Abrir diretamente somente resultado único [concluído]
+  3/3 Exibir lista paginada e ordenada para múltiplos [concluído]
+4/6 QR Code por publicação [concluído]
+  1/3 Escolher dependência validada em fonte oficial [concluído]
+  2/3 Gerar SVG incremental e validável no build [concluído]
+  3/3 Integrar miniatura e download acessível no layout [concluído]
+5/6 Descoberta de fontes e URLs [concluído]
+  1/3 Modelar hosts associados por fonte confiável [concluído]
+  2/3 Corrigir normalização, correspondência, deduplicação e cache [concluído]
+  3/3 Implementar relatório e códigos de saída coerentes [concluído]
+6/6 Validar, registrar e publicar [concluído]
+  1/3 Executar testes e build [concluído]
+  2/3 Atualizar memória e handoff [concluído]
+  3/3 Comitar, convergir e push [concluído]
 
 ## FT-014 — Implementar URL curta busca QR e descoberta
 
 - Escopo: Técnico — implementação, testes, validação, commits e publicação.
 - Prioridade: crítica.
-- Status: pendente.
+- Status: concluído.
 - Criado em: `2026-07-22T00:00:00-03:00`.
-- Atualização: `2026-07-22T00:00:00-03:00`.
-- Etapa atual: `1/6` — em andamento.
-- Tarefa atual: centralizar configuração e short URL.
+- Atualização: `2026-07-22T01:29:00-03:00`.
+- Conclusão: `2026-07-22T01:29:00-03:00`.
+- Etapa atual: `6/6` — concluída.
+- Tarefa atual: nenhuma.
 - Dependência: FT-013 concluída e contrato validado.
 
 ### Objetivo
@@ -258,6 +259,18 @@ Implementar a solicitação humana de 2026-07-22: configuração central para do
 - `.ia.rules` é a raiz normativa vigente, mas `.agents/continue.ia` permanece o estado operacional canônico deste checkout porque `handoff.md` é derivado dela e não há outro `continue.ia` versionado.
 - Compatibilidade histórica só será preservada onde o RCF vigente exigir explicitamente; rota curta operacional nova deve usar `https://f.jcem.pro/<short-uri>`.
 - FT-013 concluída com `npm run agent:rcf -- --check` retornando `exit 0` e `RCF_DEGRADED` apenas por tamanho do arquivo.
+
+### Implementação e evidências
+
+- `src/config/build.json` centraliza `short_url_origin`, parâmetros de busca e parâmetros do QR Code.
+- `scripts/build-site.mjs` publica `d/_index/config.json` e passa configuração, cache de pacotes e cache de QR para a materialização.
+- `scripts/lib/static-books.mjs` gera `short-url.svg` por Livro, com cache incremental em `.agents/cache/qr`, hashes rastreáveis, origem curta `https://f.jcem.pro/<token>` e alias legado `_/token/` somente para compatibilidade.
+- `src/app/app.tsx` resolve rota curta operacional em `/<token>/`, mantém `/_/<token>/` como legado, exibe URL curta sem `/_/`, renderiza QR e download SVG, bloqueia busca curta antes do índice e lista múltiplos resultados paginados e ordenados.
+- `scripts/lib/egw-providers.mjs`, `scripts/lib/egw-maintenance.mjs` e `src/config/egw-sources.json` passaram a modelar hosts associados, padrões de catálogo, normalização, deduplicação, cache schema 3, relatório detalhado e códigos de saída coerentes.
+- Dependência adotada: `qrcode`/node-qrcode, verificada em fonte oficial pública antes da implementação, com geração SVG e licença MIT.
+- Commit de implementação: `0431bff Implementa URL curta QR`.
+- Validações: `npm run typecheck`; `npm run test:maintenance`; `npm run build` (`BUILD: livros=527 assets=1051 busca=527 cache_semeado=0 bytes=882762506 arquivos=2642 root=dist/`); `npm run check:dist` (`DIST_OK livros=527 busca_campos=2 tokens=527 qr=527`); `npm run test:ui` (`UI_OK ... short=/0/ ... qr=./short-url.svg` e `DEV_LIVE_OK ... status=404`); `git diff --check`.
+- Artefato local validado com 527 arquivos `short-url.svg` em `dist/` e 527 SVGs no cache incremental de QR.
 
 ## FT-013 — Normatizar URL curta busca QR e descoberta
 
