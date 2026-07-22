@@ -259,20 +259,20 @@ FT-016|nome=Receber URLs por issue com modelo simples|objetivo=Aceitar indicaç�
   1/3 Registrar FT e origem [concluído]
   2/3 Evoluir RCF de recepção [concluído]
   3/3 Atualizar documentação e template [concluído]
-2/5 Implementar interpretação [em andamento]
-  1/3 Criar parser em camadas [em andamento]
-  2/3 Produzir modelo canônico e relatório [pendente]
-  3/3 Blindar limites e entrada não confiável [pendente]
-3/5 Integrar workflow [pendente]
-  1/3 Expor CLI local idempotente [pendente]
-  2/3 Adicionar workflow de issue [pendente]
-  3/3 Registrar artefato de diagnóstico [pendente]
-4/5 Testar e validar [pendente]
-  1/3 Cobrir formatos e recuperações [pendente]
-  2/3 Cobrir ambiguidades e segurança [pendente]
-  3/3 Executar validações do projeto [pendente]
-5/5 Encerrar e publicar [pendente]
-  1/3 Atualizar memória e handoff [pendente]
+2/5 Implementar interpretação [concluído]
+  1/3 Criar parser em camadas [concluído]
+  2/3 Produzir modelo canônico e relatório [concluído]
+  3/3 Blindar limites e entrada não confiável [concluído]
+3/5 Integrar workflow [concluído]
+  1/3 Expor CLI local idempotente [concluído]
+  2/3 Adicionar workflow de issue [concluído]
+  3/3 Registrar artefato de diagnóstico [concluído]
+4/5 Testar e validar [concluído]
+  1/3 Cobrir formatos e recuperações [concluído]
+  2/3 Cobrir ambiguidades e segurança [concluído]
+  3/3 Executar validações do projeto [concluído]
+5/5 Encerrar e publicar [em andamento]
+  1/3 Atualizar memória e handoff [em andamento]
   2/3 Comitar em etapas [pendente]
   3/3 Convergir dev e main [pendente]
 
@@ -310,9 +310,9 @@ Corrigir a desambiguação para não ficar confinada à coluna estreita do formu
 - Prioridade: alta.
 - Status: em andamento.
 - Criado em: `2026-07-22T02:34:00-03:00`.
-- Atualização: `2026-07-22T02:49:00-03:00`.
-- Etapa atual: `2/5` — implementar interpretação.
-- Tarefa atual: criar parser em camadas.
+- Atualização: `2026-07-22T03:33:00-03:00`.
+- Etapa atual: `5/5` — encerrar e publicar.
+- Tarefa atual: atualizar memória e handoff.
 - Origem: prompt anexado em 2026-07-22 sobre recepção resiliente de issues para indicação de URLs e direção humana de manter modelos JSON/YAML simples, diretos e fáceis para inexperientes.
 
 ### Objetivo
@@ -331,6 +331,24 @@ Normatizar e implementar a entrada de URLs por Issue para aceitar texto livre, M
 - README passou a destacar `Como indicar URLs de publicações` com link para `docs/indicar-fontes.md`.
 - Template `.github/ISSUE_TEMPLATE/indicar-fontes.md` foi criado como atalho acessível e aponta para a documentação completa.
 - `AGENTS.md` foi preservado como governança operacional gerenciada; a normatização local de produto ficou no RCF.
+
+### Implementação
+
+- `scripts/lib/issue-source-intake.mjs` implementa parser em camadas para JSON, YAML simples e texto/Markdown, modelo canônico, recuperações, warnings, comentário cordial e labels.
+- `scripts/intake-issue-sources.mjs` expõe CLI local para corpo ou evento GitHub, gravando relatório, comentário e labels sob paths informados.
+- `.github/workflows/source-intake.yml` processa Issues de fonte em abertura, edição ou reabertura, atualiza comentário idempotente por marcador, aplica labels e preserva artefato de diagnóstico.
+- `scripts/test-issue-source-intake.mjs` cobre fixtures determinísticas sem GitHub real e sem rede.
+
+### Validação
+
+- `npm run test:issue-intake`: `ISSUE_INTAKE_OK casos=32 formatos=text,markdown,json,yaml seguranca=ssrf,credenciais,payload workflow=mock`.
+- `npm run test:maintenance`: `MAINTENANCE_OK modos=3 formatos=pdf,epub,zip,7z integridade=sha1,sha256,sha512 idempotente=true`.
+- `npm run typecheck`: aprovado.
+- `npm run agent:rcf -- --check`: aprovado com `RCF_DEGRADED` apenas por tamanho do RCF.
+- `npm run check:dist`: `DIST_OK livros=527 busca_campos=2 tokens=527 qr=527`.
+- `npm run build`: `BUILD: livros=527 assets=1051 busca=527 cache_semeado=0 bytes=882765419 arquivos=2642 root=dist/`.
+- `npm run test:ui`: `UI_OK canonical=/d/en-us/pamphlets/choice/thoughts/on-dress/ short=/0/ legacy=/data/en/-u/en-us-pamphlets-choice-thoughts-on-dress/ qr=./short-url.svg` e `DEV_LIVE_OK canonical=/d/en-us/pamphlets/choice/thoughts/on-dress/ status=404`.
+- Primeira execução de `npm run test:ui` em paralelo com `npm run build` falhou por `dist/d/_index/short.json` ainda ausente; reexecução após o build passou.
 
 ## FT-014 — Implementar URL curta busca QR e descoberta
 
