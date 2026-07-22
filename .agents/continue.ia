@@ -254,7 +254,7 @@ FT-015|nome=Corrigir painel de busca e QR|objetivo=Eliminar distorção visual d
   1/3 Atualizar memória e handoff [concluído]
   2/3 Comitar em etapas [concluído]
   3/3 Publicar dev e main [concluído]
-FT-016|nome=Receber URLs por issue com modelo simples|objetivo=Aceitar indicação humana de URLs de publicações em texto livre, Markdown, JSON e YAML simples, normalizar para modelo canônico e encaminhar somente associações seguras.|escopo=tecnico|status=em andamento
+FT-016|nome=Receber URLs por issue com modelo simples|objetivo=Aceitar indicação humana de URLs de publicações em texto livre, Markdown, JSON e YAML simples, normalizar para modelo canônico e encaminhar somente associações seguras.|escopo=tecnico|status=concluído
 1/5 Registrar e normatizar [concluído]
   1/3 Registrar FT e origem [concluído]
   2/3 Evoluir RCF de recepção [concluído]
@@ -271,9 +271,9 @@ FT-016|nome=Receber URLs por issue com modelo simples|objetivo=Aceitar indicaç�
   1/3 Cobrir formatos e recuperações [concluído]
   2/3 Cobrir ambiguidades e segurança [concluído]
   3/3 Executar validações do projeto [concluído]
-5/5 Encerrar e publicar [em andamento]
-  1/3 Atualizar memória e handoff [em andamento]
-  2/3 Comitar em etapas [pendente]
+5/5 Encerrar e publicar [concluído]
+  1/3 Atualizar memória e handoff [concluído]
+  2/3 Comitar em etapas [concluído]
   3/3 Convergir dev e main [pendente]
 
 ## FT-015 — Corrigir painel de busca e QR
@@ -308,11 +308,12 @@ Corrigir a desambiguação para não ficar confinada à coluna estreita do formu
 
 - Escopo: Técnico — recepção automatizada de indicações humanas de URLs de publicações.
 - Prioridade: alta.
-- Status: em andamento.
+- Status: concluído.
 - Criado em: `2026-07-22T02:34:00-03:00`.
-- Atualização: `2026-07-22T03:33:00-03:00`.
-- Etapa atual: `5/5` — encerrar e publicar.
-- Tarefa atual: atualizar memória e handoff.
+- Atualização: `2026-07-22T03:42:00-03:00`.
+- Conclusão: `2026-07-22T03:42:00-03:00`.
+- Etapa atual: `5/5` — concluída.
+- Tarefa atual: convergir dev e main.
 - Origem: prompt anexado em 2026-07-22 sobre recepção resiliente de issues para indicação de URLs e direção humana de manter modelos JSON/YAML simples, diretos e fáceis para inexperientes.
 
 ### Objetivo
@@ -349,6 +350,11 @@ Normatizar e implementar a entrada de URLs por Issue para aceitar texto livre, M
 - `npm run build`: `BUILD: livros=527 assets=1051 busca=527 cache_semeado=0 bytes=882765419 arquivos=2642 root=dist/`.
 - `npm run test:ui`: `UI_OK canonical=/d/en-us/pamphlets/choice/thoughts/on-dress/ short=/0/ legacy=/data/en/-u/en-us-pamphlets-choice-thoughts-on-dress/ qr=./short-url.svg` e `DEV_LIVE_OK canonical=/d/en-us/pamphlets/choice/thoughts/on-dress/ status=404`.
 - Primeira execução de `npm run test:ui` em paralelo com `npm run build` falhou por `dist/d/_index/short.json` ainda ausente; reexecução após o build passou.
+
+### Encerramento
+
+- Commits da FT: `c7139c5 Registra FT de issues`, `9c5416e Normatiza recepcao de fontes`, `ab6c9b1 Implementa recepcao de fontes`.
+- `AGENTS.md` apareceu no status apenas por normalização de linha sem diff textual e não foi incluído em commit.
 
 ## FT-014 — Implementar URL curta busca QR e descoberta
 
