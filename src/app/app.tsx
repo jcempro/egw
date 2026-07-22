@@ -1,7 +1,7 @@
 // JeanCarloEM — https://www.jeancarloem.com — https://github.com/jcempro/egw
 // MPL-2.0 — https://www.mozilla.org/MPL/2.0/ — uso sob a Mozilla Public License 2.0.
 
-import { faCopy, faDownload, faFileZipper, faQrcode } from "@fortawesome/free-solid-svg-icons";
+import { faCopy, faDownload, faFileZipper, faQrcode, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { renderIcon, type IconSource } from "./icon-provider";
 
 type Child = Node | string | number | null | undefined | false;
@@ -46,11 +46,19 @@ let runtimeConfig: RuntimeConfig | null = null;
 let runtimeConfigPromise: Promise<RuntimeConfig> | null = null;
 let processingSequence = 0;
 const jsonRequests = new Map<string, Promise<unknown>>();
-const searchResults = document.createElement("div");
+const searchNotice = document.createElement("div");
+searchNotice.id = "search-notice";
+searchNotice.className = "search-notice";
+searchNotice.setAttribute("aria-live", "polite");
+form.after(searchNotice);
+const searchResults = document.createElement("section");
 searchResults.id = "search-results";
 searchResults.className = "search-results";
-searchResults.setAttribute("aria-live", "polite");
-form.after(searchResults);
+searchResults.setAttribute("role", "dialog");
+searchResults.setAttribute("aria-modal", "false");
+searchResults.setAttribute("aria-labelledby", "search-results-title");
+searchResults.hidden = true;
+document.body.append(searchResults);
 
 function rootUrl(relative: string): string { return new URL(relative.replace(/^\/+/, ""), `${location.origin}/`).href; }
 function shortUrl(config: RuntimeConfig, token: string): string { return `${config.short_url_origin.replace(/\/+$/g, "")}/${encodeURIComponent(token)}`; }
@@ -140,7 +148,7 @@ function renderBook(data: Metadata, metadataUrl: string, config: RuntimeConfig):
     </article>;
   });
   bookView.replaceChildren(
-    <section className="book-hero"><div className="cover">{cover ? <img src={new URL(cover.url, base).href} alt={`Capa de ${data.book.title}`} /> : null}</div><div className="book-identity"><p className="eyebrow">Referência bibliográfica</p><h1 id="book-view-title">{identity.title}</h1>{identity.qualifier ? <p className="book-qualifier">{identity.qualifier}</p> : null}<p className="book-author">{authors}</p><dl className="book-facts"><div><dt>Idioma</dt><dd>{data.book.language}</dd></div><div><dt>Categoria</dt><dd>{data.book.primary_category}</dd></div></dl>{qrAsset ? <div className="qr-download"><img src={qrHref} alt={`QR Code para ${absoluteShortUrl}`} /><div><span>QR Code</span><a href={qrHref} download={`${data.book.id}-short-url.svg`} aria-label={`Baixar QR Code SVG de ${absoluteShortUrl}`}>{icon(faDownload, "↓")}<span>SVG</span></a></div></div> : null}</div></section>,
+    <section className="book-hero"><div className="cover">{cover ? <img src={new URL(cover.url, base).href} alt={`Capa de ${data.book.title}`} /> : null}</div><div className="book-identity"><p className="eyebrow">Referência bibliográfica</p><h1 id="book-view-title">{identity.title}</h1>{identity.qualifier ? <p className="book-qualifier">{identity.qualifier}</p> : null}<p className="book-author">{authors}</p><dl className="book-facts"><div><dt>Idioma</dt><dd>{data.book.language}</dd></div><div><dt>Categoria</dt><dd>{data.book.primary_category}</dd></div></dl></div>{qrAsset ? <aside className="qr-download" aria-label={`QR Code para ${absoluteShortUrl}`}><div><span>QR Code</span><strong>{absoluteShortUrl.replace(/^https:\/\//, "")}</strong></div><img src={qrHref} alt={`QR Code para ${absoluteShortUrl}`} /><a href={qrHref} download={`${data.book.id}-short-url.svg`} aria-label={`Baixar QR Code SVG de ${absoluteShortUrl}`} title="Baixar QR Code">{icon(faDownload, "↓")}<span className="sr-only">Baixar SVG</span></a></aside> : null}</section>,
     <section className="section"><div className="metric-grid"><article className="metric"><span>Fontes preservadas</span><strong>{data.sources.length}</strong></article><article className="metric"><span>Arquivos da publicação</span><strong>{publicationFiles}</strong></article><article className="metric"><span>Assets rastreáveis</span><strong>{traceableAssets}</strong></article><article className="metric"><span>URL curta</span><strong><a href={absoluteShortUrl}>{absoluteShortUrl.replace(/^https:\/\//, "")}</a></strong></article></div></section>,
     <section className="section"><div className="section-heading"><div><p className="eyebrow">Integridade</p><h2>Hashes dos artefatos originais</h2></div></div><div className="metric-grid">{globalRows}</div></section>,
     <section className="section"><div className="section-heading"><div><p className="eyebrow">Fontes</p><h2>Assets e proveniência</h2></div><div className="table-actions"><a className="button button-secondary" href={metadataUrl}>metadata.json</a></div></div><div className="source-grid" role="list">{sourceRows}</div></section>
@@ -183,7 +191,8 @@ async function ensureSearchIndex(): Promise<Array<[string, string]>> {
 }
 function normalizeSearch(value: string): string { return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase(); }
 function searchableLength(value: string): number { return normalizeSearch(value).replace(/[^a-z0-9]/g, "").length; }
-function clearSearchResults(): void { searchResults.replaceChildren(); searchResults.hidden = true; }
+function closeSearchResults(): void { searchResults.replaceChildren(); searchResults.hidden = true; }
+function clearSearchResults(): void { searchNotice.replaceChildren(); searchNotice.hidden = true; closeSearchResults(); }
 async function metadataForToken(token: string): Promise<Metadata | null> {
   const metadataUrl = await routeFromMap("short", token);
   if (!metadataUrl) return null;
@@ -196,7 +205,9 @@ async function renderDisambiguation(matches: Array<[string, string]>, config: Ru
   const current = Math.min(Math.max(page, 0), pages - 1);
   const slice = matches.slice(current * perPage, current * perPage + perPage);
   const summaries = await Promise.all(slice.map(async ([title, token]) => ({ title, token, metadata: await metadataForToken(token) })));
-  const list = <div className="search-panel"><div className="section-heading"><div><p className="eyebrow">Resultados</p><h2>Selecione a publicação</h2></div><span className="result-count">{matches.length} resultados</span></div><div className="result-list" role="list"></div><div className="pagination"></div></div> as HTMLElement;
+  const closeButton = <button type="button" className="icon-button search-close" aria-label="Fechar resultados" title="Fechar resultados">{icon(faXmark, "×")}</button> as HTMLButtonElement;
+  closeButton.addEventListener("click", closeSearchResults);
+  const list = <div className="search-panel"><div className="section-heading"><div><p className="eyebrow">Resultados</p><h2 id="search-results-title">Selecione a publicação</h2></div><div className="search-panel-actions"><span className="result-count">{matches.length} resultados</span>{closeButton}</div></div><div className="result-list" role="list"></div><div className="pagination"></div></div> as HTMLElement;
   const resultList = list.querySelector(".result-list") as HTMLElement;
   for (const item of summaries) {
     const metadata = item.metadata;
@@ -215,7 +226,8 @@ async function renderDisambiguation(matches: Array<[string, string]>, config: Ru
     pagination.append(previous, <span>Página {current + 1} de {pages}</span>, next);
   }
   searchResults.hidden = false;
-  searchResults.replaceChildren(list);
+  searchResults.replaceChildren(<div className="search-backdrop"></div>, list);
+  closeButton.focus();
 }
 async function searchTitle(): Promise<void> {
   searchAbort?.abort(); searchAbort = new AbortController(); clearSearchResults(); const raw = input.value.trim(); const query = normalizeSearch(raw); if (!query) return;
@@ -225,8 +237,8 @@ async function searchTitle(): Promise<void> {
     if (searchableLength(raw) < config.search.min_query_chars) {
       input.setCustomValidity(`Informe pelo menos ${config.search.min_query_chars} caracteres pesquisáveis.`);
       input.reportValidity();
-      searchResults.hidden = false;
-      searchResults.replaceChildren(<div className="notice" role="status">{icon(faQrcode, "i")}<p>Informe pelo menos {config.search.min_query_chars} caracteres para buscar.</p></div>);
+      searchNotice.hidden = false;
+      searchNotice.replaceChildren(<div className="notice" role="status">{icon(faQrcode, "i")}<p>Informe pelo menos {config.search.min_query_chars} caracteres para buscar.</p></div>);
       finishProcessing(activity, "error", "Busca não executada.");
       return;
     }
@@ -242,5 +254,6 @@ async function searchTitle(): Promise<void> {
   catch (error) { if ((error as Error).name !== "AbortError") { announce("A busca não pôde ser carregada."); finishProcessing(activity, "error", "Busca indisponível."); } }
 }
 form.addEventListener("submit", (event) => { event.preventDefault(); void searchTitle(); });
+document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !searchResults.hidden) closeSearchResults(); });
 input.addEventListener("focus", () => { const activity = startProcessing("updating", "Preparando a busca em segundo plano…"); void ensureSearchIndex().then(() => finishProcessing(activity, "completed", "Busca pronta.")).catch(() => finishProcessing(activity, "error", "Busca indisponível.")); }, { once: true });
 void loadRoute();
