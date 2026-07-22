@@ -17,16 +17,16 @@ Objetivo: Aceitar indicação humana de URLs de publicações em texto livre, Ma
 </tr>
 <tr>
 <td>Evoluir RCF de recepção</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td>Atualizar documentação e template</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#15803d">&#9679;</span> concluído</td>
 </tr>
 <tr>
 <td rowspan="3">Implementar interpretação</td>
 <td>Criar parser em camadas</td>
-<td><span style="color:#64748b">&#9679;</span> pendente</td>
+<td><span style="color:#ca8a04">&#9679;</span> em andamento</td>
 </tr>
 <tr>
 <td>Produzir modelo canônico e relatório</td>

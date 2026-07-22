@@ -10,6 +10,10 @@ O acervo de entrada não é versionado. A manutenção só adiciona URL cujo SHA
 
 A interface pública mantém rotas canônicas `/d/`, aliases curtos `/` com domínio curto centralizado em `https://f.jcem.pro/<token>` e busca estritamente por título. A submissão abaixo do mínimo configurado exibe aviso sem consultar o índice; resultado único abre diretamente e múltiplos resultados abrem painel amplo, fechável, paginado e ordenado para seleção explícita. Rotas diretas e busca exibem progresso linear não bloqueante, publicam estados parciais e reutilizam índices já carregados na sessão. A página institucional usa fundo claro, com Top Bar e rodapé escuros, superfícies translúcidas, densidade desktop refinada, grid de fontes sem rolagem local, QR Code SVG baixável no cabeçalho do livro, hashes abreviados aos sete caracteres finais com cópia integral e separação entre Fonte, arquivos da publicação, assets rastreáveis e Provedor editorial. Ícones usam adaptador neutro com provider opcional e fallback local.
 
+## Como indicar URLs de publicações
+
+As formas simples de envio por Issue estão documentadas em [Como Indicar URLs de Publicações](docs/indicar-fontes.md), com exemplos em texto livre, Markdown, JSON e YAML.
+
 O QR Code é gerado no build com a biblioteca MIT `qrcode` (`node-qrcode`), escolhida por suporte oficial a SVG, `errorCorrectionLevel`, compatibilidade Node `>=10.13.0`, uso em servidor/cliente e dependência proporcional.
 
 Autoria: [JeanCarloEM](https://www.jeancarloem.com)<br>
