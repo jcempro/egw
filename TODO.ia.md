@@ -1,0 +1,6 @@
+- [ ] Ajustar o script de indexação e refatorar exclusivamente o necessário para que a atribuição de `shortURLs` processe prioritariamente o conteúdo em `pt-BR` e somente depois os demais idiomas, garantindo ao português brasileiro preferência na reserva de identificadores disputados.
+  - A ordem DEVE ser determinística: `pt-BR` primeiro; demais idiomas depois, conforme o critério estável já existente ou, se inexistente, por código de idioma em ordem lexical.
+  - As `shortURLs` DEVEM ser recalculadas e reatribuídas segundo essa precedência, resolvendo colisões em favor de `pt-BR` e aplicando aos demais idiomas o mecanismo vigente de desambiguação.
+  - A alteração NÃO DEVE modificar regras, formatos, identificadores ou partes do script sem relação direta com a precedência de indexação e a consequente reatribuição das `shortURLs`.
+  - `shortURLs` já válidas e não conflitantes DEVEM ser preservadas sempre que compatível com a nova precedência, evitando alterações desnecessárias e quebra de referências.
+  - Validar que nenhuma colisão permaneça, que toda `shortURL` seja única e que, em conflito multilingue, a forma preferencial pertença invariavelmente ao conteúdo `pt-BR`.
